@@ -1,4 +1,102 @@
+/*-----------------------------------------------------------------------------------
+
+	Theme Name: Canvas
+	Theme URI: http://themes.semicolonweb.com/html/canvas
+	Description: The Multi-Purpose Template
+	Author: SemiColonWeb
+	Author URI: http://themeforest.net/user/semicolonweb
+	Version: 4.0.1
+
+-----------------------------------------------------------------------------------*/
+
+/* ----------------------------------------------------------------
+
+	- Basic
+	- Typography
+	- Basic Layout Styles
+	- Helper Classes
+	- Sections
+	- Columns & Grids
+	- Flex Slider
+	- Swiper Slider
+	- Top Bar
+	- Header
+		- Logo
+		- Primary Menu
+		- Mega Menu
+		- Top Search
+		- Top Cart
+		- Sticky Header
+		- Page Menu
+		- Side Header
+	- Side Panel
+	- Slider
+	- Page Title
+	- Content
+	- Portfolio
+	- Blog
+	- Shop
+	- Events
+	- Shortcodes
+		- Countdown
+		- Buttons
+		- Promo Boxes
+		- Featured Boxes
+		- Process Steps
+		- Styled Icons
+		- Toggles
+		- Accordions
+		- Tabs
+		- Side Navigation
+		- FAQ List
+		- Clients
+		- Testimonials
+		- Team
+		- Pricing Boxes
+		- Counter
+		- Animated Rounded Skills
+		- Skills Bar
+		- Dropcaps & Highlights
+		- Quotes & Blockquotes
+		- Text Rotater
+	- Owl Carousel
+	- Overlays
+	- Forms
+	- Google Maps
+	- Heading Styles
+	- Divider
+	- Magazine Specific Classes
+	- Go To Top
+	- Error 404
+	- Landing Pages
+	- Preloaders
+	- Toastr Notifications
+	- Footer
+	- Widgets
+		- Tag Cloud
+		- Links
+		- Testimonial & Twitter
+		- Quick Contact Form
+		- Newsletter
+		- Twitter Feed
+		- Navigation Tree
+	- Wedding
+	- Bootstrap Specific
+	- Cookie Notification
+	- Stretched Layout
+	- Page Transitions
+	- Youtube Video Backgrounds
+
+---------------------------------------------------------------- */
+
+
+
+
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+/* ----------------------------------------------------------------
+	Basic
+-----------------------------------------------------------------*/
 
 dl, dt, dd, ol, ul, li {
 	margin: 0;
@@ -65,6 +163,7 @@ iframe { border: none !important; }
 /* ----------------------------------------------------------------
 	Basic Layout Styles
 -----------------------------------------------------------------*/
+
 
 h1,
 h2,
@@ -437,7 +536,7 @@ span.middot {
 
 .section {
 	position: relative;
-	margin: 40px 0;
+	margin: 60px 0;
 	padding: 60px 0;
 	background-color: #F9F9F9;
 	overflow: hidden;
@@ -12920,9 +13019,4 @@ body:not(.no-transition) #wrapper,
 
 .papers{
 	position: relative;
-}
-
-/* Custom CSS */
-.row {
-	margin-bottom: 5%;
 }

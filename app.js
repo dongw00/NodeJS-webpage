@@ -15,7 +15,10 @@ db.once('open', function(){
     console.log('Connected to mongod server')
 });
 
-mongoose.connect('mongodb://localhost/mongodb_test')
+mongoose.connect(
+    'mongodb://localhost/mongodb_test:27017',
+    { useNewUrlParser: true }
+  );
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
