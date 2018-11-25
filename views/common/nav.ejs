@@ -1,0 +1,52 @@
+<!-- Header -->
+<header
+  id="header"
+  class="transparent-header full-header dark"
+  data-sticky-class="not-dark"
+>
+  <div id="header-wrap">
+    <div class="container clearfix">
+      <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+      <!-- Logo -->
+      <div id="logo">
+        <a href="/" class="standard-logo" style="opacity:0.8"
+          ><img src="images/kaulogo.png" alt="KAU Logo" style="padding:8px"
+        /></a>
+
+        <a href="/" class="retina-logo"
+          ><img src="images/kaulogo.png" alt="KAU Logo" style="padding:15px; "
+        /></a>
+      </div>
+      <!-- #logo end -->
+
+      <nav id="primary-menu" class="dark">
+        <ul>
+          <li>
+            <a href="/"> <div>Home</div> </a>
+          </li>
+          <li>
+            <a href="/professor"> <div>Professor</div> </a>
+          </li>
+          <li>
+            <a href="/members"> <div>Members</div> </a>
+          </li>
+          <li>
+            <a href="/researches"> <div>Researches</div> </a>
+          </li>
+          <li>
+            <a href="/notice"> <div>Notice</div> </a>
+          </li>
+          <% if(user_id==null){%>
+          <li>
+            <a href="/login"> <div>login</div> </a>
+          </li>
+          <% }else{%>
+          <li>
+            <a href="/logout"> <div>logout</div> </a>
+          </li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

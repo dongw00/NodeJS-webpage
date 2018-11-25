@@ -1,0 +1,27 @@
+<body class="stretched">
+  <!-- Document Wrapper -->
+  <div id="wrapper" class="clearfix">
+    <!-- nav Tab -->
+    <% include ../common/nav.ejs %>
+
+    <section id="slider" class="slider-parallax swiper_wrapper full-screen clearfix">
+
+      <!--image Slider -->
+      <% include components/slider.ejs %>
+
+    </section>
+
+    <section id="content">
+      <div class="content-wrap">
+        <!-- 연구실 Intro -->
+        <% include components/lab_intro.ejs %>
+        <% include components/lab_intro2.ejs %>
+
+        <!-- Member -->
+        <% include components/member.ejs %>
+
+        <!-- Gallary (Article) -->
+        <% include components/gallery.ejs %>
+    </section>
+    <% include ../common/footer.ejs %>
+  </div>
