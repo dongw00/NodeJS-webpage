@@ -10,6 +10,7 @@ $.fn.doOnce = function( func ) {
 }
 
 if( $().infinitescroll ) {
+
 	$.extend($.infinitescroll.prototype,{
 		_setup_portfolioinfiniteitemsloader: function infscr_setup_portfolioinfiniteitemsloader() {
 			var opts = this.options,
@@ -3344,7 +3345,9 @@ var SEMICOLON = SEMICOLON || {};
 	};
 
 	SEMICOLON.documentOnResize = {
+
 		init: function(){
+
 			var t = setTimeout( function(){
 				SEMICOLON.header.topsocial();
 				SEMICOLON.header.fullWidthMenu();

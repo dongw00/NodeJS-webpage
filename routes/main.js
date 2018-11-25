@@ -1,37 +1,27 @@
-module.exports = (app, fs) => {
+module.exports = app => {
   /* Homepage */
-  app.get("/", (req, res) => {
-    res.render("home/index",{
-      user_id: req.session.user_id
+  app.get('/', (req, res) => {
+    res.render('home/index', {
+      //user_id: req.session.user_id,
     });
   });
 
   /* 연구실 소개 */
-  app.get("/professor", (req, res) => {
-    res.render("professor/index",{
-      user_id: req.session.user_id
+  app.get('/professor', (req, res) => {
+    res.render('professor/index', {
+      //user_id: req.session.user_id,
     });
   });
 
   /* 공지사항 */
-  app.get("/notice", (req, res) => {
-    res.render("notice/index",{
-      user_id: req.session.user_id
+  app.get('/notice', (req, res) => {
+    res.render('notice/index', {
+      //user_id: req.session.user_id,
     });
   });
 
-
-// 수정한 파일
-// login/body, index.ejs
-// main.js
-// app.js
-// package.json
-// models/user.js
-// views/common/nav.ejs
-
-
-
   /* Login */
+  /*
   app.get("/login", (req, res) => {
     if(req.session.user_id!=null)
       res.redirect("/");
@@ -44,7 +34,8 @@ module.exports = (app, fs) => {
       checked: chk
     });
   });
-
+*/
+  /*
   app.post("/login/check", (req, res) =>{
     // 모델 정의
     var User = require('../models/user');
@@ -66,8 +57,10 @@ module.exports = (app, fs) => {
       res.redirect('/');
     });
   });
+*/
 
   /* Logout */
+  /*
   app.get("/logout", (req, res) => {
     if(req.session.user_id){
       req.session.destroy(function(err){
@@ -81,9 +74,11 @@ module.exports = (app, fs) => {
       res.redirect('/');
     }
   });
-  
+  */
+  /*
   /* test계정 생성 */
   // id: test, pwd: test
+  /*
   app.get("/create", (req, res) => {
     var User = require('../models/user');
     User.findOne({id: "test", pwd: "test"}, function(err, user){
@@ -104,26 +99,19 @@ module.exports = (app, fs) => {
       return res.redirect('/login');
     });
   });
-
-
-
-
-
-
-
-  // 고대 그대로 가져온 거
+*/
 
   /* members */
-  app.get("/members", (req, res) => {
-    res.render("members/index",{
-      user_id: req.session.user_id
+  app.get('/members', (req, res) => {
+    res.render('members/index', {
+      //user_id: req.session.user_id,
     });
   });
 
   /* researches */
-  app.get("/researches", (req, res) => {
-    res.render("researches/index",{
-      user_id: req.session.user_id
+  app.get('/researches', (req, res) => {
+    res.render('researches/index', {
+      //user_id: req.session.user_id,
     });
   });
 };

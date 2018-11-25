@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <% include ../common/head.ejs %>
+    <link rel="stylesheet" href="stylesheets/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <style>
+      #primary-menu > ul > li > a > div{
+        color: #444444;
+      }
+      #primary-menu > ul > li > a > div:hover{
+        color: #001E6A;
+      }
+    </style>
+  </head>
+  <body>
+    <% include ../common/nav.ejs %> <% include ./body.ejs %> <% include
+    ../common/library.ejs %> <% include ../common/footer.ejs %>
+    <script type="text/javascript">
+      console.log('haha');
+      $(document).ready(function() {
+        $('#header').attr('class', 'full-header gray');
+      });
+    </script>
+    <% if(checked){ %>
+      <script>
+        alert("잘못된 회원 정보입니다.");
+      </script>
+    <% } %>
+  </body>
+</html>

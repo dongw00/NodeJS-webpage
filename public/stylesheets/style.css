@@ -1,102 +1,4 @@
-/*-----------------------------------------------------------------------------------
-
-	Theme Name: Canvas
-	Theme URI: http://themes.semicolonweb.com/html/canvas
-	Description: The Multi-Purpose Template
-	Author: SemiColonWeb
-	Author URI: http://themeforest.net/user/semicolonweb
-	Version: 4.0.1
-
------------------------------------------------------------------------------------*/
-
-/* ----------------------------------------------------------------
-
-	- Basic
-	- Typography
-	- Basic Layout Styles
-	- Helper Classes
-	- Sections
-	- Columns & Grids
-	- Flex Slider
-	- Swiper Slider
-	- Top Bar
-	- Header
-		- Logo
-		- Primary Menu
-		- Mega Menu
-		- Top Search
-		- Top Cart
-		- Sticky Header
-		- Page Menu
-		- Side Header
-	- Side Panel
-	- Slider
-	- Page Title
-	- Content
-	- Portfolio
-	- Blog
-	- Shop
-	- Events
-	- Shortcodes
-		- Countdown
-		- Buttons
-		- Promo Boxes
-		- Featured Boxes
-		- Process Steps
-		- Styled Icons
-		- Toggles
-		- Accordions
-		- Tabs
-		- Side Navigation
-		- FAQ List
-		- Clients
-		- Testimonials
-		- Team
-		- Pricing Boxes
-		- Counter
-		- Animated Rounded Skills
-		- Skills Bar
-		- Dropcaps & Highlights
-		- Quotes & Blockquotes
-		- Text Rotater
-	- Owl Carousel
-	- Overlays
-	- Forms
-	- Google Maps
-	- Heading Styles
-	- Divider
-	- Magazine Specific Classes
-	- Go To Top
-	- Error 404
-	- Landing Pages
-	- Preloaders
-	- Toastr Notifications
-	- Footer
-	- Widgets
-		- Tag Cloud
-		- Links
-		- Testimonial & Twitter
-		- Quick Contact Form
-		- Newsletter
-		- Twitter Feed
-		- Navigation Tree
-	- Wedding
-	- Bootstrap Specific
-	- Cookie Notification
-	- Stretched Layout
-	- Page Transitions
-	- Youtube Video Backgrounds
-
----------------------------------------------------------------- */
-
-
-
-
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
-
-/* ----------------------------------------------------------------
-	Basic
------------------------------------------------------------------*/
 
 dl, dt, dd, ol, ul, li {
 	margin: 0;
@@ -3292,7 +3194,7 @@ body.stretched .container-fullwidth .breadcrumb { right: 60px !important; }
 	border-bottom: none;
 }
 
-#page-title.page-title-dark h1 { color: rgba(255,255,255,0.9) !important; }
+#page-title.page-title-dark h1 { color: rgba(255,255,255,0.9); }
 
 #page-title.page-title-dark span { color: rgba(255,255,255,0.7); }
 
@@ -3361,12 +3263,9 @@ body.stretched .container-fullwidth .breadcrumb { right: 60px !important; }
 
 #page-title.page-title-parallax {
 	background-color: transparent;
-	background-image: url('images/parallax/parallax-bg.jpg');
 	background-attachment: fixed;
-	background-position: 50% 0;
 	background-repeat: no-repeat;
 }
-
 
 /* Page Title - Mini
 -----------------------------------------------------------------*/
@@ -3411,11 +3310,9 @@ body.stretched .container-fullwidth .breadcrumb { right: 60px !important; }
 
 #page-title.page-title-video .video-wrap video { width: 100%; }
 
-
 /* ----------------------------------------------------------------
 	Content
 -----------------------------------------------------------------*/
-
 
 #content {
 	position: relative;
@@ -3431,15 +3328,6 @@ body.stretched .container-fullwidth .breadcrumb { right: 60px !important; }
 }
 
 #content .container { position: relative; }
-
-
-/* ----------------------------------------------------------------
-	Portfolio
------------------------------------------------------------------*/
-
-
-/* Portfolio - Filter
------------------------------------------------------------------*/
 
 .portfolio-filter {
 	position: relative;
