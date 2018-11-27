@@ -1,41 +1,58 @@
 var express = require('express');
 var app = express();
-//var bodyParser = require("body-parser");
-//var session = require('express-session');
-//var mongoose    = require('mongoose');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var mongoose = require('mongoose');
+var logger = require('morgan');
+
+var indexRouter = require('./routes/index');
+var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
+var boardRouter = require('./routes/board');
 
 var port = 8080;
 
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
 
-// mongodb 서버 연결
-/*
-var db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', function(){
-    console.log('Connected to mongod server')
-});
-
-mongoose.connect(
-    'mongodb://localhost/mongodb_test:27017',
-    { useNewUrlParser: true }
-  );
-
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
+app.listen(port, () => console.log('Express server has started on port 8080'));
+
+/* Session */
+app.use(
+  session({
     secret: 'anarlyajum',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 60 // 1hour
-    }
-}));
-*/
-app.listen(port, () => console.log('Express server has started on port 8080'));
+      maxAge: 1000 * 60 * 60,
+    },
+  })
+);
 
-require('./routes/main')(app); // ./router/main.js를 app에게 전달
-app.use(express.static('./public'));
+/* router */
+app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/board', boardRouter);
+
+/* Connect mongodb server */
+var db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', function() {
+  console.log('Connected to mongod server');
+});
+
+mongoose.connect(
+  'mongodb://localhost/mongodb_test:27017',
+  { useNewUrlParser: true }
+);
+
+module.exports = app;
