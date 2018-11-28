@@ -39,9 +39,9 @@ app.use(
 
 /* router */
 app.use('/', indexRouter);
+app.use('/board', boardRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
-app.use('/board', boardRouter);
 
 /* Connect mongodb server */
 var db = mongoose.connection;
