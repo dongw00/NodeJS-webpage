@@ -1,0 +1,23 @@
+Car mycar { 
+	char CName;
+	char Ckind;
+	int Fuel;
+}
+
+start driving now { 
+	int a;
+	char destination[30];
+	int carArray[3][3];
+
+	mycar's CName = " hyewon's car123 " ;
+	mycar in ( CKind ) ;
+
+	in ( a ) = 3 ;
+	in ( carArray[1][1] , carArray[2][1] ) = 2 , 3 ;
+	
+	mycar out ( CKind ) ;
+	
+	out ( a ) ;
+	out ( carArray[1][1] );
+
+}

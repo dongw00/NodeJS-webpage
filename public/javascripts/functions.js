@@ -10,6 +10,7 @@ $.fn.doOnce = function( func ) {
 }
 
 if( $().infinitescroll ) {
+
 	$.extend($.infinitescroll.prototype,{
 		_setup_portfolioinfiniteitemsloader: function infscr_setup_portfolioinfiniteitemsloader() {
 			var opts = this.options,
@@ -1488,12 +1489,15 @@ var SEMICOLON = SEMICOLON || {};
 	};
 
 	SEMICOLON.slider = {
+
 		init: function() {
+
 			SEMICOLON.slider.sliderParallaxDimensions();
 			SEMICOLON.slider.sliderRun();
 			SEMICOLON.slider.sliderParallax();
 			SEMICOLON.slider.sliderElementsFade();
 			SEMICOLON.slider.captionPosition();
+
 		},
 
 		sliderParallaxDimensions: function(){
@@ -3319,7 +3323,16 @@ var SEMICOLON = SEMICOLON || {};
 			if( SEMICOLON.isMobile.any() ){
 				$body.addClass('device-touch');
 			}
+			// var el = {
+			//     darkLogo : $("<img>", {src: defaultDarkLogo}),
+			//     darkRetinaLogo : $("<img>", {src: retinaDarkLogo})
+			// };
+			// el.darkLogo.prependTo("body");
+			// el.darkRetinaLogo.prependTo("body");
+			// el.darkLogo.css({'position':'absolute','z-index':'-100'});
+			// el.darkRetinaLogo.css({'position':'absolute','z-index':'-100'});
 		}
+
 	};
 
 	SEMICOLON.isMobile = {
@@ -3344,7 +3357,9 @@ var SEMICOLON = SEMICOLON || {};
 	};
 
 	SEMICOLON.documentOnResize = {
+
 		init: function(){
+
 			var t = setTimeout( function(){
 				SEMICOLON.header.topsocial();
 				SEMICOLON.header.fullWidthMenu();
