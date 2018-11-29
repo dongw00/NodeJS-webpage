@@ -76,7 +76,7 @@
       var inputPassword = $("#delPassword").val();
       var chkpw = checkPW(inputPassword);
       if (chkpw == true) {
-        location.href = "/notice/delete?id=<%=content._id%>";
+        location.href = "/board/delete?id=<%=content._id%>";
       } else {
         alert("글 작성 시 입력한 비밀 번호를 입력해주세요");
         return;
@@ -85,7 +85,7 @@
     function downloadFiles(filepath) {
       var path = filepath;
       if (confirm("파일이 다운로드 됩니다.") == true) {
-        location.href = "/notice/download/" + path;
+        location.href = "/board/download/" + path;
       }
     }
   </script>
@@ -107,14 +107,14 @@
     </div>
     <button><a onclick="modifyContents();">수정</a></button>
     <button><a onclick="deleteContents();">삭제</a></button>
-    <a href="/notice">
+    <a href="/board">
       <div class="content-Btn">확인</div>
     </a>
   </div>
 
   <!-- modify content form -->
   <div class="modify_form" hidden>
-    <form id="modifyAction" action="/notice/?mode=modify" method="post">
+    <form id="modifyAction" action="/board/?mode=modify" method="post">
       <input type="text" class="modSubject" id="modContentSubject" name="modContentSubject" placeholder="제목" />
       <input type="password" class="inputPassword" id="modContentPassword" name="modContentPassword" placeholder="비밀번호" />
       <span class="modWriter" id="modContentWriter" name="modContentWriter"></span></br>

@@ -35,6 +35,26 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/view', function(req, res) {
+  var contentId = req.param('id');
+
+  BoardContents.findOne({ _id: contentId }, function(err, rawContent) {
+    if (err) throw err;
+    rawContent.count += 1;
+    var reply_pg = Math.ceil(rawContent.comments.length / 5);
+
+    rawContent.save(function(err) {
+      if (err) throw err;
+
+      res.render('board/components/article', {
+        title: 'Board',
+        content: rawContent,
+        replyPage: reply_pg,
+      });
+    });
+  });
+});
+
 router.get('/write', (req, res) => {
   res.render('board/components/write', { title: '글쓰기' });
 });
@@ -87,7 +107,7 @@ router.get('/delete', function(req, res) {
     { $set: { deleted: true } },
     function(err) {
       if (err) throw err;
-      res.redirect('/notice');
+      res.redirect('/board');
     }
   );
 });
