@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const boardSchema = new mongoose.Schema({
-  id: { type: Number, required: true, unique: true },
-  title: { type: String, required: true },
-  writer: { type: String, required: true },
-  notice: { type: Boolean, required: true, default: true },
+var boardSchema = mongoose.Schema({
+  writer: String,
+  password: String,
+  title: String,
   contents: String,
   comments: [
     {
@@ -14,8 +13,10 @@ const boardSchema = new mongoose.Schema({
     },
   ],
   count: { type: Number, default: 0 },
-  date: { type: Date, default: Date.now, required: true },
+  date: { type: Date, default: Date.now },
   updated: [{ contents: String, date: { type: Date, default: Date.now } }],
+  deleted: { type: Boolean, default: false },
+  fileUp: [String],
 });
 
-module.exports = mongoose.model('BoardSchema', boardSchema);
+module.exports = mongoose.model('BoardContents', boardSchema);

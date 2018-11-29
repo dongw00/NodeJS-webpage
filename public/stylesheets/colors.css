@@ -3,19 +3,6 @@
 
     Replace the HEX Code with your Desired Color HEX
 -----------------------------------------------------------------*/
-
-::selection {
-  background: #001E6A;
-}
-
-::-moz-selection {
-  background: #001E6A;
-}
-
-::-webkit-selection {
-  background: #001E6A;
-}
-
 a,
 h1 > span:not(.nocolor),
 h2 > span:not(.nocolor),
@@ -31,10 +18,6 @@ h6 > span:not(.nocolor),
 #top-cart a:hover,
 .top-cart-action span.top-checkout-price,
 .breadcrumb a:hover,
-#portfolio-filter li a:hover,
-.portfolio-desc h3 a:hover,
-.portfolio-overlay a:hover,
-#portfolio-navigation a:hover,
 .entry-title h2 a:hover,
 .entry-meta li a:hover,
 .post-timeline .entry:hover .entry-timeline,
@@ -59,7 +42,7 @@ h6 > span:not(.nocolor),
 .btn-link,
 .dark .post-timeline .entry:hover .entry-timeline,
 .dark .post-timeline .entry:hover .timeline-divider {
-  color: #001E6A;
+  color: #001e6a;
 }
 
 .color,
@@ -93,7 +76,7 @@ h6 > span:not(.nocolor),
 .nav-tree li:hover > a,
 .nav-tree li.current > a,
 .nav-tree li.active > a {
-  color: #001E6A !important;
+  color: #001e6a !important;
 }
 
 #primary-menu.style-3 > ul > li.current > a,
@@ -105,8 +88,6 @@ h6 > span:not(.nocolor),
 #page-menu-wrap,
 #page-menu.dots-menu nav li.current a,
 #page-menu.dots-menu nav li .dots-menu-caption,
-#portfolio-filter li.activeFilter a,
-#portfolio-shuffle:hover,
 .entry-link:hover,
 .sale-flash,
 .button:not(.button-white):not(.button-dark):not(.button-border):not(.button-black):not(.button-red):not(.button-teal):not(.button-yellow):not(.button-green):not(.button-brown):not(.button-aqua):not(.button-purple):not(.button-leaf):not(.button-pink):not(.button-blue):not(.button-dirtygreen):not(.button-amber):not(.button-lime),
@@ -133,7 +114,7 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
 .dark ul.tab-nav.tab-nav2 li.ui-state-active a,
 .dark .tagcloud a:hover,
 .ei-slider-thumbs li.ei-slider-element {
-  background-color: #001E6A;
+  background-color: #001e6a;
 }
 
 .bgcolor,
@@ -149,7 +130,7 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  background-color: #001E6A !important;
+  background-color: #001e6a !important;
 }
 
 #primary-menu.style-4 > ul > li:hover > a,
@@ -165,7 +146,7 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
 .dark .post-timeline .entry:hover .timeline-divider,
 .dark .cart-product-thumbnail img:hover,
 .heading-block.border-color:after {
-  border-color: #001E6A;
+  border-color: #001e6a;
 }
 
 .top-links ul ul,
@@ -184,16 +165,16 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
 #primary-menu.dark ul li .mega-menu-content.style-2,
 .dark #top-cart .top-cart-content,
 .tabs.tabs-tb ul.tab-nav li.ui-tabs-active a {
-  border-top-color: #001E6A;
+  border-top-color: #001e6a;
 }
 
 #page-menu.dots-menu nav li .dots-menu-caption:after,
 .title-block {
-  border-left-color: #001E6A;
+  border-left-color: #001e6a;
 }
 
 .title-block-right {
-  border-right-color: #001E6A;
+  border-right-color: #001e6a;
 }
 
 .fancy-title.title-bottom-border h1,
@@ -204,7 +185,7 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
 .fancy-title.title-bottom-border h6,
 .more-link,
 .tabs.tabs-bb ul.tab-nav li.ui-tabs-active a {
-  border-bottom-color: #001E6A;
+  border-bottom-color: #001e6a;
 }
 
 .border-color,
@@ -217,19 +198,19 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  border-color: #001E6A !important;
+  border-color: #001e6a !important;
 }
 
 .fbox-effect.fbox-dark .fbox-icon i:after,
 .dark .fbox-effect.fbox-dark .fbox-icon i:after {
-  box-shadow: 0 0 0 2px #001E6A;
+  box-shadow: 0 0 0 2px #001e6a;
 }
 
 .fbox-border.fbox-effect.fbox-dark .fbox-icon i:hover,
 .fbox-border.fbox-effect.fbox-dark:hover .fbox-icon i,
 .dark .fbox-border.fbox-effect.fbox-dark .fbox-icon i:hover,
 .dark .fbox-border.fbox-effect.fbox-dark:hover .fbox-icon i {
-  box-shadow: 0 0 0 1px #001E6A;
+  box-shadow: 0 0 0 1px #001e6a;
 }
 
 @media only screen and (max-width: 991px) {
@@ -278,16 +259,10 @@ ul.tab-nav.tab-nav2 li.ui-state-active a,
     > ul
     > li.mega-menu-title
     > a:hover {
-    color: #001E6A !important;
+    color: #001e6a !important;
   }
 
   #page-menu nav {
-    background-color: #001E6A;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  #portfolio-filter li a:hover {
-    color: #001E6A;
+    background-color: #001e6a;
   }
 }

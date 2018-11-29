@@ -1,7 +1,4 @@
-/* ----------------------------------------------------------------
-	Dark Scheme
------------------------------------------------------------------*/
-
+/* Dark Scheme */
 .dark,
 .dark h1,
 .dark h2,
@@ -20,7 +17,6 @@ body.dark,
 .dark #wrapper,
 .dark #content,
 .dark .shop-quick-view-ajax,
-.dark .portfolio-ajax-modal,
 .dark .modal-content,
 .dark .css3-spinner,
 body.dark #side-panel,
@@ -584,98 +580,13 @@ body.top-search-open .dark #header-wrap:not(.not-dark) #top-search a,
   color: #eee;
 }
 
-.dark #page-title.page-title-pattern {
-  background-image: url('../images/pattern2.png');
-}
-
-.dark .portfolio-filter {
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.dark .portfolio-filter li a {
-  color: #999;
-  border-left-color: rgba(255, 255, 255, 0.08);
-}
-
-.dark .portfolio-filter li a:hover {
-  color: #eee;
-}
-
-.dark .portfolio-shuffle {
-  color: #999;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.dark .portfolio-filter li.activeFilter a,
-.dark .portfolio-shuffle:hover {
-  color: #fff;
-}
-
-.dark .portfolio-desc h3 a {
-  color: #eee;
-}
-
-.dark .portfolio-desc h3 a:hover {
-  color: #bbb;
-}
-
-.dark .portfolio-desc span {
-  color: #888;
-}
-
-.dark .portfolio-desc span a {
-  color: #888;
-}
-
-.dark .portfolio-desc span a:hover {
-  color: #ccc;
-}
-
-.dark .portfolio-notitle .portfolio-desc {
-  background-color: #333;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.dark .portfolio-1 .portfolio-item {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-.dark .portfolio-1.portfolio-fullwidth .portfolio-desc {
-  background-color: #333;
-}
-
-.dark .portfolio-overlay a {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-}
-
-.dark .portfolio-overlay a:hover {
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
 .dark .ajax-modal-title {
   background-color: #333;
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
-.dark .portfolio-meta li {
-  color: #999;
-}
-
-.dark .portfolio-meta li span {
-  color: #bbb;
-}
-
 .dark .well .line {
   border-color: rgba(255, 255, 255, 0.08);
-}
-
-.dark #portfolio-navigation a {
-  color: #bbb;
-}
-
-.dark #portfolio-navigation a:hover {
-  color: #eee;
 }
 
 .dark .entry {
