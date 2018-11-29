@@ -4,11 +4,56 @@
   <title>
     <%= title %>
   </title>
+</head>
+
+<body>
+  <div class="content_box">
+    <div class="content-title">
+      <%=content.title%>
+    </div>
+    <div class="content-info">
+      <%=dateFormatChange(content.date)%> /
+      <%=content.writer%>
+    </div>
+    <div class="content-text">
+      <%=content.contents%>
+    </div>
+    <div class="download-file">
+    </div>
+    <button><a onclick="modifyContents();">수정</a></button>
+    <button><a onclick="deleteContents();">삭제</a></button>
+    <a href="/board">
+      <div class="content-Btn">확인</div>
+    </a>
+  </div>
+
+  <!-- modify content form -->
+  <div class="modify_form" hidden>
+    <form id="modifyAction" action="/board/?mode=modify" method="post">
+      <input type="text" class="modSubject" id="modContentSubject" name="modContentSubject" placeholder="제목" />
+      <input type="password" class="inputPassword" id="modContentPassword" name="modContentPassword" placeholder="비밀번호" />
+      <span class="modWriter" id="modContentWriter" name="modContentWriter"></span></br>
+      <textarea class="textContents" id="modContents" name="modContents" rows="20" cols="80"></textarea>
+      <input type="hidden" id="modId" name="modId" value="<%=content._id%>" />
+    </form>
+    <div class="addBtngroup" style="margin-left:520px;">
+      <a onclick="modifySubmitContents();">SUBMIT</a>
+      <a onclick="cancelForm('modify');">CANCEL</a>
+    </div>
+  </div>
+  <!-- modify form end -->
+
+  <!-- delete confirm window -->
+  <div class="delete_confirm" hidden>
+    <h1>비밀 번호를 입력하면 글이 삭제됩니다</h1>
+    <input type="password" id="delPassword" name="delPassword" />
+    <button onclick="deleteConfirm();">삭제</button>
+    <button onclick="cancelForm('delete');">취소</button>
+  </div>
+  <!-- Script -->
   <% function dateFormatChange(date) { var options = { weekday: "short", year:
     "numeric", month: "short", day: "numeric", hour: "2-digit", minute:
     "2-digit" }; return date.toLocaleTimeString("ko-KR", options); } %>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script>
     $(function () {
       var fileUp = '<%=content.fileUp%>';
@@ -89,53 +134,6 @@
       }
     }
   </script>
-</head>
-
-<body>
-  <div class="content_box">
-    <div class="content-title">
-      <%=content.title%>
-    </div>
-    <div class="content-info">
-      <%=dateFormatChange(content.date)%> /
-      <%=content.writer%>
-    </div>
-    <div class="content-text">
-      <%=content.contents%>
-    </div>
-    <div class="download-file">
-    </div>
-    <button><a onclick="modifyContents();">수정</a></button>
-    <button><a onclick="deleteContents();">삭제</a></button>
-    <a href="/board">
-      <div class="content-Btn">확인</div>
-    </a>
-  </div>
-
-  <!-- modify content form -->
-  <div class="modify_form" hidden>
-    <form id="modifyAction" action="/board/?mode=modify" method="post">
-      <input type="text" class="modSubject" id="modContentSubject" name="modContentSubject" placeholder="제목" />
-      <input type="password" class="inputPassword" id="modContentPassword" name="modContentPassword" placeholder="비밀번호" />
-      <span class="modWriter" id="modContentWriter" name="modContentWriter"></span></br>
-      <textarea class="textContents" id="modContents" name="modContents" rows="20" cols="80"></textarea>
-      <input type="hidden" id="modId" name="modId" value="<%=content._id%>" />
-    </form>
-    <div class="addBtngroup" style="margin-left:520px;">
-      <a onclick="modifySubmitContents();">SUBMIT</a>
-      <a onclick="cancelForm('modify');">CANCEL</a>
-    </div>
-  </div>
-  <!-- modify form end -->
-
-  <!-- delete confirm window -->
-  <div class="delete_confirm" hidden>
-    <h1>비밀 번호를 입력하면 글이 삭제됩니다</h1>
-    <input type="password" id="delPassword" name="delPassword" />
-    <button onclick="deleteConfirm();">삭제</button>
-    <button onclick="cancelForm('delete');">취소</button>
-  </div>
-  <!-- end -->
 </body>
 
 </html>

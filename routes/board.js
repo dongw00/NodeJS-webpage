@@ -183,7 +183,6 @@ function modBoard(id, title, content) {
 }
 
 function isSaved(upFile) {
-  // 파일 저장 여부 확인해서 제대로 저장되면 디비에 저장되는 방식
   var savedFile = upFile;
   var count = 0;
   if (savedFile != null) {

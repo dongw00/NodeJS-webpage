@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>
     <%= title %>
   </title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <% include ../../common/head.ejs %>
 </head>
 
 <body>
@@ -25,16 +24,16 @@
   </div>
   <script>
     function submitContents() {
-      var title = $("#addContentSubject").val();
-      var content = $("#addContents").val();
-      var writer = $("#addContentWriter").val();
-      var password = $("#ps").val();
+      var title = document.getElementById("addContentSubject").value;
+      var content = document.getElementById("addContents").value;
+      var writer = document.getElementById("addContentWriter").value;
+      var password = document.getElementById("ps").value;
       // 새 글 등록 시
       if (title == "" || content == "" || writer == "" || password == "") {
         alert("제목과 내용, 작성자 비밀번호 모두 있어야합니다.");
         return;
       } else {
-        $("#writeAction").submit();
+        document.getElementById("writeAction").submit();
       }
     }
   </script>
