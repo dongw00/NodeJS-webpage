@@ -1,81 +1,27 @@
-<section
-  id="page-title"
-  class="page-title-parallax page-title-dark"
-  style="padding: 250px 0; background-image: url(''); background-size: cover; background-position: center center;"
-  data-stellar-background-ratio="0.4"
->
-  <div class="container clearfix">
-    <h1>Researches</h1>
-    <span>
-      항공시스템 SW Lab.에서 진행하고 있는 프로젝트 및 연구 주제들 입니다.</span
-    >
-  </div>
-</section>
-
-<!-- Content header -->
-<section id="content">
-  <div class="heading-block center">
-    <br /><br /><br />
-    <h3>수행 과제</h3>
-  </div>
-
-  <!-- First research -->
-  <div class="row common-height clearfix">
-    <div
-      class="hidden-xs col-sm-5 col-padding"
-      style="background: url('') center center no-repeat; background-size: cover;"
-    ></div>
-    <div class="col-sm-7 col-padding" style="background-color: #F5F5F5;">
-      <div>
-        <div class="heading-block">
-          <span class="before-heading color"> 내용을 입력해주세요</span>
-          <h3>내용을 입력해주세요</h3>
-          <span><i class="icon-calendar"></i> 20oo.00 ~ 20oo.00</span>
-        </div>
-        <div class="row clearfix">
-          <div class="col-md-12"><p>내용을 입력해주세요</p></div>
+<div id="wrapper" class="clearfix">
+  <% include ../common/nav.ejs %>
+  <section id="page-title" class="page-title" style="padding: 200px 0;">
+    <div class="container clearfix">
+      <h1>Researches</h1>
+      <span>
+        항공시스템 SW Lab.에서 진행하고 있는 프로젝트 및 연구 주제들
+        입니다.</span
+      >
+    </div>
+  </section>
+  <!-- Content -->
+  <section id="content">
+    <div class="content-wrap">
+      <div class="section nomargin">
+        <div class="clear" />
+        <div class="heading-block center">
+          <br /><br /><br />
+          <h3>수행 과제</h3>
         </div>
       </div>
+      <!-- Research list -->
+      <% include ./components/research.ejs %>
     </div>
-  </div>
+  </section>
+</div>
 
-  <!-- Second research -->
-  <div class="row common-height clearfix">
-    <div class="col-sm-7 col-padding" style="background-color: #FFFFFF;">
-      <div>
-        <div class="heading-block">
-          <span class="before-heading color">내용을 입력해주세요</span>
-          <h3>내용을 입력해주세요</h3>
-          <span><i class="icon-calendar"></i> 2000.00 ~ 2000.00</span>
-        </div>
-        <div class="row clearfix">
-          <div class="col-md-12">내용을 입력해주세요</div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="hidden-xs col-sm-5 col-padding"
-      style="background: url('') center center no-repeat; background-size: cover;"
-    ></div>
-  </div>
-
-  <!-- Third research -->
-  <div class="row common-height clearfix">
-    <div
-      class="hidden-xs col-sm-5 col-padding"
-      style="background: url('') center center no-repeat; background-size: cover;"
-    ></div>
-    <div class="col-sm-7 col-padding" style="background-color: #F5F5F5;">
-      <div>
-        <div class="heading-block">
-          <span class="before-heading color">내용을 입력해주세요</span>
-          <h3>내용을 입력해주세요</h3>
-          <span><i class="icon-calendar"></i> 0000.00 ~ 0000.00</span>
-        </div>
-        <div class="row clearfix">
-          <div class="col-md-12"><p>내용을 입력해주세요</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
