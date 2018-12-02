@@ -1,63 +1,20 @@
 <div class="wrapper">
-  <div
-    class="page-header page-header-xs"
-    data-parallax="true"
-    style="background-image: url('');"
-  >
-    <div class="filter"></div>
-  </div>
-  <div class="container">
-    <div class="clear"></div>
-    <h2>Board</h2>
-    <br />
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>Title</th>
-          <th>Writer</th>
-          <th>Date</th>
-          <th>Views</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% if (contents !== null){ for(var i =0; i< contents.length; i++) { %>
-        <tr>
-          <td><%= i+1 %></td>
-          <td>
-            <a href="/board/view?id=<%= contents[i]._id %>">
-              <%= contents[i].title %> 파일:[ <%=contents[i].fileUp.length%>
-              ]</a
-            >
-          </td>
-          <td><%= contents[i].writer %></td>
-          <td><%= contents[i].date %></td>
-          <td><%= contents[i].count %></td>
-        </tr>
-        <% } } else {%>
-        <tr>
-          <td colspan="5">게시물이 없습니다.</td>
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
-    <br />
-    <a class="btn btn-default pull-right" href="/board/write">Write</a>
-    <div class="align-middle">
-      <ul class="pagination">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">Previous</a>
-        </li>
-        <li class="page-item active">
-          <a class="page-link" href="/board?page=1">1<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="page-item">
-          <% for(var i=1; i<pagination; i++){ %>
-          <a class="page-link" href="/board?page=<%=i+1%>">
-            <%=i+1%></a>
-          <%}%>
-        </li>
-      </ul>
+  <% include ../common/nav.ejs %>
+  <section id="page-title" class="page-title" style="padding: 200px 0;">
+    <div class="container clearfix">
+      <h1>Board</h1>
+      <span>공지사항 및 게시판</span>
     </div>
-  </div>
+  </section>
+  <!-- Content -->
+  <section id="content">
+    <div class="content-wrap">
+      <!-- Switching board area -->
+      <% include ./components/switchMenu.ejs %>
+    </div>
+    <!-- TODO -->
+    <!-- 바뀐 메뉴별로 보여주는 리스트가 변경되야 함 -->
+    <% include ./page/notice %>
+  </section>
+  <%include ../common/footer.ejs %>
 </div>
