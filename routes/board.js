@@ -5,7 +5,7 @@ const multer = require('multer');
 const upload = multer({ dest: './tmp/' });
 const fs = require('fs');
 
-/* 게시판 */
+/* init view */
 router.get('/', (req, res) => {
   let page = req.param('page');
   if (page == null) {
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
   BoardContents.count((err, totalCount) => {
     if (err) throw err;
     pageNum = Math.ceil(totalCount / limitSize);
-    BoardContents.find()
+    BoardContents.find({ important: 0 })
       .sort({ date: -1 })
       .skip(skipSize)
       .limit(limitSize)
@@ -34,10 +34,11 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/view', (req, res) => {
+/* 게시글 Detail view */
+router.get('/Detail_view', (req, res) => {
   let contentId = req.param('id');
 
-  BoardContents.findOne({ _id: contentId }, (err, rawContent) => {
+  BoardContents.findOne({ id: contentId }, (err, rawContent) => {
     if (err) throw err;
     rawContent.count += 1;
     const commentLimit = 5;
@@ -53,16 +54,10 @@ router.get('/view', (req, res) => {
   });
 });
 
-router.get('/write', (req, res) => {
-  res.render('board/components/write', { title: '글쓰기' });
-});
-
-// TODO
-router.get('/password', (req, res) => {
-  let id = req.param('id');
-
-  BoardContents.findOne({ _id: id }, (err, rawContents) => {
-    res.send(rawContents.password);
+/* Wrting post */
+router.get('/posting', (req, res) => {
+  res.render('board/page/posting/index', {
+    user_id: req.session.user_id,
   });
 });
 
@@ -71,7 +66,6 @@ router.post('/post', upload.array('UploadFile'), (req, res) => {
 
   const addNewTitle = req.body.addContentSubject;
   const addNewWriter = req.body.addContentWriter;
-  const addNewPassword = req.body.ps;
   const addNewContent = req.body.addContents;
   const upFile = req.files;
 
@@ -81,13 +75,7 @@ router.post('/post', upload.array('UploadFile'), (req, res) => {
 
   if (mode == 'add') {
     if (isSaved(upFile)) {
-      addBoard(
-        addNewTitle,
-        addNewWriter,
-        addNewContent,
-        addNewPassword,
-        upFile
-      );
+      addBoard(addNewTitle, addNewWriter, addNewContent, upFile);
       res.redirect('/board');
     } else {
       console.log('파일이 저장되지 않았습니다!');
@@ -112,14 +100,13 @@ router.get('/download/:path', (req, res) => {
   console.log(path);
 });
 
-function addBoard(title, writer, content, password, upFile) {
+function addBoard(title, writer, content, upFile) {
   const newContent = content.replace(/\r\n/gi, '\\r\\n');
 
   let newBoardContents = new BoardContents();
   newBoardContents.writer = writer;
   newBoardContents.title = title;
   newBoardContents.contents = newContent;
-  newBoardContents.password = password;
 
   newBoardContents.save(err => {
     if (err) throw err;

@@ -75,18 +75,6 @@ h4 > span:not(.nocolor),
 h5 > span:not(.nocolor),
 h6 > span:not(.nocolor) { color: #1ABC9C; }
 
-p,
-pre,
-ul,
-ol,
-dl,
-dd,
-blockquote,
-address,
-table,
-fieldset,
-form { margin-bottom: 30px; }
-
 small { font-family: 'Jeju Gothic', serif; }
 
 /* ----------------------------------------------------------------
@@ -11103,4 +11091,11 @@ body:not(.no-transition) #wrapper,
 .col-md-12 > .row {
 	font-size: 1em;
 	margin-left: 3%;
+}
+
+#save {
+	font-size: 1.01em;
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
 }

@@ -53,8 +53,6 @@ db.on('error', console.error);
 db.once('open', () => console.log('Connected to mongod server'));
 
 mongoose.connect(
-  'mongodb://localhost/mongodb_test:27017',
+  'mongodb://localhost/KAU',
   { useNewUrlParser: true }
 );
-
-module.exports = app;

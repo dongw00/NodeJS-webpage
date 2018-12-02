@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
+
+autoIncrement.initialize(mongoose.connection);
 
 const boardSchema = new mongoose.Schema({
   /* 게시글 정보 */
-  id: Number,
-  title: String,
-  writer: String,
-  date: { type: Date, default: Date.now },
-  count: Number,
-  boardNum: Number,
-  important: Number,
+  id: { type: Number, required: true },
+  title: { type: String, required: true },
+  writer: { type: String, required: true },
+  date: { type: Date, default: Date.now, required: true },
+  count: { type: Number, default: 0, required: true },
+  boardNum: { type: Number, default: 0, required: true },
+  important: { type: Number, default: 0, required: true },
 
   /* 게시글 내용*/
   contents: String,
@@ -22,5 +25,6 @@ const boardSchema = new mongoose.Schema({
   /* 게시글 파일 */
   fileUp: [String],
 });
+boardSchema.plugin(autoIncrement.plugin, 'BoardContents');
 
 module.exports = mongoose.model('BoardContents', boardSchema);

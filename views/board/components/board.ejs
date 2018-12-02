@@ -1,0 +1,91 @@
+<table class="table table-bordered table-hover table-responsive">
+  <thead>
+    <tr>
+      <th class="col-xs-1">No.</th>
+      <th class="col-xs-6">제목</th>
+      <th class="col-xs-2">작성자</th>
+      <th class="col-xs-2">작성일</th>
+      <th class="col-xs-1">조회수</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (contents !== null) { 
+      for(var i =0; i< contents.length; i++) { 
+        if (contents[i].important == 1) {
+    %>
+    <tr class="info">
+      <td>
+        <!-- No. -->
+        <%= i+1 %>
+      </td>
+      <td>
+        <!-- 제목 -->
+        <a href="/board/Detail_view?id=<%= contents[i].id %>">
+          <%= contents[i].title %>
+        </a>
+      </td>
+      <td>
+        <!-- 작성자 -->
+        <%= contents[i].writer %>
+      </td>
+      <td>
+        <!-- 작성일 -->
+        <%= contents[i].date %>
+      </td>
+      <td>
+        <!-- 조회수 -->
+        <%= contents[i].count %>
+      </td>
+    </tr>
+    <%
+      }
+    %>
+    <tr class="info">
+      <td>
+        <!-- No. -->
+        <%= i+1 %>
+      </td>
+      <td>
+        <!-- 제목 -->
+        <a href="/board/Detail_view?id=<%= contents[i].id %>">
+          <%= contents[i].title %>
+        </a>
+      </td>
+      <td>
+        <!-- 작성자 -->
+        <%= contents[i].writer %>
+      </td>
+      <td>
+        <!-- 작성일 -->
+        <%= contents[i].date %>
+      </td>
+      <td>
+        <!-- 조회수 -->
+        <%= contents[i].count %>
+      </td>
+    </tr>
+    <% } } else { %>
+    <tr>
+      <td colspan="5">게시물이 없습니다.</td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
+<br />
+<a class="btn btn-default pull-right" href="/board/posting">Write</a>
+<div class="align-middle">
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item active">
+      <a class="page-link" href="/board?page=1">1<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="page-item">
+      <% for(var i=1; i<pagination; i++){ %>
+      <a class="page-link" href="/board?page=<%=i+1%>">
+        <%=i+1%></a>
+      <%}%>
+    </li>
+  </ul>
+</div>

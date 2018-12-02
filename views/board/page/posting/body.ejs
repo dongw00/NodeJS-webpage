@@ -1,0 +1,46 @@
+<div class="wrapper">
+  <% include ../../../common/nav.ejs %>
+  <section id="page-title" class="page-title" style="padding: 150px 0;">
+    <div class="container clearfix"><h1>글쓰기</h1></div>
+  </section>
+  <!-- Content -->
+  <section id="content">
+    <div class="content-wrap">
+      <div id="title">
+        <input
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="제목을 입력해주세요"
+        />
+      </div>
+
+      <div id="summernote"></div>
+      <button id="save" class="btn btn-primary" onclick="save()" type="button">
+        Save
+      </button>
+    </div>
+    <%include ../../../common/footer.ejs %>
+  </section>
+</div>
+<script>
+  $(document).ready(function() {
+    $('#summernote').summernote({
+      lang: 'ko-KR',
+      focus: true,
+      minHeight: 450,
+      maxHeight: 780,
+      placeholder: '내용을 입력해주세요',
+      shortcuts: false,
+      toolbar: [
+        ['style', ['bold', 'italic', 'underline']],
+        ['fontsize', ['fontsize']],
+        ['forecolor', ['forecolor']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['picture', 'link', 'video', 'table']],
+        ['Misc', ['codeview', 'undo', 'redo']],
+      ],
+    });
+  });
+</script>
