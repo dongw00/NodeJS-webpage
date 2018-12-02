@@ -1,20 +1,20 @@
-var express = require('express');
-var app = express();
-var compression = require('compression');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var mongoose = require('mongoose');
-var logger = require('morgan');
-var helmet = require('helmet');
+const express = require('express');
+const app = express();
+const compression = require('compression');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const logger = require('morgan');
+const helmet = require('helmet');
 
-var indexRouter = require('./routes/index');
-var loginRouter = require('./routes/login');
-var logoutRouter = require('./routes/logout');
-var boardRouter = require('./routes/board');
+const indexRouter = require('./routes/index');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
+const boardRouter = require('./routes/board');
 
-var port = 8080;
+const port = 8080;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -48,11 +48,9 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 
 /* Connect mongodb server */
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error);
-db.once('open', function() {
-  console.log('Connected to mongod server');
-});
+db.once('open', () => console.log('Connected to mongod server'));
 
 mongoose.connect(
   'mongodb://localhost/mongodb_test:27017',

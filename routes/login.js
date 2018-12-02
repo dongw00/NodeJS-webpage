@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /* Login */
 router.get('/', (req, res) => {
   if (req.session.user_id != null) res.redirect('/');
-  var chk = 0;
+  let chk = 0;
   if (req.query.checked == 'fail') chk = 1;
 
   res.render('login/index', {
@@ -14,41 +14,41 @@ router.get('/', (req, res) => {
 });
 router.post('/check', (req, res) => {
   // 모델 정의
-  var User = require('../models/user');
+  const User = require('../models/user');
 
-  User.findOne({ id: req.body.your_name, pwd: req.body.your_pass }, function(
-    err,
-    user
-  ) {
-    if (err) return res.status(500).json({ error: err });
-    if (!user) {
-      return res.redirect('/login?checked=fail');
+  User.findOne(
+    { id: req.body.your_name, pwd: req.body.your_pass },
+    (err, user) => {
+      if (err) return res.status(500).json({ error: err });
+      if (!user) {
+        return res.redirect('/login?checked=fail');
+      }
+      // user exist
+      // save session
+      if (req.body.remember_me == 'remember') {
+        // remember me 체크박스
+        req.session.user_id = req.body.your_name;
+        req.session.cookie.maxAge = 365 * 24 * 60 * 60 * 1000;
+      } else {
+        req.session.user_id = req.body.your_name;
+      }
+      // redirect to main
+      res.redirect('/');
     }
-    // user exist
-    // save session
-    if (req.body.remember_me == 'remember') {
-      // remember me 체크박스
-      req.session.user_id = req.body.your_name;
-      req.session.cookie.maxAge = 365 * 24 * 60 * 60 * 1000;
-    } else {
-      req.session.user_id = req.body.your_name;
-    }
-    // redirect to main
-    res.redirect('/');
-  });
+  );
 });
 
 /* test계정 생성 */
 // id: test, pwd: test
 router.get('/create', (req, res) => {
-  var User = require('../models/user');
-  User.findOne({ id: 'test', pwd: 'test' }, function(err, user) {
+  const User = require('../models/user');
+  User.findOne({ id: 'test', pwd: 'test' }, (err, user) => {
     if (err) return res.status(500).json({ error: err });
     if (!user) {
-      var book = new User();
+      let book = new User();
       book.id = 'test';
       book.pwd = 'test';
-      book.save(function(err) {
+      book.save(err => {
         if (err) {
           console.error(err);
           res.json({ result: 0 });

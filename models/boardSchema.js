@@ -1,9 +1,16 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var boardSchema = mongoose.Schema({
-  writer: String,
-  password: String,
+const boardSchema = new mongoose.Schema({
+  /* 게시글 정보 */
+  id: Number,
   title: String,
+  writer: String,
+  date: { type: Date, default: Date.now },
+  count: Number,
+  boardNum: Number,
+  important: Number,
+
+  /* 게시글 내용*/
   contents: String,
   comments: [
     {
@@ -12,10 +19,7 @@ var boardSchema = mongoose.Schema({
       date: { type: Date, default: Date.now },
     },
   ],
-  count: { type: Number, default: 0 },
-  date: { type: Date, default: Date.now },
-  updated: [{ contents: String, date: { type: Date, default: Date.now } }],
-  deleted: { type: Boolean, default: false },
+  /* 게시글 파일 */
   fileUp: [String],
 });
 

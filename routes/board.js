@@ -1,25 +1,25 @@
-var express = require('express');
-var router = express.Router();
-var BoardContents = require('../models/boardSchema');
-var multer = require('multer');
-var upload = multer({ dest: './tmp/' });
-var fs = require('fs');
+const express = require('express');
+const router = express.Router();
+const BoardContents = require('../models/boardSchema');
+const multer = require('multer');
+const upload = multer({ dest: './tmp/' });
+const fs = require('fs');
 
 /* 게시판 */
 router.get('/', (req, res) => {
-  var page = req.param('page');
+  let page = req.param('page');
   if (page == null) {
     page = 1;
   }
 
-  var skipSize = (page - 1) * 10;
-  var limitSize = 10;
-  var pageNum = 1;
+  let skipSize = (page - 1) * 10;
+  const limitSize = 10;
+  let pageNum = 1;
 
-  BoardContents.count({ delete: false }, function(err, totalCount) {
+  BoardContents.count((err, totalCount) => {
     if (err) throw err;
     pageNum = Math.ceil(totalCount / limitSize);
-    BoardContents.find({ deleted: false })
+    BoardContents.find()
       .sort({ date: -1 })
       .skip(skipSize)
       .limit(limitSize)
@@ -27,7 +27,6 @@ router.get('/', (req, res) => {
         if (err) throw err;
         res.render('board/index', {
           user_id: req.session.user_id,
-          title: 'Board',
           contents: pageContents,
           pagination: pageNum,
         });
@@ -35,19 +34,18 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/view', function(req, res) {
-  var contentId = req.param('id');
+router.get('/view', (req, res) => {
+  let contentId = req.param('id');
 
-  BoardContents.findOne({ _id: contentId }, function(err, rawContent) {
+  BoardContents.findOne({ _id: contentId }, (err, rawContent) => {
     if (err) throw err;
     rawContent.count += 1;
-    var reply_pg = Math.ceil(rawContent.comments.length / 5);
+    const commentLimit = 5;
+    let reply_pg = Math.ceil(rawContent.comments.length / commentLimit);
 
-    rawContent.save(function(err) {
+    rawContent.save(err => {
       if (err) throw err;
-
       res.render('board/components/article', {
-        title: 'Board',
         content: rawContent,
         replyPage: reply_pg,
       });
@@ -61,25 +59,25 @@ router.get('/write', (req, res) => {
 
 // TODO
 router.get('/password', (req, res) => {
-  var id = req.param('id');
+  let id = req.param('id');
 
-  BoardContents.findOne({ _id: id }, function(err, rawContents) {
+  BoardContents.findOne({ _id: id }, (err, rawContents) => {
     res.send(rawContents.password);
   });
 });
 
 router.post('/post', upload.array('UploadFile'), (req, res) => {
-  var mode = req.param('mode');
+  let mode = req.param('mode');
 
-  var addNewTitle = req.body.addContentSubject;
-  var addNewWriter = req.body.addContentWriter;
-  var addNewPassword = req.body.ps;
-  var addNewContent = req.body.addContents;
-  var upFile = req.files;
+  const addNewTitle = req.body.addContentSubject;
+  const addNewWriter = req.body.addContentWriter;
+  const addNewPassword = req.body.ps;
+  const addNewContent = req.body.addContents;
+  const upFile = req.files;
 
-  var modTitle = req.body.modContentSubject;
-  var modContent = req.body.modContents;
-  var modId = req.body.modId;
+  const modTitle = req.body.modContentSubject;
+  const modContent = req.body.modContents;
+  const modId = req.body.modId;
 
   if (mode == 'add') {
     if (isSaved(upFile)) {
@@ -100,94 +98,90 @@ router.post('/post', upload.array('UploadFile'), (req, res) => {
   }
 });
 
-router.get('/delete', function(req, res) {
-  var contentId = req.param('id');
-  BoardContents.update(
-    { _id: contentId },
-    { $set: { deleted: true } },
-    function(err) {
-      if (err) throw err;
-      res.redirect('/board');
-    }
-  );
+router.get('/delete', (req, res) => {
+  let contentId = req.param('id');
+  BoardContents.update({ _id: contentId }, { $set: { deleted: true } }, err => {
+    if (err) throw err;
+    res.redirect('/board');
+  });
 });
 
 router.get('/download/:path', (req, res) => {
-  var path = req.params.path;
+  const path = req.params.path;
   res.download('./upload/' + path, path);
   console.log(path);
 });
 
 function addBoard(title, writer, content, password, upFile) {
-  var newContent = content.replace(/\r\n/gi, '\\r\\n');
+  const newContent = content.replace(/\r\n/gi, '\\r\\n');
 
-  var newBoardContents = new BoardContents();
+  let newBoardContents = new BoardContents();
   newBoardContents.writer = writer;
   newBoardContents.title = title;
   newBoardContents.contents = newContent;
   newBoardContents.password = password;
 
-  newBoardContents.save(function(err) {
+  newBoardContents.save(err => {
     if (err) throw err;
-    BoardContents.findOne({ _id: newBoardContents._id }, { _id: 1 }, function(
-      err,
-      newBoardId
-    ) {
-      if (err) throw err;
+    BoardContents.findOne(
+      { _id: newBoardContents._id },
+      { _id: 1 },
+      (err, newBoardId) => {
+        if (err) throw err;
+        if (upFile != null) {
+          const renaming = renameUploadFile(newBoardId.id, upFile);
 
-      if (upFile != null) {
-        var renaming = renameUploadFile(newBoardId.id, upFile);
+          for (let i = 0; i < upFile.length; i++) {
+            fs.rename(renaming.tmpname[i], renaming.fsname[i], err => {
+              if (err) {
+                console.log(err);
+                return;
+              }
+            });
+          }
 
-        for (var i = 0; i < upFile.length; i++) {
-          fs.rename(renaming.tmpname[i], renaming.fsname[i], function(err) {
-            if (err) {
-              console.log(err);
-              return;
-            }
-          });
-        }
-
-        for (var i = 0; i < upFile.length; i++) {
-          BoardContents.update(
-            { _id: newBoardId.id },
-            { $push: { fileUp: renaming.fullname[i] } },
-            function(err) {
-              if (err) throw err;
-            }
-          );
+          for (let i = 0; i < upFile.length; i++) {
+            BoardContents.update(
+              { _id: newBoardId.id },
+              { $push: { fileUp: renaming.fullname[i] } },
+              err => {
+                if (err) throw err;
+              }
+            );
+          }
         }
       }
-    });
+    );
   });
 }
 
 function modBoard(id, title, content) {
-  var modContent = content.replace(/\r\n/gi, '\\r\\n');
-  BoardContents.findOne({ _id: id }, function(err, originContent) {
+  const modContent = content.replace(/\r\n/gi, '\\r\\n');
+  BoardContents.findOne({ _id: id }, (err, originContent) => {
     if (err) throw err;
     originContent.updated.push({
       title: originContent.title,
       contents: originContent.contents,
     });
-    originContent.save(function(err) {
+    originContent.save(err => {
       if (err) throw err;
     });
   });
   BoardContents.update(
     { _id: id },
     { $set: { title: title, contents: modContent, date: Date.now() } },
-    function(err) {
+    err => {
       if (err) throw err;
     }
   );
 }
 
 function isSaved(upFile) {
-  var savedFile = upFile;
-  var count = 0;
+  const savedFile = upFile;
+  let count = 0;
   if (savedFile != null) {
     // 파일 존재시 -> tmp폴더에 파일 저장여부 확인 -> 있으면 저장, 없으면 에러메시지
-    for (var i = 0; i < savedFile.length; i++) {
+    for (let i = 0; i < savedFile.length; i++) {
       if (fs.statSync(getDirname(1) + savedFile[i].path).isFile()) {
         //fs 모듈을 사용해서 파일의 존재 여부를 확인한다.
         count++; // true인 결과 갯수 세서
@@ -209,11 +203,11 @@ function isSaved(upFile) {
 function getDirname(num) {
   //원하는 상위폴더까지 리턴해줌. 0은 현재 위치까지, 1은 그 상위.. 이런 식으로
   // 리네임과, 파일의 경로를 따오기 위해 필요함.
-  var order = num;
-  var dirname = __dirname.split('/');
-  var result = '';
+  const order = num;
+  const dirname = __dirname.split('/');
+  let result = '';
 
-  for (var i = 0; i < dirname.length - order; i++) {
+  for (let i = 0; i < dirname.length - order; i++) {
     result += dirname[i] + '/';
   }
   return result;
@@ -221,17 +215,17 @@ function getDirname(num) {
 
 function renameUploadFile(itemId, upFile) {
   // 업로드 할때 리네이밍 하는 곳!
-  var renameForUpload = {};
-  var newFile = upFile; // 새로 들어 온 파일
-  var tmpPath = [];
-  var tmpType = [];
-  var index = [];
-  var rename = [];
-  var fileName = [];
-  var fullName = []; // 다운로드 시 보여줄 이름 필요하니까 원래 이름까지 같이 저장하자!
-  var fsName = [];
+  let renameForUpload = {};
+  const newFile = upFile; // 새로 들어 온 파일
+  let tmpPath = [];
+  let tmpType = [];
+  let index = [];
+  let rename = [];
+  let fileName = [];
+  let fullName = []; // 다운로드 시 보여줄 이름 필요하니까 원래 이름까지 같이 저장하자!
+  let fsName = [];
 
-  for (var i = 0; i < newFile.length; i++) {
+  for (let i = 0; i < newFile.length; i++) {
     tmpPath[i] = newFile[i].path;
     tmpType[i] = newFile[i].mimetype.split('/')[1]; // 확장자 저장해주려고!
     index[i] = tmpPath[i].split('/').length;
@@ -255,13 +249,14 @@ function renameUploadFile(itemId, upFile) {
 }
 
 function getFileDate(date) {
-  var year = date.getFullYear();
-  var month = date.getMonth() + 1;
-  var day = date.getDate();
-  var hour = date.getHours();
-  var min = date.getMinutes();
-  var sec = date.getSeconds();
-  var fullDate = year + '' + month + '' + day + '' + hour + '' + min + '' + sec;
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const min = date.getMinutes();
+  const sec = date.getSeconds();
+  const fullDate =
+    year + '' + month + '' + day + '' + hour + '' + min + '' + sec;
   return fullDate;
 }
 

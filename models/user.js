@@ -1,11 +1,8 @@
-// schema
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var userSchema = new Schema({
-    id: String,
-    pwd: String
+const LoginSchema = new mongoose.Schema({
+  id: String,
+  pwd: String,
 });
 
-// 모듈화
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('user', LoginSchema);
