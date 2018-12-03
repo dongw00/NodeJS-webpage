@@ -11,6 +11,9 @@ router.get('/', (req, res) => {
   if (page == null) {
     page = 1;
   }
+  // 글쓰기 가능 여부를 위한 세션 확인
+  let canWrite = false;
+  if (req.session.user_id != null) canWrite = true;
 
   let skipSize = (page - 1) * 10;
   const limitSize = 10;
@@ -29,6 +32,8 @@ router.get('/', (req, res) => {
           user_id: req.session.user_id,
           contents: pageContents,
           pagination: pageNum,
+          // 로그인한 경우만 글쓰기 가능
+          can_write: canWrite,
         });
       });
   });
