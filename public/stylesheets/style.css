@@ -11091,6 +11091,10 @@ body:not(.no-transition) #wrapper,
 		margin-top: 10%;
 		text-align: center;
 	}
+
+	.form-row > div {
+		margin-bottom: 8px;
+	}
 }
 
 .col-md-12 > .row {
@@ -11105,3 +11109,20 @@ body:not(.no-transition) #wrapper,
 	margin-right: 10px;
 }
 
+form,
+.form-row {
+	overflow: hidden;
+}
+
+form {
+	width: 97vw;
+}
+
+.form-row {
+	margin-bottom: 10px;
+}
+
+#importContainer {
+	padding-left: 15px;
+	margin-bottom: 12px;
+}

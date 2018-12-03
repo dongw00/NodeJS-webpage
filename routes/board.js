@@ -11,10 +11,6 @@ router.get('/', (req, res) => {
   if (page == null) {
     page = 1;
   }
-  // 글쓰기 가능 여부를 위한 세션 확인
-  let canWrite = false;
-  if (req.session.user_id != null) canWrite = true;
-
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
   if (req.session.user_id != null) canWrite = true;
@@ -78,10 +74,9 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
   const upFile = req.files;
   const addNewSubject = req.body.subject;
   const addImportant = req.body.important;
-  const mod = req.body.mode;
 
   /* 글 add */
-  if (mode == 'add') {
+  if (req.body.mode == 'add') {
     if (isSaved(upFile)) {
       addBoard(
         addNewTitle,
@@ -96,7 +91,7 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
       console.log('파일이 저장되지 않았습니다!');
     }
     /* 글 수정 */
-  } else if (mode == 'edit') {
+  } else if (req.body.mode == 'edit') {
     modBoard(modId, modTitle, modContent);
     res.redirect('/board');
   }
@@ -137,11 +132,9 @@ function addBoard(title, writer, content, upFile, subject, important) {
 
           for (let i = 0; i < upFile.length; i++) {
             BoardContents.update(
-              { _id: newBoardId.id },
+              { id: newBoardId.id },
               { $push: { fileUp: renaming.fullname[i] } },
-              err => {
-                if (err) throw err;
-              }
+              err => { if (err) throw err; }
             );
           }
         }

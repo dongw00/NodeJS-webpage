@@ -1,9 +1,15 @@
+<script>
+  function postForm() {
+    if (document.getElementById('importantChecked').checked)
+      document.getElementById('important').disable = true;
+    $("textarea[name='contents']").val($('#summernote').summernote('code'));
+  }
+</script>
+
 <div class="wrapper">
   <% include ../../../common/nav.ejs %>
   <section id="page-title" class="page-title" style="padding: 150px 0;">
-    <div class="container clearfix">
-      <h1>글쓰기</h1>
-    </div>
+    <div class="container clearfix"><h1>글쓰기</h1></div>
   </section>
   <!-- Content -->
   <!--
@@ -16,50 +22,73 @@
     important: 0 - 일반글, 1 - 공지글
     mode: 'add': 글 작성, 'edit': 글 수정 'delete': 글 삭제
   -->
-
   <section id="content">
     <div class="content-wrap">
-      <form method="POST" action="/submit" onsubmit="postForm()">
+      <form
+        id="posting"
+        method="POST"
+        action="/board/submit"
+        onsubmit="postForm()"
+      >
+        <div id="importContainer">
+          <span id="notice">공지</span>
+          <!-- Checkbox Unchecked: 0, Checked: 1 -->
+          <input
+            class="material-switch pull-right"
+            id="important"
+            type="hidden"
+            name="important"
+            value="0"
+          />
+          <input
+            id="importantChecked"
+            type="checkbox"
+            name="important"
+            value="1"
+          />
+        </div>
         <div class="form-row">
-          <select class="col-xs-2 form-control" name="subject" style="width: 20% !important;">
-            <option value="0">일반</option>
-            <option value="1">운영체제</option>
-            <option value="2">웹 프로그래밍</option>
-            <option value="3">Advanced OS</option>
-            <option value="4">종합설계</option>
-          </select>
-          <div class="col-xs-8">
-            <input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요" />
-            <!--TODO id정보를 얻어와야함 -->
-            <input type="hidden" name="writer">
+          <div class="col-sm-3">
+            <select class="form-control" name="subject">
+              <option value="0">일반</option>
+              <option value="1">운영체제</option>
+              <option value="2">웹 프로그래밍</option>
+              <option value="3">Advanced OS</option>
+              <option value="4">종합설계</option>
+            </select>
           </div>
-          <div class="col-xs-2" style="margin-top: 8px;">
-            <span id="notice">공지</span>
-            <!-- Checkbox checked: 0, Unchecked: 1-->
-            <input id="important" type="hidden" name="important" value=0>
-            <input id="importantChecked" type="checkbox" name="important" value=1>
-            <input type="hidden" name="mode" value="add">
+          <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control"
+              name="title"
+              placeholder="제목을 입력해주세요"
+            />
           </div>
-          <textarea name="contents" style="display: none;"></textarea>
+        </div>
+        <!-- TODO id정보를 얻어와야함 -->
+        <input type="hidden" name="writer" />
+        <input type="hidden" name="mode" value="add" />
+        <textarea name="contents" style="display: none;"></textarea>
+      </form>
+      <div id="summernote"></div>
+      <form>
+        <div class="form-group">
+          <label for="exampleFormControlFile1">Example file input</label>
+          <input
+            type="file"
+            class="form-control-file"
+            id="exampleFormControlFile1"
+          />
         </div>
       </form>
+      <button id="save" class="btn btn-primary" type="button">Save</button>
     </div>
-    <div id="summernote"></div>
-    <form>
-      <div class="form-group">
-        <label for="exampleFormControlFile1">Example file input</label>
-        <input type="file" class="form-control-file" id="exampleFormControlFile1">
-      </div>
-    </form>
-    <button id="save" class="btn btn-primary" onclick="save()" type="button">
-      Save
-    </button>
-</div>
-<%include ../../../common/footer.ejs %>
-</section>
+    <%include ../../../common/footer.ejs %>
+  </section>
 </div>
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('#summernote').summernote({
       lang: 'ko-KR',
       focus: true,
@@ -77,11 +106,8 @@
         ['Misc', ['codeview', 'undo', 'redo']],
       ],
     });
-
-    function postForm() {
-      if (document.getElementById("importantChecked").checked)
-        document.getElementById("important").disable = true;
-      $("textarea[name='contents']").val($('#summernote').summernote('code'));
-    }
+    $('#save').click(function() {
+      $('#posting').submit();
+    });
   });
 </script>
