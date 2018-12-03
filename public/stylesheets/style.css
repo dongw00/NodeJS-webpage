@@ -16,19 +16,19 @@ dl, dt, dd, ol, ul, li {
 }
 
 ::selection {
-	background: #1ABC9C;
+	background: #001E6A;
 	color: #FFF;
 	text-shadow: none;
 }
 
 ::-moz-selection {
-	background: #1ABC9C; /* Firefox */
+	background: #001E6A; /* Firefox */
 	color: #FFF;
 	text-shadow: none;
 }
 
 ::-webkit-selection {
-	background: #1ABC9C; /* Safari */
+	background: #001E6A; /* Safari */
 	color: #FFF;
 	text-shadow: none;
 }
@@ -46,7 +46,7 @@ body {
 
 a {
 	text-decoration: none !important;
-	color: #1ABC9C;
+	color: #001E6A;
 }
 
 a:hover { color: #222; }
@@ -73,7 +73,7 @@ h2 > span:not(.nocolor),
 h3 > span:not(.nocolor),
 h4 > span:not(.nocolor),
 h5 > span:not(.nocolor),
-h6 > span:not(.nocolor) { color: #1ABC9C; }
+h6 > span:not(.nocolor) { color: #001E6A; }
 
 small { font-family: 'Jeju Gothic', serif; }
 
@@ -909,8 +909,12 @@ body.stretched #header.full-header .container {
 	border-right: 1px solid #EEE;
 }
 
-#header.transparent-header.full-header #primary-menu > ul { border-right-color: rgba(0,0,0,0.1); }
-
+#primary-menu > ul > li > a > div {
+	color: #444444;
+}
+#primary-menu > ul > li > a > div:hover {
+	color: #001e6a;
+}
 #primary-menu-trigger,
 #page-submenu-trigger {
 	opacity: 0;
@@ -981,8 +985,6 @@ body.stretched #header.full-header .container {
 
 #primary-menu ul li:hover > a,
 #primary-menu ul li.current > a { color: #1ABC9C; }
-
-#primary-menu > ul > li.sub-menu > a > div { }
 
 body.no-superfish #primary-menu li:hover > ul:not(.mega-menu-column),
 body.no-superfish #primary-menu li:hover > .mega-menu-content { display: block; }

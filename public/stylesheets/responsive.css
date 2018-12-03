@@ -1054,6 +1054,13 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
+  body {
+    margin: 0px;
+  }
+  #primary-menu > ul > li > a > div {
+    color: white;
+  }
+
   .swiper_wrapper:not(.full-screen):not(.canvas-slider-grid),
   .swiper_wrapper:not(.full-screen):not(.canvas-slider-grid) .swiper-slide {
     height: 400px !important;
@@ -1084,8 +1091,11 @@
 @media (max-width: 767px) {
   body {
     padding: 0 !important;
+    margin: 0px;
   }
-
+  #primary-menu > ul > li > a > div {
+    color: white;
+  }
   #wrapper {
     width: 100% !important;
   }
