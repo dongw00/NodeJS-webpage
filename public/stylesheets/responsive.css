@@ -1054,10 +1054,11 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-  body {
+  body{
     margin: 0px;
   }
-  #primary-menu > ul > li > a > div {
+  
+  #primary-menu > ul > li > a > div{
     color: white;
   }
 
@@ -1093,7 +1094,12 @@
     padding: 0 !important;
     margin: 0px;
   }
+<<<<<<< HEAD
   #primary-menu > ul > li > a > div {
+=======
+
+  #primary-menu > ul > li > a > div{
+>>>>>>> 1985efce2eabab787c77675dab8936c6bd4bc71d
     color: white;
   }
   #wrapper {

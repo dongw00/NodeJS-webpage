@@ -41,7 +41,7 @@ dl, dt, dd, ol, ul, li {
 body {
   font-family: 'Jeju Gothic', serif;
   line-height: 1.5;
-	color: #555;
+  color: #555;
 }
 
 a {
@@ -915,6 +915,9 @@ body.stretched #header.full-header .container {
 #primary-menu > ul > li > a > div:hover {
 	color: #001e6a;
 }
+
+#header.transparent-header.full-header #primary-menu > ul { border-right-color: rgba(0,0,0,0.1); }
+
 #primary-menu-trigger,
 #page-submenu-trigger {
 	opacity: 0;
