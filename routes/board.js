@@ -7,7 +7,7 @@ const fs = require('fs');
 
 /* init view */
 router.get('/', (req, res) => {
-  let page = req.param('page');
+  let page = req.params.page;
   if (page == null) {
     page = 1;
   }
@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
 
 /* 게시글 Detail view */
 router.get('/Detail_view', (req, res) => {
-  let contentId = req.param('id');
+  let contentId = req.params.id;
 
   BoardContents.findOne({ id: contentId }, (err, rawContent) => {
     if (err) throw err;
@@ -61,57 +61,57 @@ router.get('/posting', (req, res) => {
   });
 });
 
-router.post('/post', upload.array('UploadFile'), (req, res) => {
-  let mode = req.param('mode');
-
-  const addNewTitle = req.body.addContentSubject;
-  const addNewWriter = req.body.addContentWriter;
-  const addNewContent = req.body.addContents;
+/* submit */
+router.post('/submit', upload.array('UploadFile'), (req, res) => {
+  let mode = req.params.mode;
+  const addNewTitle = req.body.title;
+  const addNewWriter = req.body.writer;
+  const addNewContents = req.body.contents;
   const upFile = req.files;
+  const addNewSubject = req.body.subject;
+  const addImportant = req.body.important;
+  const mod = req.body.mode;
 
-  const modTitle = req.body.modContentSubject;
-  const modContent = req.body.modContents;
-  const modId = req.body.modId;
-
+  /* 글 add */
   if (mode == 'add') {
     if (isSaved(upFile)) {
-      addBoard(addNewTitle, addNewWriter, addNewContent, upFile);
+      addBoard(
+        addNewTitle,
+        addNewWriter,
+        addNewContents,
+        upFile,
+        addNewSubject,
+        addImportant
+      );
       res.redirect('/board');
     } else {
       console.log('파일이 저장되지 않았습니다!');
     }
-  } else {
+    /* 글 수정 */
+  } else if (mode == 'edit') {
     modBoard(modId, modTitle, modContent);
     res.redirect('/board');
   }
 });
 
-router.get('/delete', (req, res) => {
-  let contentId = req.param('id');
-  BoardContents.update({ _id: contentId }, { $set: { deleted: true } }, err => {
-    if (err) throw err;
-    res.redirect('/board');
-  });
-});
-
-router.get('/download/:path', (req, res) => {
-  const path = req.params.path;
-  res.download('./upload/' + path, path);
-  console.log(path);
-});
-
-function addBoard(title, writer, content, upFile) {
+/* 글 add시 동작하는 함수 */
+function addBoard(title, writer, content, upFile, subject, important) {
+  //TODO
   const newContent = content.replace(/\r\n/gi, '\\r\\n');
 
+  /* MongoDB Schema 이용해서 Object 생성 */
   let newBoardContents = new BoardContents();
-  newBoardContents.writer = writer;
+
   newBoardContents.title = title;
+  newBoardContents.writer = writer;
   newBoardContents.contents = newContent;
+  newBoardContents.subject = subject;
+  newBoardContents.important = important;
 
   newBoardContents.save(err => {
     if (err) throw err;
     BoardContents.findOne(
-      { _id: newBoardContents._id },
+      { _id: newBoardContents.id },
       { _id: 1 },
       (err, newBoardId) => {
         if (err) throw err;
@@ -141,6 +141,20 @@ function addBoard(title, writer, content, upFile) {
     );
   });
 }
+
+router.get('/delete', (req, res) => {
+  let contentId = req.params.id;
+  BoardContents.update({ _id: contentId }, { $set: { deleted: true } }, err => {
+    if (err) throw err;
+    res.redirect('/board');
+  });
+});
+
+router.get('/download/:path', (req, res) => {
+  const path = req.params.path;
+  res.download('./upload/' + path, path);
+  console.log(path);
+});
 
 function modBoard(id, title, content) {
   const modContent = content.replace(/\r\n/gi, '\\r\\n');

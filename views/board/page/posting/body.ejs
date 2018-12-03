@@ -1,30 +1,65 @@
 <div class="wrapper">
   <% include ../../../common/nav.ejs %>
   <section id="page-title" class="page-title" style="padding: 150px 0;">
-    <div class="container clearfix"><h1>글쓰기</h1></div>
+    <div class="container clearfix">
+      <h1>글쓰기</h1>
+    </div>
   </section>
   <!-- Content -->
+  <!--
+    넘겨주는 값 (/submit)
+    title: 제목
+    writer: 사용자 ID
+    contents: 에디터 내용
+    upFile: 업로드 파일 있을시 업로드 (TODO)
+    subject: 카테고리 과목설정
+    important: 0 - 일반글, 1 - 공지글
+    mode: 'add': 글 작성, 'edit': 글 수정 'delete': 글 삭제
+  -->
+
   <section id="content">
     <div class="content-wrap">
-      <div id="title">
-        <input
-          type="text"
-          class="form-control"
-          id="exampleFormControlInput1"
-          placeholder="제목을 입력해주세요"
-        />
-      </div>
-
-      <div id="summernote"></div>
-      <button id="save" class="btn btn-primary" onclick="save()" type="button">
-        Save
-      </button>
+      <form method="POST" action="/submit" onsubmit="postForm()">
+        <div class="form-row">
+          <select class="col-xs-2 form-control" name="subject" style="width: 20% !important;">
+            <option value="0">일반</option>
+            <option value="1">운영체제</option>
+            <option value="2">웹 프로그래밍</option>
+            <option value="3">Advanced OS</option>
+            <option value="4">종합설계</option>
+          </select>
+          <div class="col-xs-8">
+            <input type="text" class="form-control" name="title" placeholder="제목을 입력해주세요" />
+            <!--TODO id정보를 얻어와야함 -->
+            <input type="hidden" name="writer">
+          </div>
+          <div class="col-xs-2" style="margin-top: 8px;">
+            <span id="notice">공지</span>
+            <!-- Checkbox checked: 0, Unchecked: 1-->
+            <input id="important" type="hidden" name="important" value=0>
+            <input id="importantChecked" type="checkbox" name="important" value=1>
+            <input type="hidden" name="mode" value="add">
+          </div>
+          <textarea name="contents" style="display: none;"></textarea>
+        </div>
+      </form>
     </div>
-    <%include ../../../common/footer.ejs %>
-  </section>
+    <div id="summernote"></div>
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+      </div>
+    </form>
+    <button id="save" class="btn btn-primary" onclick="save()" type="button">
+      Save
+    </button>
+</div>
+<%include ../../../common/footer.ejs %>
+</section>
 </div>
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#summernote').summernote({
       lang: 'ko-KR',
       focus: true,
@@ -42,5 +77,11 @@
         ['Misc', ['codeview', 'undo', 'redo']],
       ],
     });
+
+    function postForm() {
+      if (document.getElementById("importantChecked").checked)
+        document.getElementById("important").disable = true;
+      $("textarea[name='contents']").val($('#summernote').summernote('code'));
+    }
   });
 </script>

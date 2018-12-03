@@ -39,16 +39,17 @@ router.post('/check', (req, res) => {
 });
 
 /* test계정 생성 */
-// id: test, pwd: test
+// id: test, pwd: test, admin: true
 router.get('/create', (req, res) => {
   const User = require('../models/user');
-  User.findOne({ id: 'test', pwd: 'test' }, (err, user) => {
+  User.findOne({ id: 'test', pwd: 'test', admin: true }, (err, user) => {
     if (err) return res.status(500).json({ error: err });
     if (!user) {
-      let book = new User();
-      book.id = 'test';
-      book.pwd = 'test';
-      book.save(err => {
+      let newbie = new User();
+      newbie.id = 'test';
+      newbie.pwd = 'test';
+      newbie.admin = true;
+      newbie.save(err => {
         if (err) {
           console.error(err);
           res.json({ result: 0 });
