@@ -1,11 +1,3 @@
-<script>
-  function postForm() {
-    if (document.getElementById('importantChecked').checked)
-      document.getElementById('important').disable = true;
-    $("textarea[name='contents']").val($('#summernote').summernote('code'));
-  }
-</script>
-
 <div class="wrapper">
   <% include ../../../common/nav.ejs %>
   <section id="page-title" class="page-title" style="padding: 150px 0;">
@@ -24,32 +16,16 @@
   -->
   <section id="content">
     <div class="content-wrap">
-      <form
-        id="posting"
-        method="POST"
-        action="/board/submit"
-        onsubmit="postForm()"
-      >
+      <form id="posting" method="POST" action="/board/submit">
         <div id="importContainer">
           <span id="notice">공지</span>
           <!-- Checkbox Unchecked: 0, Checked: 1 -->
-          <input
-            class="material-switch pull-right"
-            id="important"
-            type="hidden"
-            name="important"
-            value="0"
-          />
-          <input
-            id="importantChecked"
-            type="checkbox"
-            name="important"
-            value="1"
-          />
+          <input type="checkbox" name="important" value="0" />
         </div>
         <div class="form-row">
           <div class="col-sm-3">
             <select class="form-control" name="subject">
+              <option value="" selected>--카테고리--</option>
               <option value="0">일반</option>
               <option value="1">운영체제</option>
               <option value="2">웹 프로그래밍</option>
@@ -67,7 +43,7 @@
           </div>
         </div>
         <!-- TODO id정보를 얻어와야함 -->
-        <input type="hidden" name="writer" />
+        <input type="hidden" name="writer" value="admin" />
         <input type="hidden" name="mode" value="add" />
         <textarea name="contents" style="display: none;"></textarea>
       </form>
@@ -106,7 +82,9 @@
         ['Misc', ['codeview', 'undo', 'redo']],
       ],
     });
+
     $('#save').click(function() {
+      $("textarea[name='contents']").val($('#summernote').summernote('code'));
       $('#posting').submit();
     });
   });

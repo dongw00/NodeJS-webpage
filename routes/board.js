@@ -2,15 +2,14 @@ const express = require('express');
 const router = express.Router();
 const BoardContents = require('../models/boardSchema');
 const multer = require('multer');
+const moment = require('moment');
 const upload = multer({ dest: './tmp/' });
 const fs = require('fs');
 
 /* init view */
 router.get('/', (req, res) => {
   let page = req.params.page;
-  if (page == null) {
-    page = 1;
-  }
+  if (page == null) page = 1;
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
   if (req.session.user_id != null) canWrite = true;
@@ -66,82 +65,54 @@ router.get('/posting', (req, res) => {
 });
 
 /* submit */
-router.post('/submit', upload.array('UploadFile'), (req, res) => {
-  let mode = req.params.mode;
+router.post('/submit', (req, res) => {
   const addNewTitle = req.body.title;
   const addNewWriter = req.body.writer;
   const addNewContents = req.body.contents;
-  const upFile = req.files;
+  //const upFile = req.files;
   const addNewSubject = req.body.subject;
-  const addImportant = req.body.important;
+  //const addImportant = req.body.important;
 
   /* 글 add */
   if (req.body.mode == 'add') {
-    if (isSaved(upFile)) {
-      addBoard(
-        addNewTitle,
-        addNewWriter,
-        addNewContents,
-        upFile,
-        addNewSubject,
-        addImportant
-      );
-      res.redirect('/board');
-    } else {
-      console.log('파일이 저장되지 않았습니다!');
-    }
+    let newBoardContents = new BoardContents();
+    newBoardContents.title = addNewTitle;
+    newBoardContents.writer = addNewWriter;
+    newBoardContents.contents = addNewContents;
+    newBoardContents.subject = addNewSubject;
+    newBoardContents.date = moment().format('YYYY MMM Do');
+
+    newBoardContents.save(err => {
+      if (err) console.log(err);
+      else console.log('success');
+    });
+
+    console.log(
+      `addNewTitle = ${addNewTitle}
+      addNewWriter = ${addNewWriter},
+      addNewContents = ${addNewContents},
+      addNewSubject = ${addNewSubject}`
+    );
+    res.redirect('/board');
+    // if (isSaved(upFile)) {
+    //   addBoard(
+    //     addNewTitle,
+    //     addNewWriter,
+    //     addNewContents,
+    //     //upFile,
+    //     addNewSubject,
+    //     addImportant
+    //   );
+    //   res.redirect('/board');
+    // } else {
+    //   console.log('파일이 저장되지 않았습니다!');
+    // }
     /* 글 수정 */
   } else if (req.body.mode == 'edit') {
     modBoard(modId, modTitle, modContent);
     res.redirect('/board');
   }
 });
-
-/* 글 add시 동작하는 함수 */
-function addBoard(title, writer, content, upFile, subject, important) {
-  //TODO
-  const newContent = content.replace(/\r\n/gi, '\\r\\n');
-
-  /* MongoDB Schema 이용해서 Object 생성 */
-  let newBoardContents = new BoardContents();
-
-  newBoardContents.title = title;
-  newBoardContents.writer = writer;
-  newBoardContents.contents = newContent;
-  newBoardContents.subject = subject;
-  newBoardContents.important = important;
-
-  newBoardContents.save(err => {
-    if (err) throw err;
-    BoardContents.findOne(
-      { _id: newBoardContents.id },
-      { _id: 1 },
-      (err, newBoardId) => {
-        if (err) throw err;
-        if (upFile != null) {
-          const renaming = renameUploadFile(newBoardId.id, upFile);
-
-          for (let i = 0; i < upFile.length; i++) {
-            fs.rename(renaming.tmpname[i], renaming.fsname[i], err => {
-              if (err) {
-                console.log(err);
-                return;
-              }
-            });
-          }
-
-          for (let i = 0; i < upFile.length; i++) {
-            BoardContents.update(
-              { id: newBoardId.id },
-              { $push: { fileUp: renaming.fullname[i] } },
-              err => { if (err) throw err; }
-            );
-          }
-        }
-      }
-    );
-  });
-}
 
 router.get('/delete', (req, res) => {
   let contentId = req.params.id;
