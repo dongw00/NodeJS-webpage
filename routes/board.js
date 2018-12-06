@@ -175,7 +175,7 @@ function isSaved(upFile) {
 
 function getDirname(num) {
   //원하는 상위폴더까지 리턴해줌. 0은 현재 위치까지, 1은 그 상위.. 이런 식으로
-  // 리네임과, 파일의 경로를 따오기 위해 필요함.
+  //리네임과, 파일의 경로를 따오기 위해 필요함.
   const order = num;
   const dirname = __dirname.split('/');
   let result = '';

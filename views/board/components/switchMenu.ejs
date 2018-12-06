@@ -1,9 +1,42 @@
-<div class="col-lg-3">
-  <div class="list-group">
-    <a href="#" class="list-group-item active">운영체제</a>
-    <a href="#" class="list-group-item">웹프로그래밍</a>
-    <a href="#" class="list-group-item">Advanced Operating System</a>
-    <a href="#" class="list-group-item">종합설계</a>
-    <a href="#" class="list-group-item">공지사항</a>
-  </div>
+<div id="category_row">
+  <a href="?boardNum=0"><span class="category_selected">공지사항</span></a>
+  <a href="?boardNum=1"><span class="category">웹프로그래밍</span></a>
+  <a href="?boardNum=2"
+    ><span class="category">Advanced Operating System</span></a
+  >
+  <a href="?boardNum=3"><span class="category">종합설계</span></a>
+  <a href="?boardNum=4"><span class="category">운영체제</span></a>
 </div>
+
+<style>
+  #category_row {
+    margin-bottom: 5% !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .category {
+    padding: 12px 12px;
+    margin-right: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #fff;
+    color: #333333;
+    font-size: 1.1em;
+    text-align: center;
+    border: 1px solid #333333;
+  }
+
+  .category_selected {
+    padding: 12px 12px;
+    margin-right: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #6a639f;
+    color: white;
+    font-size: 1.1em;
+    text-align: center;
+  }
+</style>
