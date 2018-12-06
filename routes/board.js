@@ -16,11 +16,22 @@ router.get('/', (req, res) => {
   let skipSize = (page - 1) * 10;
   const limitSize = 10;
   let pageNum = 1;
+  const boardNum = req.query.boardNum;
+  let important;
 
+  /* 공지사항 */
+  BoardContents.find({ subject: boardNum, important: 1 })
+    .sort({ date: -1 })
+    .exec((err, impContents) => {
+      if (err) throw err;
+      important = impContents;
+    });
+
+  /* rendering */
   BoardContents.count((err, totalCount) => {
     if (err) throw err;
     pageNum = Math.ceil(totalCount / limitSize);
-    BoardContents.find()
+    BoardContents.find({ subject: boardNum, important: 0 })
       .sort({ date: -1 })
       .skip(skipSize)
       .limit(limitSize)
@@ -29,8 +40,8 @@ router.get('/', (req, res) => {
         res.render('board/index', {
           user_id: req.session.user_id,
           contents: pageContents,
+          impContents: important,
           pagination: pageNum,
-          /* 로그인한 경우만 글쓰기 가능 */
           can_write: canWrite,
         });
       });
@@ -40,7 +51,6 @@ router.get('/', (req, res) => {
 /* 게시글 Detail view */
 router.get('/Detail_view', (req, res) => {
   let contentId = req.query.id;
-
   BoardContents.findOne({ _id: contentId }, (err, rawContent) => {
     if (err) throw err;
     rawContent.count += 1;
@@ -64,48 +74,18 @@ router.get('/posting', (req, res) => {
 
 /* submit */
 router.post('/submit', (req, res) => {
-  const addNewTitle = req.body.title;
-  const addNewWriter = req.body.writer;
-  const addNewContents = req.body.contents;
-  //const upFile = req.files;
-  const addNewSubject = req.body.subject;
-  //const addImportant = req.body.important;
-
   /* 글 add */
   if (req.body.mode == 'add') {
     let newBoardContents = new BoardContents();
-    newBoardContents.title = addNewTitle;
-    newBoardContents.writer = addNewWriter;
-    newBoardContents.contents = addNewContents;
-    newBoardContents.subject = addNewSubject;
+    newBoardContents.title = req.body.title;
+    newBoardContents.writer = req.body.writer;
+    newBoardContents.contents = req.body.contents;
+    newBoardContents.subject = req.body.subject;
     newBoardContents.date = moment().format('YYYY MMM Do');
+    newBoardContents.important = req.body.important;
 
-    newBoardContents.save(err => {
-      if (err) console.log(err);
-      else console.log('success');
-    });
-
-    console.log(
-      `addNewTitle = ${addNewTitle}
-      addNewWriter = ${addNewWriter},
-      addNewContents = ${addNewContents},
-      addNewSubject = ${addNewSubject}`
-    );
+    newBoardContents.save(); // mongoDB 저장
     res.redirect('/board');
-    // if (isSaved(upFile)) {
-    //   addBoard(
-    //     addNewTitle,
-    //     addNewWriter,
-    //     addNewContents,
-    //     //upFile,
-    //     addNewSubject,
-    //     addImportant
-    //   );
-    //   res.redirect('/board');
-    // } else {
-    //   console.log('파일이 저장되지 않았습니다!');
-    // }
-    /* 글 수정 */
   } else if (req.body.mode == 'edit') {
     modBoard(modId, modTitle, modContent);
     res.redirect('/board');

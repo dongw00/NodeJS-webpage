@@ -20,7 +20,12 @@
         <div id="importContainer">
           <span id="notice">공지</span>
           <!-- Checkbox Unchecked: 0, Checked: 1 -->
-          <input type="checkbox" name="important" value="0" />
+          <input
+            id="important"
+            type="checkbox"
+            name="important"
+            onclick="checkbox()"
+          />
         </div>
         <div class="form-row">
           <div class="col-sm-3">
@@ -81,10 +86,19 @@
         ['Misc', ['codeview', 'undo', 'redo']],
       ],
     });
-
+    /* save 눌렀을 때 */
     $('#save').click(function() {
       $("textarea[name='contents']").val($('#summernote').summernote('code'));
       $('#posting').submit();
     });
   });
+
+  function checkbox() {
+    if ($('#important').is(':checked')) {
+      console.log('checked');
+      $('#important').val(1);
+    } else {
+      $('#important').val(0);
+    }
+  }
 </script>
