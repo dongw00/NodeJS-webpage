@@ -11126,3 +11126,9 @@ form {
 	padding-left: 15px;
 	margin-bottom: 12px;
 }
+
+.board-nav {
+	font-size: 1.01em;
+	margin-left: 15px;
+	margin-right: 15px;
+}

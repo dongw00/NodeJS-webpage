@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>
-    <%= title %>
-  </title>
 </head>
 
 <body>
@@ -12,11 +9,11 @@
       <%=content.title%>
     </div>
     <div class="content-info">
-      <%=dateFormatChange(content.date)%> /
-      <%=content.writer%>
+      <%= content.date %> /
+      <%= content.writer %>
     </div>
     <div class="content-text">
-      <%=content.contents%>
+      <%- content.contents %>
     </div>
     <div class="download-file">
     </div>
