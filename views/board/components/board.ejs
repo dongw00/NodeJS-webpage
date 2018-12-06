@@ -1,4 +1,3 @@
-<div class="col-lg-9">
 <table class="table table-bordered table-hover table-responsive">
   <thead>
     <tr>
@@ -11,7 +10,7 @@
   </thead>
   <tbody>
     <% if (contents !== null) {
-      for(var i =0; i< contents.length; i++) {
+      for(let i =0; i< contents.length; i++) {
         if (contents[i].important == 1) {
     %>
     <tr class="info">
@@ -39,9 +38,9 @@
       </td>
     </tr>
     <%
-      }
+      } else {
     %>
-    <tr class="info">
+    <tr>
       <td>
         <!-- No. -->
         <%= i+1 %>
@@ -65,7 +64,7 @@
         <%= contents[i].count %>
       </td>
     </tr>
-    <% } } else { %>
+    <% }} } else { %>
     <tr>
       <td colspan="5">게시물이 없습니다.</td>
     </tr>
@@ -73,10 +72,7 @@
   </tbody>
 </table>
 <br />
-<% if (can_write == true) { %>
-<a class="btn btn-default pull-right" href="/board/posting">Write</a>
-<% } %>
-<div class="align-middle">
+<div class="align-middle board-nav">
   <ul class="pagination">
     <li class="page-item disabled">
       <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -91,5 +87,7 @@
       <%}%>
     </li>
   </ul>
-</div>
+  <% if (can_write == true) { %>
+    <a class="btn btn-default pull-right" href="/board/posting">Write</a>
+  <% } %>
 </div>

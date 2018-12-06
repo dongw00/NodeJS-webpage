@@ -8,7 +8,7 @@ const fs = require('fs');
 
 /* init view */
 router.get('/', (req, res) => {
-  let page = req.params.page;
+  let page = req.query.page;
   if (page == null) page = 1;
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
   BoardContents.count((err, totalCount) => {
     if (err) throw err;
     pageNum = Math.ceil(totalCount / limitSize);
-    BoardContents.find({ important: 0 })
+    BoardContents.find()
       .sort({ date: -1 })
       .skip(skipSize)
       .limit(limitSize)
@@ -39,19 +39,16 @@ router.get('/', (req, res) => {
 
 /* 게시글 Detail view */
 router.get('/Detail_view', (req, res) => {
-  let contentId = req.params.id;
+  let contentId = req.query.id;
 
-  BoardContents.findOne({ id: contentId }, (err, rawContent) => {
+  BoardContents.findOne({ _id: contentId }, (err, rawContent) => {
     if (err) throw err;
     rawContent.count += 1;
-    const commentLimit = 5;
-    let reply_pg = Math.ceil(rawContent.comments.length / commentLimit);
 
     rawContent.save(err => {
       if (err) throw err;
       res.render('board/components/article', {
         content: rawContent,
-        replyPage: reply_pg,
       });
     });
   });
