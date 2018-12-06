@@ -47,7 +47,8 @@ router.get('/Detail_view', (req, res) => {
 
     rawContent.save(err => {
       if (err) throw err;
-      res.render('board/components/article', {
+      res.render('board/page/viewPage/index', {
+        user_id: req.session.user_id,
         content: rawContent,
       });
     });
