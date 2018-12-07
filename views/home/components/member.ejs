@@ -33,132 +33,21 @@
       <h3>Members</h3>
     </div>
 
+    <% for(var key in members){ %>
     <div class="col-md-3 col-sm-6 bottommargin">
       <div class="team">
         <div class="team-image">
           <a href="members#1">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
+            <img style="background: url('<%= members[key].image_url %>') no-repeat; height: 300px; background-size:cover">
           </a>
         </div>
         <div class="team-desc team-desc-bg">
           <div class="team-title">
-            <h4>1</h4>
-            <span><strong>1 과정</strong></span>
+            <h4><%= members[key].name %></h4>
+            <span><strong><%= members[key].course %></strong></span>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <a href="members#2">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
-          </a>
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4>2</h4>
-            <span><strong>2 과정</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <a href="members#3">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
-          </a>
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4>3</h4>
-            <span><strong>3 과정</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <a href="member.#4">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
-          </a>
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4>4</h4>
-            <span><strong>4 과정</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <a href="members#5">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
-          </a>
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4>5</h4>
-            <span><strong>5 과정</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <a href="members#6">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
-          </a>
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4>6</h4>
-            <span><strong>6 과정</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <a href="members#7">
-            <img style="background: url() no-repeat; height: 300px; background-size:cover">
-          </a>
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4>7</h4>
-            <span><strong>7 과정</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-md-3 col-sm-6 bottommargin">
-        <div class="team">
-          <div class="team-image">
-            <a href="members#7">
-              <img style="background: url() no-repeat; height: 300px; background-size:cover">
-            </a>
-          </div>
-          <div class="team-desc team-desc-bg">
-            <div class="team-title">
-              <h4>8</h4>
-              <span><strong>8 과정</strong></span>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
+    <% } %>
 </div>
