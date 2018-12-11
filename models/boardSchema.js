@@ -5,7 +5,6 @@ autoIncrement.initialize(mongoose.connection);
 
 const boardSchema = new mongoose.Schema({
   /* 게시글 정보 */
-  /* TODO id값 auto_increament! */
   title: { type: String },
   writer: { type: String },
   date: { type: String },

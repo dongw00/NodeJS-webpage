@@ -1,5 +1,6 @@
 <div class="wrapper">
   <% include ../../../common/nav.ejs %>
+  <!-- mode 변수 할당 -->
   <section id="page-title" class="page-title" style="padding: 150px 0;">
     <div class="container clearfix"><h1>글쓰기</h1></div>
   </section>
@@ -29,7 +30,7 @@
         </div>
         <div class="form-row">
           <div class="col-sm-3">
-            <select class="form-control" name="subject">
+            <select id="subject" class="form-control" name="subject">
               <option value="" selected>--카테고리--</option>
               <option value="0">일반</option>
               <option value="1">운영체제</option>
@@ -41,30 +42,37 @@
           <div class="col-sm-9">
             <input
               type="text"
+              id="title"
               class="form-control"
               name="title"
               placeholder="제목을 입력해주세요"
             />
           </div>
         </div>
-        <input type="hidden" name="writer" value="admin" />
-        <input type="hidden" name="mode" value="add" />
+        <input type="hidden" id="writer" name="writer" value="admin" /> <% if
+        (mode == 'add') { %> <input type="hidden" name="mode" value="add" /> <%
+        } else if (mode == 'edit') { %>
+        <input type="hidden" name="mode" value="edit" /> <% } %>
         <textarea name="contents" style="display: none;"></textarea>
       </form>
       <div id="summernote"></div>
       <form>
         <div class="form-group">
           <label for="exampleFormControlFile1">Example file input</label>
-          <input
-            type="file"
-            class="form-control-file"
-            id="exampleFormControlFile1"
-          />
+          <input type="file" class="form-control-file" />
         </div>
       </form>
-      <button id="save" class="btn btn-primary" type="button">Save</button>
+      <button
+        id="edit"
+        class="btn btn-primary save"
+        type="button"
+        style="display: none;"
+      >
+        Save
+      </button>
+      <button id="save" class="btn btn-primary save" type="button">Save</button>
     </div>
-    <%include ../../../common/footer.ejs %>
+    <% include ../../../common/footer.ejs %>
   </section>
 </div>
 <script>
@@ -86,19 +94,51 @@
         ['Misc', ['codeview', 'undo', 'redo']],
       ],
     });
-    /* save 눌렀을 때 */
-    $('#save').click(function() {
-      $("textarea[name='contents']").val($('#summernote').summernote('code'));
-      $('#posting').submit();
-    });
   });
-
-  function checkbox() {
-    if ($('#important').is(':checked')) {
-      console.log('checked');
-      $('#important').val(1);
-    } else {
-      $('#important').val(0);
+</script>
+<!-- edit mode -->
+<% if (mode == 'edit') { %>
+<script>
+  function editMode() {
+    if ('<%- content.important %>' == 1) $('#important').val(1);
+    switch (<%- content.subject %>) {
+      case 0:
+        $('#subject').val(0).select;
+        break;
+      case 1:
+        $('#subject').val(1).select;
+        break;
+      case 2:
+        $('#subject').val(2).select;
+        break;
+      case 3:
+        $('#subject').val(3).select;
+        break;
+      case 4:
+        $('#subject').val(4).select;
+        break;
+      case 5:
+        $('#subject').val(5).select;
+        break;
     }
+    $('#title').val('<%- content.title %>');
+    $('#writer').val('<%- content.writer %>');
+    $('#summernote').summernote('code', '<%- content.contents %>', );
+  }
+</script>
+<%} %>
+<script>
+  /* save 눌렀을 때 */
+  function checkbox() {
+    if ($('#important').is(':checked')) $('#important').val(1);
+    else $('#important').val(0);
+  }
+  /* edit Mode */
+  const mode = '<%- mode %>';
+  if (mode == 'edit') {
+    console.log('edit mode');
+    $('#edit').css('display', 'block');
+    $('#save').css('display', 'none');
+    editMode();
   }
 </script>
