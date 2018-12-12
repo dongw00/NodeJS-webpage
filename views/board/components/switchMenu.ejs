@@ -1,5 +1,5 @@
 <div id="category_row">
-  <a href="?boardNum=0"><span class="category_selected">공지사항</span></a>
+  <a href="?boardNum=0"><span class="category selected">공지사항</span></a>
   <a href="?boardNum=1"><span class="category">웹프로그래밍</span></a>
   <a href="?boardNum=2"
     ><span class="category">Advanced Operating System</span></a
@@ -7,7 +7,6 @@
   <a href="?boardNum=3"><span class="category">종합설계</span></a>
   <a href="?boardNum=4"><span class="category">운영체제</span></a>
 </div>
-
 <style>
   #category_row {
     margin-bottom: 5% !important;
@@ -28,15 +27,43 @@
     border: 1px solid #333333;
   }
 
-  .category_selected {
-    padding: 12px 12px;
-    margin-right: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: inline-block;
-    background-color: #6a639f;
-    color: white;
-    font-size: 1.1em;
-    text-align: center;
+  /* 해당 category 일때 */
+  .category.selected {
+    background-color: #6a639f !important;
+    color: white !important;
   }
 </style>
+<script>
+  $(document).ready(function() {
+    var catg = document.querySelectorAll('.category');
+    console.log('boardNum is ' + $.urlParam('boardNum'));
+    $('.category.selected').removeClass('selected');
+    switch ($.urlParam('boardNum')) {
+      case '0':
+        catg[0].classList.add('selected');
+        break;
+      case '1':
+        catg[1].classList.add('selected');
+        break;
+      case '2':
+        catg[2].classList.add('selected');
+        break;
+      case '3':
+        catg[3].classList.add('selected');
+        break;
+      case '4':
+        catg[4].classList.add('selected');
+        break;
+      default:
+        console.log('error!');
+    }
+  });
+
+  $.urlParam = function(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
+      window.location.href
+    );
+    if (results == null) return null;
+    else return decodeURI(results[1]) || 0;
+  };
+</script>

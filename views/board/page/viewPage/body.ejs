@@ -1,0 +1,84 @@
+<!-- title javaScript -->
+<% const subjectId = content.subject; let subjectName; if (subjectId == 0)
+subjectName = "일반"; else if (subjectId == 1) subjectName = "운영체제"; else if
+(subjectId == 2) subjectName = "웹 프로그래밍"; else if (subjectId == 3)
+subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
+
+<div id="wrapper" class="clearfix">
+  <% include ../../../common/nav.ejs %>
+  <!-- title -->
+  <section id="page-title" class="page-title" style="padding: 150px 0;">
+    <div class="container clearfix detail_view">
+      <h1><%= subjectName %>게시판</h1>
+    </div>
+  </section>
+  <div>
+    <h2 id="content_header">
+      <% if (content.important == 1) {%> [공지] <% } %> <%= content.title %>
+    </h2>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span>작성자 : <%= content.writer %></span>
+      <span>작성일 : <%= content.date %></span>
+    </div>
+    <div class="panel-body"><%- content.contents %></div>
+  </div>
+  <div id="left_form">
+    <div class="download-file"></div>
+    <div class="content-Btn"><a href="/board">목록</a></div>
+  </div>
+  <!-- User check if (ok) then show fix, delete button -->
+  <% if (user_id != null) { %>
+  <div id="authFunction">
+    <a href="/board/edit?id=<%= content._id %>"><button>수정</button></a
+    ><a href="/board/delete?id=<%= content._id %>"><button>삭제</button></a>
+  </div>
+  <% } %>
+  <!-- Footer -->
+  <%include ../../../common/footer.ejs %>
+</div>
+<style>
+  #left_form {
+    margin-left: 10px;
+    font-size: 1.15em;
+  }
+
+  #left_form div {
+    margin-top: 10px;
+  }
+
+  footer {
+    margin-top: 8%;
+  }
+</style>
+<script>
+  $(function() {
+    var fileUp = '<%=content.fileUp%>';
+    var files = '';
+    var cnt = '';
+    var output = '';
+    if (fileUp != '') {
+      files = fileUp.split(',');
+      cnt = files.length;
+      for (var i = 0; i < cnt; i++) {
+        output +=
+          "<button type='button' onclick=downloadFiles('" +
+          files[i].split(':')[0] +
+          "');>";
+        output +=
+          "<span id='downloadFile'>" + files[i].split(':')[1] + '</span>';
+        output += '</button>';
+      }
+    } else {
+      output = '파일이 없습니다.';
+    }
+    $('.download-file').html(output);
+  });
+  function downloadFiles(filepath) {
+    var path = filepath;
+    if (confirm('파일이 다운로드 됩니다.') == true) {
+      location.href = '/board/download/' + path;
+    }
+  }
+</script>

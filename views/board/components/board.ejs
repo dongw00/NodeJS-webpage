@@ -9,64 +9,27 @@
     </tr>
   </thead>
   <tbody>
-    <% if (contents !== null) {
-      for(let i =0; i< contents.length; i++) {
-        if (contents[i].important == 1) {
-    %>
+    <% impContents.forEach(el => { %>
     <tr class="info">
+      <td>공지</td>
       <td>
-        <!-- No. -->
-        <%= i+1 %>
+        <a href="/board/Detail_view?id=<%= el._id %>"> <%= el.title %></a>
       </td>
-      <td>
-        <!-- 제목 -->
-        <a href="/board/Detail_view?id=<%= contents[i].id %>">
-          <%= contents[i].title %>
-        </a>
-      </td>
-      <td>
-        <!-- 작성자 -->
-        <%= contents[i].writer %>
-      </td>
-      <td>
-        <!-- 작성일 -->
-        <%= contents[i].date %>
-      </td>
-      <td>
-        <!-- 조회수 -->
-        <%= contents[i].count %>
-      </td>
+      <td><%= el.writer %></td>
+      <td><%= el.date %></td>
+      <td><%= el.count %></td>
     </tr>
-    <%
-      } else {
-    %>
+    <% }); %> <% for (let i = 0; i < contents.length; i++) { %>
     <tr>
+      <td><%= i + 1%></td>
       <td>
-        <!-- No. -->
-        <%= i+1 %>
+        <a href="/board/Detail_view?id=<%= contents[i]._id %>">
+          <%= contents[i].title %></a
+        >
       </td>
-      <td>
-        <!-- 제목 -->
-        <a href="/board/Detail_view?id=<%= contents[i].id %>">
-          <%= contents[i].title %>
-        </a>
-      </td>
-      <td>
-        <!-- 작성자 -->
-        <%= contents[i].writer %>
-      </td>
-      <td>
-        <!-- 작성일 -->
-        <%= contents[i].date %>
-      </td>
-      <td>
-        <!-- 조회수 -->
-        <%= contents[i].count %>
-      </td>
-    </tr>
-    <% }} } else { %>
-    <tr>
-      <td colspan="5">게시물이 없습니다.</td>
+      <td><%= contents[i].writer %></td>
+      <td><%= contents[i].date %></td>
+      <td><%= contents[i].count %></td>
     </tr>
     <% } %>
   </tbody>
@@ -78,16 +41,15 @@
       <a class="page-link" href="#" tabindex="-1">Previous</a>
     </li>
     <li class="page-item active">
-      <a class="page-link" href="/board?page=1">1<span class="sr-only">(current)</span></a>
+      <a class="page-link" href="/board?page=1"
+        >1<span class="sr-only">(current)</span></a
+      >
     </li>
     <li class="page-item">
-      <% for (let i=1; i<pagination; i++) { %>
-      <a class="page-link" href="/board?page=<%=i+1%>">
-        <%=i+1%></a>
-      <%}%>
+      <% for (let i = 1; i < pagination; i++) { %>
+      <a class="page-link" href="/board?page=<%=i+1%>"> <%= i + 1 %></a> <% } %>
     </li>
   </ul>
-  <% if (can_write == true) { %>
-    <a class="btn btn-default pull-right" href="/board/posting">Write</a>
-  <% } %>
+  <% if (can_write) { %>
+  <a class="btn btn-default pull-right" href="/board/posting">Write</a> <% } %>
 </div>
