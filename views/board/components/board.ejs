@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 <table class="table table-bordered table-hover table-responsive">
   <thead>
     <tr>
@@ -24,8 +25,7 @@
       <td><%= i + 1%></td>
       <td>
         <a href="/board/Detail_view?id=<%= contents[i]._id %>">
-          <%= contents[i].title %></a
-        >
+          <%= contents[i].title %></a5>
       </td>
       <td><%= contents[i].writer %></td>
       <td><%= contents[i].date %></td>
@@ -40,16 +40,32 @@
     <li class="page-item disabled">
       <a class="page-link" href="#" tabindex="-1">Previous</a>
     </li>
-    <li class="page-item active">
-      <a class="page-link" href="/board?page=1"
-        >1<span class="sr-only">(current)</span></a
-      >
+    <li id="page1" class="page-item active">
+      <a class="page-link" href="/board?page=1">1</a>
     </li>
-    <li class="page-item">
-      <% for (let i = 1; i < pagination; i++) { %>
-      <a class="page-link" href="/board?page=<%=i+1%>"> <%= i + 1 %></a> <% } %>
+    <% for (let i = 1; i < pagination; i++) { %>
+    <li id="page<%= i + 1 %>" class="page-item">
+      <a class="page-link" href="/board?page=<%= i+1 %>"> <%= i + 1 %></a>
     </li>
+    <% } %>
   </ul>
   <% if (can_write) { %>
   <a class="btn btn-default pull-right" href="/board/posting">Write</a> <% } %>
 </div>
+
+<script>
+  $(document).ready(function() {
+    var page = $.urlParam('page');
+    if (page === null) page = 1;
+    $('.active').removeClass('active');
+    $('#page' + parseInt(page)).addClass('active');
+  });
+  /* Get a boardNum param */
+  $.urlParam = function(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
+      window.location.href
+    );
+    if (results == null) return null;
+    else return decodeURI(results[1]) || 0;
+  };
+</script>

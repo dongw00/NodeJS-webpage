@@ -1,8 +1,11 @@
+<!-- prettier-ignore -->
 <div class="wrapper">
   <% include ../../../common/nav.ejs %>
   <!-- mode 변수 할당 -->
   <section id="page-title" class="page-title" style="padding: 150px 0;">
-    <div class="container clearfix"><h1>글쓰기</h1></div>
+    <div class="container clearfix">
+      <h1>글쓰기</h1>
+    </div>
   </section>
   <!-- Content -->
   <!--
@@ -21,17 +24,12 @@
         <div id="importContainer">
           <span id="notice">공지</span>
           <!-- Checkbox Unchecked: 0, Checked: 1 -->
-          <input
-            id="important"
-            type="checkbox"
-            name="important"
-            onclick="checkbox()"
-          />
+          <input id="checkbox" type="checkbox" onclick="checkbox()" />
         </div>
         <div class="form-row">
           <div class="col-sm-3">
-            <select id="subject" class="form-control" name="subject">
-              <option value="" selected>--카테고리--</option>
+            <select id="subject" class="form-control" name="subject" required>
+              <option value="">선택해주세요</option>
               <option value="0">일반</option>
               <option value="1">운영체제</option>
               <option value="2">웹 프로그래밍</option>
@@ -40,19 +38,19 @@
             </select>
           </div>
           <div class="col-sm-9">
-            <input
-              type="text"
-              id="title"
-              class="form-control"
-              name="title"
-              placeholder="제목을 입력해주세요"
-            />
+            <input type="text" id="title" class="form-control" name="title" placeholder="제목을 입력해주세요" />
           </div>
         </div>
-        <input type="hidden" id="writer" name="writer" value="admin" /> <% if
-        (mode == 'add') { %> <input type="hidden" name="mode" value="add" /> <%
-        } else if (mode == 'edit') { %>
-        <input type="hidden" name="mode" value="edit" /> <% } %>
+        <input type="hidden" id="writer" name="writer" value="admin" />
+        <!-- Mode 값 할당 -->
+        <% if (mode == 'add') { %>
+          <input type="hidden" name="mode" value="add" />
+        <% } else if (mode == 'edit') { %>
+          <input id="id" type="hidden" name="id" />
+          <input type="hidden" name="mode" value="edit" />
+        <% } %>
+        <!-- important 값 -->
+        <input id="important" type="hidden" name="important" value="0" />
         <textarea name="contents" style="display: none;"></textarea>
       </form>
       <div id="summernote"></div>
@@ -62,45 +60,22 @@
           <input type="file" class="form-control-file" />
         </div>
       </form>
-      <button
-        id="edit"
-        class="btn btn-primary save"
-        type="button"
-        style="display: none;"
-      >
+      <button id="edit" class="btn btn-primary save" type="button" style="display: none;">
         Save
       </button>
-      <button id="save" class="btn btn-primary save" type="button">Save</button>
+      <button id="add" class="btn btn-primary save" type="button">Save</button>
     </div>
     <% include ../../../common/footer.ejs %>
   </section>
 </div>
-<script>
-  $(document).ready(function() {
-    $('#summernote').summernote({
-      lang: 'ko-KR',
-      focus: true,
-      minHeight: 450,
-      maxHeight: 780,
-      placeholder: '내용을 입력해주세요',
-      shortcuts: false,
-      toolbar: [
-        ['style', ['bold', 'italic', 'underline']],
-        ['fontsize', ['fontsize']],
-        ['forecolor', ['forecolor']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['insert', ['picture', 'link', 'video', 'table']],
-        ['Misc', ['codeview', 'undo', 'redo']],
-      ],
-    });
-  });
-</script>
 <!-- edit mode -->
 <% if (mode == 'edit') { %>
 <script>
   function editMode() {
-    if ('<%- content.important %>' == 1) $('#important').val(1);
+    if ('<%- content.important %>' == 1) {
+      $("#checkbox").prop("checked", true);
+      $('#important').val(1);
+    }
     switch (<%- content.subject %>) {
       case 0:
         $('#subject').val(0).select;
@@ -123,22 +98,68 @@
     }
     $('#title').val('<%- content.title %>');
     $('#writer').val('<%- content.writer %>');
-    $('#summernote').summernote('code', '<%- content.contents %>', );
+    $('#summernote').summernote('code', '<%- content.contents %>');
   }
 </script>
-<%} %>
+<% } %>
+<!-- init -->
 <script>
-  /* save 눌렀을 때 */
+  $(document).ready(function() {
+    var page = $.urlParam('id');
+    /* text editor init */
+    $('#summernote').summernote({
+      lang: 'ko-KR',
+      focus: true,
+      minHeight: 450,
+      maxHeight: 780,
+      placeholder: '내용을 입력해주세요',
+      shortcuts: false,
+      toolbar: [
+        ['style', ['bold', 'italic', 'underline']],
+        ['fontsize', ['fontsize']],
+        ['forecolor', ['forecolor']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['picture', 'link', 'video', 'table']],
+        ['Misc', ['codeview', 'undo', 'redo']],
+      ],
+    });
+    /* edit Mode */
+    const mode = '<%- mode %>';
+    if (mode == 'edit') {
+      console.log('edit mode');
+      $('#id').val(page);
+      $('#edit').css('display', 'block');
+      $('#add').css('display', 'none');
+      editMode();
+      clickEvent('edit');
+    } else {
+      clickEvent('add');
+    }
+  });
+  /* checkbox init */
   function checkbox() {
-    if ($('#important').is(':checked')) $('#important').val(1);
+    if ($('#checkbox').is(':checked')) $('#important').val(1);
     else $('#important').val(0);
   }
-  /* edit Mode */
-  const mode = '<%- mode %>';
-  if (mode == 'edit') {
-    console.log('edit mode');
-    $('#edit').css('display', 'block');
-    $('#save').css('display', 'none');
-    editMode();
+  function clickEvent(tag) {
+    $(`#${tag}`).click(function() {
+      console.log('click');
+      if ($('#subject').val() >= 0 && $('#subject').val() != null) {
+        $("textarea[name='contents']").val($('#summernote').summernote('code'));
+        checkbox();
+        $('#posting').submit();
+      } else {
+        alert('카테고리를 선택해주세요');
+      }
+    });
   }
+  /* Get a boardNum param */
+  $.urlParam = function(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
+      window.location.href
+    );
+    if (results == null) return null;
+    else return decodeURI(results[1]) || 0;
+  };
 </script>

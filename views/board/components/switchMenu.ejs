@@ -36,29 +36,35 @@
 <script>
   $(document).ready(function() {
     var catg = document.querySelectorAll('.category');
-    console.log('boardNum is ' + $.urlParam('boardNum'));
     $('.category.selected').removeClass('selected');
-    switch ($.urlParam('boardNum')) {
-      case '0':
+    var boardNum = $.urlParam('boardNum');
+    if (boardNum == null) boardNum = 0;
+    switch (parseInt(boardNum)) {
+      case 0:
         catg[0].classList.add('selected');
+        console.log('공지사항');
         break;
-      case '1':
+      case 1:
         catg[1].classList.add('selected');
+        console.log('웹 프로그래밍');
         break;
-      case '2':
+      case 2:
         catg[2].classList.add('selected');
+        console.log('Advanced OS');
         break;
-      case '3':
+      case 3:
         catg[3].classList.add('selected');
+        console.log('종합설계');
         break;
-      case '4':
+      case 4:
         catg[4].classList.add('selected');
+        console.log('OS');
         break;
       default:
-        console.log('error!');
+        console.log('error');
     }
   });
-
+  /* Get a boardNum param */
   $.urlParam = function(name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
       window.location.href
