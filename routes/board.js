@@ -5,30 +5,23 @@ const multer = require('multer');
 const moment = require('moment');
 const upload = multer({ dest: './tmp/' });
 const fs = require('fs');
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost/KAU';
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://localhost/KAU';
 
 /* init view */
 router.get('/', (req, res) => {
-  /* page */
   let page = req.query.page;
   if (page == null) page = 1;
-
-  /* board Number*/
-  let boardNum;
-  if (req.query.boardNum == null) boardNum = 0;
-  else boardNum = parseInt(req.query.boardNum);
-
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
-  // TODO
   if (req.session.user_id != null) canWrite = true;
+  let skipSize = (page - 1) * 10;
   const limitSize = 10;
-  let skipSize = (page - 1) * limitSize;
   let pageNum = 1;
-  let important = 0; // 0: 일반 게시물, 1: 공지사항
+  const boardNum = req.query.boardNum;
+  let important;
 
-  /* 공지사항 게시물 */
+  /* 공지사항 */
   BoardContents.find({ subject: boardNum, important: 1 })
     .sort({ date: -1 })
     .exec((err, impContents) => {
@@ -36,9 +29,7 @@ router.get('/', (req, res) => {
       important = impContents;
     });
 
-  /* rendering
-   * 출력 시 공지사항 게시물 갯수는 무시하고 일반 게시물 기준으로 페이지 설정
-   */
+  /* rendering */
   BoardContents.count((err, totalCount) => {
     if (err) throw err;
     pageNum = Math.ceil(totalCount / limitSize);
@@ -105,33 +96,26 @@ router.post('/submit', (req, res) => {
     newBoardContents.title = req.body.title;
     newBoardContents.writer = req.body.writer;
     newBoardContents.contents = req.body.contents;
-    newBoardContents.important = req.body.important;
     newBoardContents.subject = req.body.subject;
     newBoardContents.date = moment().format('YYYY MMM Do');
+    newBoardContents.important = req.body.important;
     newBoardContents.save(); // mongoDB 저장
     res.redirect('/board');
-    /* 게시물 edit */
   } else if (req.body.mode === 'edit') {
-    BoardContents.update(
-      { _id: req.body.id },
-      {
-        $set: {
-          title: req.body.title,
-          contents: req.body.contents,
-          subject: req.body.subject,
-          important: req.body.important,
-        },
-      },
-      err => {
-        if (err) throw err;
-      }
-    );
+    modBoard(req.body.id, req.body.title, modContent);
     res.redirect('/board');
   } else console.log('error');
 });
 
 /* TODO */
 router.get('/delete', (req, res) => {
+  /*
+  let contentId = req.params.id;
+  BoardContents.deleteOne({ _id: contentId }, err => {
+    if (err) throw err;
+    res.redirect('/board');
+  });
+  */
   let contentId = parseInt(req.query.id);
   MongoClient.connect(
     url,
@@ -143,7 +127,7 @@ router.get('/delete', (req, res) => {
         if (err) throw err;
         console.log('1 document deleted');
         db.close();
-        res.redirect('/board');
+        res.redirect('/board?boardNum=0');
       });
     }
   );
@@ -154,6 +138,27 @@ router.get('/download/:path', (req, res) => {
   res.download('./upload/' + path, path);
   console.log(path);
 });
+
+/* 게시물 수정 */
+function modBoard(id, title, content) {
+  BoardContents.findOne({ _id: id }, (err, originContent) => {
+    if (err) throw err;
+    originContent.updated.push({
+      title: originContent.title,
+      contents: originContent.contents,
+    });
+    originContent.save(err => {
+      if (err) throw err;
+    });
+  });
+  BoardContents.update(
+    { _id: id },
+    { $set: { title: title, contents: modContent, date: Date.now() } },
+    err => {
+      if (err) throw err;
+    }
+  );
+}
 
 function isSaved(upFile) {
   const savedFile = upFile;
