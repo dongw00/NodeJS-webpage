@@ -203,7 +203,7 @@
       </div>
     </div>
 
-    <div class="section dark bottommargin-lg" style="padding: 90px 0;">
+    <div class="section dark" style="padding: 90px 0;">
       <div class="container clearfix">
         <div class="col_one_third nobottommargin center col_first">
           <i class="i-plain i-large divcenter nobottommargin icon-time"></i>
@@ -230,5 +230,23 @@
         </div>
       </div>
     </div>
+    <div id="map"></div>
   </div>
 </section>
+
+<!-- Google Maps -->
+<script>
+  function initMap() {
+    var location = { lat: 37.600517, lng: 126.864964 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: location,
+      zoom: 16.5,
+    });
+    var marker = new google.maps.Marker({ position: location, map: map });
+  }
+</script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4xlzyBAz2BoYBY9Wb8mwVTJz3lFzlQsM&callback=initMap"
+  async
+  defer
+></script>

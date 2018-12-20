@@ -48,12 +48,17 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
     margin-top: 10px;
   }
 
-  footer {
-    margin-top: 8%;
+  #footer {
+    margin-top: 10% !important;
   }
 </style>
 <script>
   $(function() {
+    /* Youtube */
+    $('body').responsive({
+      key: 'AIzaSyB4xlzyBAz2BoYBY9Wb8mwVTJz3lFzlQsM',
+    });
+
     var fileUp = '<%=content.fileUp%>';
     var files = '';
     var cnt = '';
@@ -75,6 +80,7 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
     }
     $('.download-file').html(output);
   });
+
   function downloadFiles(filepath) {
     var path = filepath;
     if (confirm('파일이 다운로드 됩니다.') == true) {
