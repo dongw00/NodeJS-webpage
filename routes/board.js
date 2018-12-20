@@ -76,77 +76,89 @@ router.get('/Detail_view', (req, res) => {
 
 /* Wrting post */
 router.get('/posting', (req, res) => {
-  res.render('board/page/posting/index', {
-    user_id: req.session.user_id,
-    mode: 'add',
-  });
+  if (req.session.user_id == null) res.redirect('/');
+  else{
+    res.render('board/page/posting/index', {
+      user_id: req.session.user_id,
+      mode: 'add',
+    });
+  }
 });
 
 /* edit mode */
 router.get('/edit', (req, res) => {
-  BoardContents.findOne({ _id: req.query.id }, (err, rawContent) => {
-    if (err) throw err;
-    rawContent.save(err => {
+  if (req.session.user_id == null) res.redirect('/');
+  else{
+    BoardContents.findOne({ _id: req.query.id }, (err, rawContent) => {
       if (err) throw err;
-      res.render('board/page/posting/index', {
-        user_id: req.session.user_id,
-        content: rawContent,
-        mode: 'edit',
+      rawContent.save(err => {
+        if (err) throw err;
+        res.render('board/page/posting/index', {
+          user_id: req.session.user_id,
+          content: rawContent,
+          mode: 'edit',
+        });
       });
     });
-  });
+  }
 });
 
 /* submit */
 router.post('/submit', (req, res) => {
   /* 글 add */
-  if (req.body.mode === 'add') {
-    let newBoardContents = new BoardContents();
-    newBoardContents.title = req.body.title;
-    newBoardContents.writer = req.body.writer;
-    newBoardContents.contents = req.body.contents;
-    newBoardContents.important = req.body.important;
-    newBoardContents.subject = req.body.subject;
-    newBoardContents.date = moment().format('YYYY MMM Do');
-    newBoardContents.save(); // mongoDB 저장
-    res.redirect('/board');
-    /* 게시물 edit */
-  } else if (req.body.mode === 'edit') {
-    BoardContents.update(
-      { _id: req.body.id },
-      {
-        $set: {
-          title: req.body.title,
-          contents: req.body.contents,
-          subject: req.body.subject,
-          important: req.body.important,
+  if (req.session.user_id == null) res.redirect('/');
+  else{
+    if (req.body.mode === 'add') {
+      let newBoardContents = new BoardContents();
+      newBoardContents.title = req.body.title;
+      newBoardContents.writer = req.body.writer;
+      newBoardContents.contents = req.body.contents;
+      newBoardContents.important = req.body.important;
+      newBoardContents.subject = req.body.subject;
+      newBoardContents.date = moment().format('YYYY MMM Do');
+      newBoardContents.save(); // mongoDB 저장
+      res.redirect('/board');
+      /* 게시물 edit */
+    } else if (req.body.mode === 'edit') {
+      BoardContents.update(
+        { _id: req.body.id },
+        {
+          $set: {
+            title: req.body.title,
+            contents: req.body.contents,
+            subject: req.body.subject,
+            important: req.body.important,
+          },
         },
-      },
-      err => {
-        if (err) throw err;
-      }
-    );
-    res.redirect('/board');
-  } else console.log('error');
+        err => {
+          if (err) throw err;
+        }
+      );
+      res.redirect('/board');
+    } else console.log('error');
+  }
 });
 
 /* TODO */
 router.get('/delete', (req, res) => {
-  let contentId = parseInt(req.query.id);
-  MongoClient.connect(
-    url,
-    (err, db) => {
-      if (err) throw err;
-      var dbo = db.db('KAU');
-      var myquery = { _id: contentId };
-      dbo.collection('boards').deleteOne(myquery, (err, obj) => {
+  if (req.session.user_id == null) res.redirect('/');
+  else{
+    let contentId = parseInt(req.query.id);
+    MongoClient.connect(
+      url,
+      (err, db) => {
         if (err) throw err;
-        console.log('1 document deleted');
-        db.close();
-        res.redirect('/board');
-      });
-    }
-  );
+        var dbo = db.db('KAU');
+        var myquery = { _id: contentId };
+        dbo.collection('boards').deleteOne(myquery, (err, obj) => {
+          if (err) throw err;
+          console.log('1 document deleted');
+          db.close();
+          res.redirect('/board');
+        });
+      }
+    );
+  }
 });
 
 router.get('/download/:path', (req, res) => {
