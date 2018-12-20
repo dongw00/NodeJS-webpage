@@ -132,13 +132,6 @@ router.post('/submit', (req, res) => {
 
 /* TODO */
 router.get('/delete', (req, res) => {
-  /*
-  let contentId = req.params.id;
-  BoardContents.deleteOne({ _id: contentId }, err => {
-    if (err) throw err;
-    res.redirect('/board');
-  });
-  */
   let contentId = parseInt(req.query.id);
   MongoClient.connect(
     url,
@@ -150,7 +143,7 @@ router.get('/delete', (req, res) => {
         if (err) throw err;
         console.log('1 document deleted');
         db.close();
-        res.redirect('/board?boardNum=0');
+        res.redirect('/board');
       });
     }
   );
