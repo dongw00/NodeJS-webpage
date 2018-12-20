@@ -2,6 +2,16 @@
 <html lang="ko">
   <head>
     <% include ../common/head.ejs %>
+    <style>
+      @media (max-width: 768px) {
+        #primary-menu > ul > li > a > div {
+          color: white;
+        }
+        #primary-menu > ul > li > a > div:hover {
+          color: #001e6a;
+        }
+      }
+    </style>
   </head>
   <body>
     <% include ./body.ejs %> <% include ../common/library.ejs %>
