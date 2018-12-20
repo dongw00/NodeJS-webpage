@@ -111,6 +111,7 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
   else {
     if (req.body.mode === 'add') {
       let newBoardContents = new BoardContents();
+<<<<<<< HEAD
       let upFile = req.files;
       if (isSaved(upFile)) {
         newBoardContents.title = req.body.title;
@@ -155,6 +156,17 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
       } else {
         console.log('파일이 저장되지 않았습니다!');
       }
+=======
+      newBoardContents.title = req.body.title;
+      newBoardContents.writer = req.body.writer;
+      newBoardContents.contents = req.body.contents;
+      newBoardContents.important = req.body.important;
+      if (req.body.subject == null) newBoardContents.subject = 0;
+      newBoardContents.subject = req.body.subject;
+      newBoardContents.date = moment().format('YYYY MMM Do');
+      newBoardContents.save(); // mongoDB 저장
+      res.redirect('/board');
+>>>>>>> 6ca38fb619912184085292abad600cceecd066da
       /* 게시물 edit */
     } else if (req.body.mode === 'edit') {
       BoardContents.update(
@@ -176,7 +188,6 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
   }
 });
 
-/* TODO */
 router.get('/delete', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
   else {
@@ -196,6 +207,32 @@ router.get('/delete', (req, res) => {
       }
     );
   }
+});
+
+router.get('/search', (req, res) => {
+  const search_word = req.query.searchWord;
+  let boardNum = req.query.boardNum;
+  if (boardNum == null) boardNum = 0;
+  let searchCondition;
+  if (req.query.searchWord != null) searchCondition = { $regex: search_word };
+  /* 글쓰기 가능 여부를 위한 세션 확인 */
+  let canWrite = false;
+  if (req.session.user_id != null) canWrite = true;
+  BoardContents.find({
+    subject: boardNum,
+    title: searchCondition,
+  })
+    .sort({ date: -1 })
+    .exec((err, searchContents) => {
+      if (err) throw err;
+      res.render('board/index', {
+        user_id: req.session.user_id,
+        contents: searchContents,
+        impContents: searchContents,
+        can_write: canWrite,
+        pagination: 1,
+      });
+    });
 });
 
 router.get('/download/:path', (req, res) => {

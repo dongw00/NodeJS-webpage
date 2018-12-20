@@ -4,7 +4,10 @@ $.fn.inlineStyle = function(prop) {
   return this.prop('style')[$.camelCase(prop)];
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ca38fb619912184085292abad600cceecd066da
 function debounce(func, wait, immediate) {
   var timeout, args, context, timestamp, result;
   return function() {
@@ -58,7 +61,6 @@ var SEMICOLON = SEMICOLON || {};
       SEMICOLON.initialize.goToTop();
       SEMICOLON.initialize.fullScreen();
       SEMICOLON.initialize.verticalMiddle();
-      SEMICOLON.initialize.imageFade();
       SEMICOLON.initialize.pageTransition();
       SEMICOLON.initialize.dataResponsiveClasses();
       SEMICOLON.initialize.dataResponsiveHeights();
@@ -401,19 +403,6 @@ var SEMICOLON = SEMICOLON || {};
           $testimonialsGridEl.find('li').css({ height: 'auto' });
         }
       }
-    },
-
-    imageFade: function() {
-      $('.image_fade').hover(
-        function() {
-          $(this)
-            .filter(':not(:animated)')
-            .animate({ opacity: 0.8 }, 400);
-        },
-        function() {
-          $(this).animate({ opacity: 1 }, 400);
-        }
-      );
     },
 
     pageTransition: function() {
@@ -1003,34 +992,6 @@ var SEMICOLON = SEMICOLON || {};
             }
           }
         });
-      }
-    },
-
-    stickFooterOnSmall: function() {
-      var windowH = $window.height(),
-        wrapperH = $wrapper.height();
-
-      if (
-        !$body.hasClass('sticky-footer') &&
-        $footer.length > 0 &&
-        $wrapper.has('#footer')
-      ) {
-        if (windowH > wrapperH) {
-          $footer.css({ 'margin-top': windowH - wrapperH });
-        }
-      }
-    },
-
-    stickyFooter: function() {
-      if (
-        $body.hasClass('sticky-footer') &&
-        $footer.length > 0 &&
-        ($body.hasClass('device-lg') || $body.hasClass('device-md'))
-      ) {
-        var stickyFooter = $footer.outerHeight();
-        $content.css({ 'margin-bottom': stickyFooter });
-      } else {
-        $content.css({ 'margin-bottom': 0 });
       }
     },
   };
@@ -2249,40 +2210,12 @@ var SEMICOLON = SEMICOLON || {};
       SEMICOLON.widget.toggles();
       SEMICOLON.widget.accordions();
       SEMICOLON.widget.progress();
-      SEMICOLON.widget.flickrFeed();
-      SEMICOLON.widget.dribbbleShots(
-        '01530280af335d298e756ed8ef786c8c4e92a50b88e53a185531b1a639e768b8'
-      );
       SEMICOLON.widget.navTree();
       SEMICOLON.widget.textRotater();
       SEMICOLON.widget.carousel();
       SEMICOLON.widget.linkScroll();
-      SEMICOLON.widget.contactForm();
-      SEMICOLON.widget.subscription();
-      SEMICOLON.widget.quickContact();
-      SEMICOLON.widget.cookieNotify();
       SEMICOLON.widget.extras();
     },
-
-    parallax: function() {
-      if (!$.stellar) {
-        console.log('parallax: Stellar not Defined.');
-        return true;
-      }
-
-      if ($parallaxEl.length > 0 || $parallaxPageTitleEl.length > 0) {
-        if (!SEMICOLON.isMobile.any()) {
-          $.stellar({
-            horizontalScrolling: false,
-            verticalOffset: 150,
-          });
-        } else {
-          $parallaxEl.addClass('mobile-parallax');
-          $parallaxPageTitleEl.addClass('mobile-parallax');
-        }
-      }
-    },
-
     animations: function() {
       if (!$().appear) {
         console.log('animations: Appear not Defined.');
@@ -2677,119 +2610,6 @@ var SEMICOLON = SEMICOLON || {};
       }
     },
 
-    flickrFeed: function() {
-      if (!$().jflickrfeed) {
-        console.log('flickrFeed: jflickrfeed not Defined.');
-        return true;
-      }
-
-      var $flickrFeedEl = $('.flickr-feed');
-      if ($flickrFeedEl.length > 0) {
-        $flickrFeedEl.each(function() {
-          var element = $(this),
-            flickrFeedID = element.attr('data-id'),
-            flickrFeedCount = element.attr('data-count'),
-            flickrFeedType = element.attr('data-type'),
-            flickrFeedTypeGet = 'photos_public.gne';
-
-          if (flickrFeedType == 'group') {
-            flickrFeedTypeGet = 'groups_pool.gne';
-          }
-          if (!flickrFeedCount) {
-            flickrFeedCount = 9;
-          }
-
-          element.jflickrfeed({
-            feedapi: flickrFeedTypeGet,
-            limit: Number(flickrFeedCount),
-            qstrings: {
-              id: flickrFeedID,
-            },
-            itemTemplate:
-              '<a href="{{image_b}}" title="{{title}}" data-lightbox="gallery-item">' +
-              '<img src="{{image_s}}" alt="{{title}}" />' +
-              '</a>',
-          });
-        });
-      }
-    },
-
-    dribbbleShots: function(c_accessToken) {
-      if (!$.jribbble) {
-        console.log('dribbbleShots: Jribbble not Defined.');
-        return true;
-      }
-
-      if (!$().imagesLoaded) {
-        console.log('dribbbleShots: imagesLoaded not Defined.');
-        return true;
-      }
-
-      var $dribbbleShotsEl = $('.dribbble-shots');
-      if ($dribbbleShotsEl.length > 0) {
-        $.jribbble.setToken(c_accessToken);
-
-        $dribbbleShotsEl.each(function() {
-          var element = $(this),
-            dribbbleUsername = element.attr('data-user'),
-            dribbbleCount = element.attr('data-count'),
-            dribbbleList = element.attr('data-list'),
-            dribbbleType = element.attr('data-type');
-
-          element.addClass('customjs');
-
-          if (!dribbbleCount) {
-            dribbbleCount = 9;
-          }
-
-          if (dribbbleType == 'user') {
-            $.jribbble
-              .users(dribbbleUsername)
-              .shots({
-                sort: 'recent',
-                page: 1,
-                per_page: Number(dribbbleCount),
-              })
-              .then(function(res) {
-                var html = [];
-                res.forEach(function(shot) {
-                  html.push('<a href="' + shot.html_url + '" target="_blank">');
-                  html.push('<img src="' + shot.images.teaser + '" ');
-                  html.push('alt="' + shot.title + '"></a>');
-                });
-                element.html(html.join(''));
-
-                element.imagesLoaded().done(function() {
-                  element.removeClass('customjs');
-                  SEMICOLON.widget.masonryThumbs();
-                });
-              });
-          } else if (dribbbleType == 'list') {
-            $.jribbble
-              .shots(dribbbleList, {
-                sort: 'recent',
-                page: 1,
-                per_page: Number(dribbbleCount),
-              })
-              .then(function(res) {
-                var html = [];
-                res.forEach(function(shot) {
-                  html.push('<a href="' + shot.html_url + '" target="_blank">');
-                  html.push('<img src="' + shot.images.teaser + '" ');
-                  html.push('alt="' + shot.title + '"></a>');
-                });
-                element.html(html.join(''));
-
-                element.imagesLoaded().done(function() {
-                  element.removeClass('customjs');
-                  SEMICOLON.widget.masonryThumbs();
-                });
-              });
-          }
-        });
-      }
-    },
-
     navTree: function() {
       var $navTreeEl = $('.nav-tree');
       if ($navTreeEl.length > 0) {
@@ -3052,50 +2872,6 @@ var SEMICOLON = SEMICOLON || {};
       element.isotope('layout');
     },
 
-    notifications: function(element) {
-      if (typeof toastr === 'undefined') {
-        console.log('notifications: Toastr not Defined.');
-        return true;
-      }
-
-      toastr.remove();
-      var notifyElement = $(element),
-        notifyPosition = notifyElement.attr('data-notify-position'),
-        notifyType = notifyElement.attr('data-notify-type'),
-        notifyMsg = notifyElement.attr('data-notify-msg'),
-        notifyCloseButton = notifyElement.attr('data-notify-close');
-
-      if (!notifyPosition) {
-        notifyPosition = 'toast-top-right';
-      } else {
-        notifyPosition = 'toast-' + notifyElement.attr('data-notify-position');
-      }
-      if (!notifyMsg) {
-        notifyMsg = 'Please set a message!';
-      }
-      if (notifyCloseButton == 'true') {
-        notifyCloseButton = true;
-      } else {
-        notifyCloseButton = false;
-      }
-
-      toastr.options.positionClass = notifyPosition;
-      toastr.options.closeButton = notifyCloseButton;
-      toastr.options.closeHtml = '<button><i class="icon-remove"></i></button>';
-
-      if (notifyType == 'warning') {
-        toastr.warning(notifyMsg);
-      } else if (notifyType == 'error') {
-        toastr.error(notifyMsg);
-      } else if (notifyType == 'success') {
-        toastr.success(notifyMsg);
-      } else {
-        toastr.info(notifyMsg);
-      }
-
-      return false;
-    },
-
     textRotater: function() {
       if (!$().Morphext) {
         console.log('textRotater: Morphext not Defined.');
@@ -3189,277 +2965,6 @@ var SEMICOLON = SEMICOLON || {};
       });
     },
 
-    contactForm: function() {
-      if (!$().validate) {
-        console.log('contactForm: Form Validate not Defined.');
-        return true;
-      }
-
-      if (!$().ajaxSubmit) {
-        console.log('contactForm: jQuery Form not Defined.');
-        return true;
-      }
-
-      var $contactForm = $('.contact-widget:not(.customjs)');
-      if ($contactForm.length < 1) {
-        return true;
-      }
-
-      $contactForm.each(function() {
-        var element = $(this),
-          elementAlert = element.attr('data-alert-type'),
-          elementLoader = element.attr('data-loader'),
-          elementResult = element.find('.contact-form-result');
-
-        element.find('form').validate({
-          submitHandler: function(form) {
-            elementResult.hide();
-
-            if (elementLoader == 'button') {
-              var defButton = $(form).find('button'),
-                defButtonText = defButton.html();
-
-              defButton.html(
-                '<i class="icon-line-loader icon-spin nomargin"></i>'
-              );
-            } else {
-              $(form)
-                .find('.form-process')
-                .fadeIn();
-            }
-
-            $(form).ajaxSubmit({
-              target: elementResult,
-              dataType: 'json',
-              resetForm: true,
-              success: function(data) {
-                if (elementLoader == 'button') {
-                  defButton.html(defButtonText);
-                } else {
-                  $(form)
-                    .find('.form-process')
-                    .fadeOut();
-                }
-                if (elementAlert == 'inline') {
-                  if (data.alert == 'error') {
-                    var alertType = 'alert-danger';
-                  } else {
-                    var alertType = 'alert-success';
-                  }
-
-                  elementResult
-                    .addClass('alert ' + alertType)
-                    .html(data.message)
-                    .slideDown(400);
-                } else {
-                  elementResult
-                    .attr('data-notify-type', data.alert)
-                    .attr('data-notify-msg', data.message)
-                    .html('');
-                  SEMICOLON.widget.notifications(elementResult);
-                }
-                if (
-                  $(form)
-                    .find('.g-recaptcha')
-                    .children('div').length > 0
-                ) {
-                  grecaptcha.reset();
-                }
-              },
-            });
-          },
-        });
-      });
-    },
-
-    subscription: function() {
-      if (!$().validate) {
-        console.log('subscription: Form Validate not Defined.');
-        return true;
-      }
-
-      if (!$().ajaxSubmit) {
-        console.log('subscription: jQuery Form not Defined.');
-        return true;
-      }
-
-      var $subscribeForm = $('.subscribe-widget:not(.customjs)');
-      if ($subscribeForm.length < 1) {
-        return true;
-      }
-
-      $subscribeForm.each(function() {
-        var element = $(this),
-          elementAlert = element.attr('data-alert-type'),
-          elementLoader = element.attr('data-loader'),
-          elementResult = element.find('.widget-subscribe-form-result');
-
-        element.find('form').validate({
-          submitHandler: function(form) {
-            elementResult.hide();
-
-            if (elementLoader == 'button') {
-              var defButton = $(form).find('button'),
-                defButtonText = defButton.html();
-
-              defButton.html(
-                '<i class="icon-line-loader icon-spin nomargin"></i>'
-              );
-            } else {
-              $(form)
-                .find('.input-group-addon')
-                .find('.icon-email2')
-                .removeClass('icon-email2')
-                .addClass('icon-line-loader icon-spin');
-            }
-
-            $(form).ajaxSubmit({
-              target: elementResult,
-              dataType: 'json',
-              resetForm: true,
-              success: function(data) {
-                if (elementLoader == 'button') {
-                  defButton.html(defButtonText);
-                } else {
-                  $(form)
-                    .find('.input-group-addon')
-                    .find('.icon-line-loader')
-                    .removeClass('icon-line-loader icon-spin')
-                    .addClass('icon-email2');
-                }
-                if (elementAlert == 'inline') {
-                  if (data.alert == 'error') {
-                    var alertType = 'alert-danger';
-                  } else {
-                    var alertType = 'alert-success';
-                  }
-
-                  elementResult
-                    .addClass('alert ' + alertType)
-                    .html(data.message)
-                    .slideDown(400);
-                } else {
-                  elementResult
-                    .attr('data-notify-type', data.alert)
-                    .attr('data-notify-msg', data.message)
-                    .html('');
-                  SEMICOLON.widget.notifications(elementResult);
-                }
-              },
-            });
-          },
-        });
-      });
-    },
-
-    quickContact: function() {
-      if (!$().validate) {
-        console.log('quickContact: Form Validate not Defined.');
-        return true;
-      }
-
-      if (!$().ajaxSubmit) {
-        console.log('quickContact: jQuery Form not Defined.');
-        return true;
-      }
-
-      var $quickContact = $('.quick-contact-widget:not(.customjs)');
-      if ($quickContact.length < 1) {
-        return true;
-      }
-
-      $quickContact.each(function() {
-        var element = $(this),
-          elementAlert = element.attr('data-alert-type'),
-          elementLoader = element.attr('data-loader'),
-          elementResult = element.find('.quick-contact-form-result');
-
-        element.find('form').validate({
-          submitHandler: function(form) {
-            elementResult.hide();
-            $(form).animate({ opacity: 0.4 });
-
-            if (elementLoader == 'button') {
-              var defButton = $(form).find('button'),
-                defButtonText = defButton.html();
-
-              defButton.html(
-                '<i class="icon-line-loader icon-spin nomargin"></i>'
-              );
-            } else {
-              $(form)
-                .find('.form-process')
-                .fadeIn();
-            }
-
-            $(form).ajaxSubmit({
-              target: elementResult,
-              dataType: 'json',
-              resetForm: true,
-              success: function(data) {
-                $(form).animate({ opacity: 1 });
-                if (elementLoader == 'button') {
-                  defButton.html(defButtonText);
-                } else {
-                  $(form)
-                    .find('.form-process')
-                    .fadeOut();
-                }
-                if (elementAlert == 'inline') {
-                  if (data.alert == 'error') {
-                    var alertType = 'alert-danger';
-                  } else {
-                    var alertType = 'alert-success';
-                  }
-
-                  elementResult
-                    .addClass('alert ' + alertType)
-                    .html(data.message)
-                    .slideDown(400);
-                } else {
-                  elementResult
-                    .attr('data-notify-type', data.alert)
-                    .attr('data-notify-msg', data.message)
-                    .html('');
-                  SEMICOLON.widget.notifications(elementResult);
-                }
-                if (
-                  $(form)
-                    .find('.g-recaptcha')
-                    .children('div').length > 0
-                ) {
-                  grecaptcha.reset();
-                }
-              },
-            });
-          },
-        });
-      });
-    },
-
-    cookieNotify: function() {
-      if (!$.cookie) {
-        console.log('cookieNotify: Cookie Function not defined.');
-        return true;
-      }
-
-      if ($cookieNotification.length > 0) {
-        var cookieNotificationHeight = $cookieNotification.outerHeight();
-
-        $cookieNotification.css({ bottom: -cookieNotificationHeight });
-
-        if ($.cookie('websiteUsesCookies') != 'yesConfirmed') {
-          $cookieNotification.css({ bottom: 0 });
-        }
-
-        $('.cookie-accept').click(function() {
-          $cookieNotification.css({ bottom: -cookieNotificationHeight });
-          $.cookie('websiteUsesCookies', 'yesConfirmed', { expires: 30 });
-          return false;
-        });
-      }
-    },
-
     extras: function() {
       if ($().tooltip) {
         $('[data-toggle="tooltip"]').tooltip({ container: 'body' });
@@ -3535,7 +3040,6 @@ var SEMICOLON = SEMICOLON || {};
         SEMICOLON.initialize.verticalMiddle();
         SEMICOLON.initialize.maxHeight();
         SEMICOLON.initialize.testimonialsGrid();
-        SEMICOLON.initialize.stickyFooter();
         SEMICOLON.slider.sliderParallaxDimensions();
         SEMICOLON.slider.captionPosition();
         SEMICOLON.widget.tabsJustify();
@@ -3649,9 +3153,6 @@ var SEMICOLON = SEMICOLON || {};
       SEMICOLON.initialize.maxHeight();
       SEMICOLON.initialize.testimonialsGrid();
       SEMICOLON.initialize.verticalMiddle();
-      SEMICOLON.initialize.stickFooterOnSmall();
-      SEMICOLON.initialize.stickyFooter();
-      SEMICOLON.widget.parallax();
       SEMICOLON.widget.loadFlexSlider();
       SEMICOLON.widget.masonryThumbs();
       SEMICOLON.header.topsocial();
@@ -3664,8 +3165,6 @@ var SEMICOLON = SEMICOLON || {};
     $wrapper = $('#wrapper'),
     $header = $('#header'),
     $headerWrap = $('#header-wrap'),
-    $content = $('#content'),
-    $footer = $('#footer'),
     windowWidth = $window.width(),
     oldHeaderClasses = $header.attr('class'),
     oldHeaderWrapClasses = $headerWrap.attr('class'),
@@ -3701,10 +3200,7 @@ var SEMICOLON = SEMICOLON || {};
     $testimonialsGridEl = $('.testimonials-grid'),
     $pageSectionEl = $('.page-section'),
     $owlCarouselEl = $('.owl-carousel'),
-    $parallaxEl = $('.parallax'),
-    $parallaxPageTitleEl = $('.page-title-parallax'),
-    $textRotaterEl = $('.text-rotater'),
-    $cookieNotification = $('#cookie-notification');
+    $textRotaterEl = $('.text-rotater')
 
   $(document).ready(SEMICOLON.documentOnReady.init);
   $window.load(SEMICOLON.documentOnLoad.init);
