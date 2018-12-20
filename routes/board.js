@@ -21,7 +21,6 @@ router.get('/', (req, res) => {
 
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
-  // TODO
   if (req.session.user_id != null) canWrite = true;
   const limitSize = 10;
   let skipSize = (page - 1) * limitSize;
@@ -77,7 +76,7 @@ router.get('/Detail_view', (req, res) => {
 /* Wrting post */
 router.get('/posting', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     res.render('board/page/posting/index', {
       user_id: req.session.user_id,
       mode: 'add',
@@ -88,7 +87,7 @@ router.get('/posting', (req, res) => {
 /* edit mode */
 router.get('/edit', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     BoardContents.findOne({ _id: req.query.id }, (err, rawContent) => {
       if (err) throw err;
       rawContent.save(err => {
@@ -107,13 +106,14 @@ router.get('/edit', (req, res) => {
 router.post('/submit', (req, res) => {
   /* 글 add */
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     if (req.body.mode === 'add') {
       let newBoardContents = new BoardContents();
       newBoardContents.title = req.body.title;
       newBoardContents.writer = req.body.writer;
       newBoardContents.contents = req.body.contents;
       newBoardContents.important = req.body.important;
+      if (req.body.subject == null) newBoardContents.subject = 0;
       newBoardContents.subject = req.body.subject;
       newBoardContents.date = moment().format('YYYY MMM Do');
       newBoardContents.save(); // mongoDB 저장
@@ -139,10 +139,9 @@ router.post('/submit', (req, res) => {
   }
 });
 
-/* TODO */
 router.get('/delete', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     let contentId = parseInt(req.query.id);
     MongoClient.connect(
       url,
@@ -159,6 +158,32 @@ router.get('/delete', (req, res) => {
       }
     );
   }
+});
+
+router.get('/search', (req, res) => {
+  const search_word = req.query.searchWord;
+  let boardNum = req.query.boardNum;
+  if (boardNum == null) boardNum = 0;
+  let searchCondition;
+  if (req.query.searchWord != null) searchCondition = { $regex: search_word };
+  /* 글쓰기 가능 여부를 위한 세션 확인 */
+  let canWrite = false;
+  if (req.session.user_id != null) canWrite = true;
+  BoardContents.find({
+    subject: boardNum,
+    title: searchCondition,
+  })
+    .sort({ date: -1 })
+    .exec((err, searchContents) => {
+      if (err) throw err;
+      res.render('board/index', {
+        user_id: req.session.user_id,
+        contents: searchContents,
+        impContents: searchContents,
+        can_write: canWrite,
+        pagination: 1,
+      });
+    });
 });
 
 router.get('/download/:path', (req, res) => {

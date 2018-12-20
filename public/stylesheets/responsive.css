@@ -95,7 +95,6 @@
 
   /* Blog - Small
 	-----------------------------------------------------------------*/
-
   .postcontent .small-thumbs .entry-image {
     width: 200px;
   }
@@ -156,7 +155,6 @@
 
   /* Blog - Medium Post List
 	-----------------------------------------------------------------*/
-
   .mpost .entry-image,
   .mpost .entry-image a,
   .mpost .entry-image img,
@@ -180,33 +178,6 @@
   .col_one_third .landing-wide-form {
     padding: 36px 30px;
   }
-
-  /* Shop - 1 Column - Both Sidebar
-	-----------------------------------------------------------------*/
-
-  .bothsidebar .product-1 .product-image {
-    width: 200px;
-    height: 267px;
-  }
-
-  .product-title h3 {
-    font-size: 18px;
-  }
-
-  .landing-video {
-    width: 465px;
-    height: 262px;
-    margin: 19px 0 0 75px;
-  }
-
-  .bnews-slider {
-    width: 817px;
-  }
-
-  .landing-form-overlay {
-    bottom: -142px;
-  }
-}
 
 @media (max-width: 991px) {
   #wrapper {
@@ -1094,12 +1065,8 @@
     padding: 0 !important;
     margin: 0px;
   }
-<<<<<<< HEAD
-  #primary-menu > ul > li > a > div {
-=======
 
   #primary-menu > ul > li > a > div{
->>>>>>> 1985efce2eabab787c77675dab8936c6bd4bc71d
     color: white;
   }
   #wrapper {
@@ -1801,7 +1768,6 @@
 /* ----------------------------------------------------------------
 	Retina CSS
 -----------------------------------------------------------------*/
-
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
   only screen and (min--moz-device-pixel-ratio: 2),
   only screen and (-o-min-device-pixel-ratio: 2/1),

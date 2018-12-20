@@ -203,9 +203,9 @@
       </div>
     </div>
 
-    <div class="section dark bottommargin-lg" style="padding: 90px 0;">
+    <div class="section dark" style="padding: 90px 0;">
       <div class="container clearfix">
-        <div class="col_one_third nobottommargin center col_first">
+        <div class="col_one_third bottommargin-sm center col_first">
           <i class="i-plain i-large divcenter nobottommargin icon-time"></i>
           <div class="counter counter-lined" style="font-size: 35px">
             9:00 ~ 18:00
@@ -213,7 +213,7 @@
           <h5>Office Hour</h5>
         </div>
 
-        <div class="col_one_third nobottommargin center">
+        <div class="col_one_third bottommargin-sm center">
           <i class="i-plain i-large divcenter nobottommargin icon-building"></i>
           <div class="counter counter-lined" style="font-size: 35px">
             전자관 402호
@@ -221,7 +221,7 @@
           <h5>Office Room</h5>
         </div>
 
-        <div class="col_one_third nobottommargin center col_last">
+        <div class="col_one_third bottommargin-sm center col_last">
           <i class="i-plain i-large divcenter nobottommargin icon-phone"></i>
           <div class="counter counter-lined" style="font-size: 35px">
             02-300-0000
@@ -230,5 +230,43 @@
         </div>
       </div>
     </div>
+    <div id="map"></div>
   </div>
 </section>
+<!-- Google Maps -->
+<script>
+  /* mobile일 경우 */
+  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
+    navigator.userAgent
+  )
+    ? true
+    : false;
+
+  $(document).ready(function() {
+    var bool = false;
+    if (isMobile) {
+      $('.col_one_third h5').hide();
+      $('.col_one_third').removeClass('col_one_third');
+      bool = true;
+    } else {
+      if (bool) {
+        $('.container.clearfix .bottommargin-sm').addClass('col_one_third');
+        $('.col_one_third h5').show();
+      }
+    }
+  });
+
+  function initMap() {
+    var location = { lat: 37.600517, lng: 126.864964 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: location,
+      zoom: 16.5,
+    });
+    var marker = new google.maps.Marker({ position: location, map: map });
+  }
+</script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4xlzyBAz2BoYBY9Wb8mwVTJz3lFzlQsM&callback=initMap"
+  async
+  defer
+></script>
