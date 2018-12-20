@@ -4,6 +4,16 @@ const BoardContents = require('../models/boardSchema');
 const multer = require('multer');
 const moment = require('moment');
 const upload = multer({ dest: './tmp/' });
+/*let _storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, './tmp/');
+  },
+  filename: (req, file, callback) => {
+    callback(null, file.originalname);
+  },
+});
+const upload = multer({ storage: _storage });
+*/
 const fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost/KAU';
@@ -68,7 +78,7 @@ router.get('/Detail_view', (req, res) => {
 /* Wrting post */
 router.get('/posting', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     res.render('board/page/posting/index', {
       user_id: req.session.user_id,
       mode: 'add',
@@ -79,7 +89,7 @@ router.get('/posting', (req, res) => {
 /* edit mode */
 router.get('/edit', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     BoardContents.findOne({ _id: req.query.id }, (err, rawContent) => {
       if (err) throw err;
       rawContent.save(err => {
@@ -95,36 +105,56 @@ router.get('/edit', (req, res) => {
 });
 
 /* submit */
-router.post('/submit', (req, res) => {
+router.post('/submit', upload.array('UploadFile'), (req, res) => {
   /* 글 add */
-<<<<<<< HEAD
-  if (req.body.mode === 'add') {
-    let newBoardContents = new BoardContents();
-    newBoardContents.title = req.body.title;
-    newBoardContents.writer = req.body.writer;
-    newBoardContents.contents = req.body.contents;
-    newBoardContents.subject = req.body.subject;
-    newBoardContents.date = moment().format('YYYY MMM Do');
-    newBoardContents.important = req.body.important;
-    newBoardContents.save(); // mongoDB 저장
-    res.redirect('/board');
-  } else if (req.body.mode === 'edit') {
-    modBoard(req.body.id, req.body.title, modContent);
-    res.redirect('/board');
-  } else console.log('error');
-=======
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     if (req.body.mode === 'add') {
       let newBoardContents = new BoardContents();
-      newBoardContents.title = req.body.title;
-      newBoardContents.writer = req.body.writer;
-      newBoardContents.contents = req.body.contents;
-      newBoardContents.important = req.body.important;
-      newBoardContents.subject = req.body.subject;
-      newBoardContents.date = moment().format('YYYY MMM Do');
-      newBoardContents.save(); // mongoDB 저장
-      res.redirect('/board');
+      let upFile = req.files;
+      if (isSaved(upFile)) {
+        newBoardContents.title = req.body.title;
+        newBoardContents.writer = req.body.writer;
+        newBoardContents.contents = req.body.contents;
+        newBoardContents.important = req.body.important;
+        newBoardContents.subject = req.body.subject;
+        newBoardContents.date = moment().format('YYYY MMM Do');
+        newBoardContents.save(err => {
+          if (err) throw err;
+          BoardContents.findOne(
+            { _id: newBoardContents._id },
+            { _id: 1 },
+            (err, newBoardId) => {
+              if (err) throw err;
+              if (upFile != null) {
+                let renaming = renameUploadFile(newBoardId.id, upFile);
+
+                for (var i = 0; i < upFile.length; i++) {
+                  fs.rename(renaming.tmpname[i], renaming.fsname[i], err => {
+                    if (err) {
+                      console.log(err);
+                      return;
+                    }
+                  });
+                }
+
+                for (var i = 0; i < upFile.length; i++) {
+                  BoardContents.update(
+                    { _id: newBoardId.id },
+                    { $push: { fileUp: renaming.fullname[i] } },
+                    err => {
+                      if (err) throw err;
+                    }
+                  );
+                }
+              }
+            }
+          );
+        }); // mongoDB 저장
+        res.redirect('/board');
+      } else {
+        console.log('파일이 저장되지 않았습니다!');
+      }
       /* 게시물 edit */
     } else if (req.body.mode === 'edit') {
       BoardContents.update(
@@ -144,37 +174,12 @@ router.post('/submit', (req, res) => {
       res.redirect('/board');
     } else console.log('error');
   }
->>>>>>> c7a82fb49e4dc264e97e9867cf994eee2d1957af
 });
 
 /* TODO */
 router.get('/delete', (req, res) => {
-<<<<<<< HEAD
-  /*
-  let contentId = req.params.id;
-  BoardContents.deleteOne({ _id: contentId }, err => {
-    if (err) throw err;
-    res.redirect('/board');
-  });
-  */
-  let contentId = parseInt(req.query.id);
-  MongoClient.connect(
-    url,
-    (err, db) => {
-      if (err) throw err;
-      var dbo = db.db('KAU');
-      var myquery = { _id: contentId };
-      dbo.collection('boards').deleteOne(myquery, (err, obj) => {
-        if (err) throw err;
-        console.log('1 document deleted');
-        db.close();
-        res.redirect('/board?boardNum=0');
-      });
-    }
-  );
-=======
   if (req.session.user_id == null) res.redirect('/');
-  else{
+  else {
     let contentId = parseInt(req.query.id);
     MongoClient.connect(
       url,
@@ -191,7 +196,6 @@ router.get('/delete', (req, res) => {
       }
     );
   }
->>>>>>> c7a82fb49e4dc264e97e9867cf994eee2d1957af
 });
 
 router.get('/download/:path', (req, res) => {
@@ -200,29 +204,8 @@ router.get('/download/:path', (req, res) => {
   console.log(path);
 });
 
-/* 게시물 수정 */
-function modBoard(id, title, content) {
-  BoardContents.findOne({ _id: id }, (err, originContent) => {
-    if (err) throw err;
-    originContent.updated.push({
-      title: originContent.title,
-      contents: originContent.contents,
-    });
-    originContent.save(err => {
-      if (err) throw err;
-    });
-  });
-  BoardContents.update(
-    { _id: id },
-    { $set: { title: title, contents: modContent, date: Date.now() } },
-    err => {
-      if (err) throw err;
-    }
-  );
-}
-
 function isSaved(upFile) {
-  const savedFile = upFile;
+  let savedFile = upFile;
   let count = 0;
   if (savedFile != null) {
     // 파일 존재시 -> tmp폴더에 파일 저장여부 확인 -> 있으면 저장, 없으면 에러메시지

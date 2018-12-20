@@ -20,7 +20,7 @@
   -->
   <section id="content">
     <div class="content-wrap">
-      <form id="posting" method="POST" action="/board/submit">
+      <form id="posting" method="POST" action="/board/submit" enctype="multipart/form-data">
         <div id="importContainer">
           <span id="notice">공지</span>
           <!-- Checkbox Unchecked: 0, Checked: 1 -->
@@ -52,15 +52,9 @@
         <!-- important 값 -->
         <input id="important" type="hidden" name="important" value="0" />
         <textarea name="contents" style="display: none;"></textarea>
-        
-      </form>
-      <div id="summernote"></div>
-      <form>
-        <div class="form-group">
-          <label for="exampleFormControlFile1">Example file input</label>
-          <input type="file" class="form-control-file" />
-        </div>
-      </form>
+        <div id="summernote"></div>
+        <input type="file" class="form-control-file" id="UploadFile" name="UploadFile" multiple>
+      </form> 
       <button id="edit" class="btn btn-primary save" type="button" style="display: none;">
         Save
       </button>
