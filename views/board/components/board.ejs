@@ -14,22 +14,38 @@
     <tr class="info">
       <td>공지</td>
       <td>
-        <a href="/board/Detail_view?id=<%= el._id %>"> <%= el.title %></a>
+        <a href="/board/Detail_view?id=<%= el._id %>">
+          <%= el.title %></a>
       </td>
-      <td><%= el.writer %></td>
-      <td><%= el.date %></td>
-      <td><%= el.count %></td>
+      <td>
+        <%= el.writer %>
+      </td>
+      <td>
+        <%= el.date %>
+      </td>
+      <td>
+        <%= el.count %>
+      </td>
     </tr>
-    <% }); %> <% for (let i = 0; i < contents.length; i++) { %>
+    <% }); %>
+    <% for (let i = 0; i < contents.length; i++) { %>
     <tr>
-      <td><%= i + 1%></td>
+      <td>
+        <%= i + 1%>
+      </td>
       <td>
         <a href="/board/Detail_view?id=<%= contents[i]._id %>">
           <%= contents[i].title %></a>
       </td>
-      <td><%= contents[i].writer %></td>
-      <td><%= contents[i].date %></td>
-      <td><%= contents[i].count %></td>
+      <td>
+        <%= contents[i].writer %>
+      </td>
+      <td>
+        <%= contents[i].date %>
+      </td>
+      <td>
+        <%= contents[i].count %>
+      </td>
     </tr>
     <% } %>
   </tbody>
@@ -37,9 +53,6 @@
 <br />
 <div class="align-middle board-nav">
   <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Previous</a>
-    </li>
     <li id="page1" class="page-item active">
       <a class="page-link" href="/board?page=1">1</a>
     </li>
@@ -49,6 +62,18 @@
     </li>
     <% } %>
   </ul>
+  <form action="/board/search" id="searchAction" name="searchAction">
+    <a onclick="searchContent();"></a>
+    <input
+      type="text"
+      class="form-control"
+      id="searchWord"
+      name="searchWord"
+      placeholder="검색"
+    />
+    <input id="boardNum" type="hidden" name="boardNum" />
+  </form>
+
   <% if (can_write) { %>
   <a class="btn btn-default pull-right" href="/board/posting">Write</a> <% } %>
 </div>
@@ -59,7 +84,18 @@
     if (page === null) page = 1;
     $('.active').removeClass('active');
     $('#page' + parseInt(page)).addClass('active');
+
+    /* boardNum */
+    if ($.urlParam('boardNum') == null) $('#boardNum').val(0);
+    else $('#boardNum').val($.urlParam('boardNum'));
   });
+
+  /* Search */
+  function searchContent() {
+    if ($('#searchWord').val == '') alert('검색어를 입력해주세요');
+    else $('#searchAction').submit();
+  }
+
   /* Get a boardNum param */
   $.urlParam = function(name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(

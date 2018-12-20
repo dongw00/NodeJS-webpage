@@ -4,46 +4,43 @@
     <br /><br /><br />
     <h4>박사 과정</h4>
   </div>
-  <% for(var key in doctors){ %>
-    <div class="col-md-3 col-sm-6 bottommargin">
-      <div class="team">
-        <div class="team-image">
-          <img
-            style="background: url('<%= doctors[key].image_url %>') no-repeat; height: 300px; background-size:cover"
-          />
-        </div>
-        <div class="team-desc team-desc-bg">
-          <div class="team-title">
-            <h4><%= doctors[key].name %></h4>
-            <span><strong><%= doctors[key].comment %></strong></span>
-          </div>
+  <% for (var key in doctors){ %>
+  <div class="col-md-3 col-sm-6 bottommargin">
+    <div class="team">
+      <div class="team-image">
+        <img
+          style="background: url('<%= doctors[key].image_url %>') no-repeat; height: 300px; background-size:cover"
+        />
+      </div>
+      <div class="team-desc team-desc-bg">
+        <div class="team-title">
+          <h4><%= doctors[key].name %></h4>
+          <span><strong><%= doctors[key].comment %></strong></span>
         </div>
       </div>
     </div>
+  </div>
   <% } %>
 
-  <div class="container clearfix">
-    <div class="clear"></div>
-    <div class="heading-block center">
-      <br /><br /><br />
-      <h4>석사 과정</h4>
-    </div>
-    <% for(var key in masters){ %>
-      <div class="col-md-3 col-sm-6 bottommargin">
-        <div class="team">
-          <div class="team-image">
-            <img
-              style="background: url('<%= masters[key].image_url %>') no-repeat; height: 300px; background-size:cover"
-            />
-          </div>
-          <div class="team-desc team-desc-bg">
-            <div class="team-title">
-              <h4><%= masters[key].name %></h4>
-              <span><strong><%= masters[key].comment %></strong></span>
-            </div>
-          </div>
+  <div class="heading-block center">
+    <br /><br /><br />
+    <h4>석사 과정</h4>
+  </div>
+  <% for (var key in masters){ %>
+  <div class="col-md-3 col-sm-6 bottommargin">
+    <div class="team">
+      <div class="team-image">
+        <img
+          style="background: url('<%= masters[key].image_url %>') no-repeat; height: 300px; background-size:cover"
+        />
+      </div>
+      <div class="team-desc team-desc-bg">
+        <div class="team-title">
+          <h4><%= masters[key].name %></h4>
+          <span><strong><%= masters[key].comment %></strong></span>
         </div>
       </div>
-    <% } %>
+    </div>
   </div>
+  <% } %>
 </div>
