@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 <!-- title javaScript -->
 <% const subjectId = content.subject; let subjectName; if (subjectId == 0)
 subjectName = "일반"; else if (subjectId == 1) subjectName = "운영체제"; else if
@@ -25,8 +26,14 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
     <div class="panel-body"><%- content.contents %></div>
   </div>
   <div id="left_form">
-    <div class="download-file"></div>
-    <div class="content-Btn"><a href="/board">목록</a></div>
+    <% if (content.fileUp != null) { %>
+    <a href="/board/download?path=<%= content.fileUp.path %>">
+      <span class="glyphicon glyphicon-file"></span> <%=
+      content.fileUp.originalname %> <%= (content.fileUp.size / 1024).toFixed(2)
+      %>KB
+    </a>
+    <% } %>
+    <span id="view_list" class="content-Btn"><a href="/board">목록</a></span>
   </div>
   <!-- User check if (ok) then show fix, delete button -->
   <% if (user_id != null) { %>
@@ -58,39 +65,5 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
     $('body').responsive({
       key: 'AIzaSyB4xlzyBAz2BoYBY9Wb8mwVTJz3lFzlQsM',
     });
-
-    var fileUp = '<%=content.fileUp%>';
-    var files = '';
-    var cnt = '';
-    var output = '';
-    if (fileUp != '') {
-      files = fileUp.split(',');
-      cnt = files.length;
-      for (var i = 0; i < cnt; i++) {
-        output +=
-          "<button type='button' onclick=downloadFiles('" +
-          files[i].split(':')[0] +
-          "');>";
-        output +=
-          "<span id='downloadFile'>" + files[i].split(':')[1] + '</span>';
-        output += '</button>';
-      }
-    } else {
-      output = '파일이 없습니다.';
-    }
-    $('.download-file').html(output);
   });
-
-  function delete_event() {
-    if (confirm('정말 삭제하시겠습니까?') == true)
-      location.href = '/board/delete?id=<%= content._id %>';
-    else return;
-  }
-
-  function downloadFiles(filepath) {
-    var path = filepath;
-    if (confirm('파일이 다운로드 됩니다.') == true) {
-      location.href = '/board/download/' + path;
-    }
-  }
 </script>

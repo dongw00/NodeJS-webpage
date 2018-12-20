@@ -8612,3 +8612,8 @@ form {
 	padding: 6px !important;
 	padding-right: 50px !important;
 }
+
+#view_list {
+	float: right;
+	margin-right: 1%;
+}

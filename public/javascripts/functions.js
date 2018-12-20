@@ -4,10 +4,6 @@ $.fn.inlineStyle = function(prop) {
   return this.prop('style')[$.camelCase(prop)];
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ca38fb619912184085292abad600cceecd066da
 function debounce(func, wait, immediate) {
   var timeout, args, context, timestamp, result;
   return function() {
