@@ -20,7 +20,7 @@
   -->
   <section id="content">
     <div class="content-wrap">
-      <form id="posting" method="POST" action="/board/submit" enctype="multipart/form-data">
+      <form id="posting" method="POST" action="/board/submitP">
         <div id="importContainer">
           <span id="notice">공지</span>
           <!-- Checkbox Unchecked: 0, Checked: 1 -->
@@ -30,11 +30,11 @@
           <div class="col-sm-3">
             <select id="subject" class="form-control" name="subject" required>
               <option value="">선택해주세요</option>
-              <option value="0">일반</option>
-              <option value="1">운영체제</option>
-              <option value="2">웹 프로그래밍</option>
-              <option value="3">Advanced OS</option>
-              <option value="4">종합설계</option>
+              <option value="0">공지사항</option>
+              <option value="1">웹프로그래밍</option>
+              <option value="2">종합설계</option>
+              <option value="3">운영체제</option>
+              <option value="4">Advanced OS</option>
             </select>
           </div>
           <div class="col-sm-9">
@@ -53,7 +53,7 @@
         <input id="important" type="hidden" name="important" value="0" />
         <textarea name="contents" style="display: none;"></textarea>
         <div id="summernote"></div>
-        <input type="file" class="form-control-file" id="UploadFile" name="UploadFile" multiple>
+        <input type="file" class="form-control-file" id="UploadFile" name="UploadFile" >
       </form> 
       <button id="edit" class="btn btn-primary save" type="button" style="display: none;">
         Save
@@ -139,10 +139,20 @@
   }
   function clickEvent(tag) {
     $(`#${tag}`).click(function() {
-      console.log('click');
       if ($('#subject').val() >= 0 && $('#subject').val() != null) {
         $("textarea[name='contents']").val($('#summernote').summernote('code'));
         checkbox();
+        if (
+          tag == 'add' &&
+          document.getElementById('UploadFile').files.length > 0
+        ) {
+          $('form').attr('enctype', 'multipart/form-data');
+          $('form').attr('action', '/board/submitF');
+        } else if (
+          tag == 'add' &&
+          document.getElementById('UploadFile').files.length == 0
+        )
+          $('#UploadFile').remove();
         $('#posting').submit();
       } else {
         alert('카테고리를 선택해주세요');
