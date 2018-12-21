@@ -18,7 +18,7 @@ const boardSchema = new mongoose.Schema({
   /* 게시글 정보 */
   title: { type: String },
   writer: { type: String },
-  date: { type: String },
+  date: { type: Date, default: Date.now },
   count: { type: Number, default: 0 },
   subject: { type: Number, default: 0 },
   important: { type: Number },
