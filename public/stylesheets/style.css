@@ -7241,7 +7241,7 @@ label.error { display: none !important; }
 /* Heading Block - with Subtitle
 -----------------------------------------------------------------*/
 
-.heading-block { margin-bottom: 50px; }
+.heading-block { clear:both;margin-bottom: 50px; }
 
 .heading-block h1,
 .heading-block h2,
@@ -8611,4 +8611,9 @@ form {
 #searchWord {
 	padding: 6px !important;
 	padding-right: 50px !important;
+}
+
+#view_list {
+	float: right;
+	margin-right: 1%;
 }

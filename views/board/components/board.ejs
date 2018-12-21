@@ -10,24 +10,25 @@
     </tr>
   </thead>
   <tbody>
-    <% impContents.forEach(el => { %>
-    <tr class="info">
-      <td>공지</td>
-      <td>
-        <a href="/board/Detail_view?id=<%= el._id %>">
-          <%= el.title %></a>
-      </td>
-      <td>
-        <%= el.writer %>
-      </td>
-      <td>
-        <%= el.date %>
-      </td>
-      <td>
-        <%= el.count %>
-      </td>
-    </tr>
-    <% }); %>
+    <% impContents.forEach(el => {
+      if(el.important == 1) {  %>
+        <tr class="info">
+          <td>공지</td>
+          <td>
+            <a href="/board/Detail_view?id=<%= el._id %>">
+              <%= el.title %></a>
+          </td>
+          <td>
+            <%= el.writer %>
+          </td>
+          <td>
+            <%= el.date %>
+          </td>
+          <td>
+            <%= el.count %>
+          </td>
+        </tr>
+    <% }}); %>
     <% for (let i = 0; i < contents.length; i++) { %>
     <tr>
       <td>

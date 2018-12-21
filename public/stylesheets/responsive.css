@@ -178,6 +178,33 @@
   .col_one_third .landing-wide-form {
     padding: 36px 30px;
   }
+  /* Shop - 1 Column - Both Sidebar
+	-----------------------------------------------------------------*/
+
+  .bothsidebar .product-1 .product-image {
+    width: 200px;
+    height: 267px;
+  }
+
+  .product-title h3 {
+    font-size: 18px;
+  }
+
+  .landing-video {
+    width: 465px;
+    height: 262px;
+    margin: 19px 0 0 75px;
+  }
+
+  .bnews-slider {
+    width: 817px;
+  }
+
+  .landing-form-overlay {
+    bottom: -142px;
+  }
+}
+
 
 @media (max-width: 991px) {
   #wrapper {

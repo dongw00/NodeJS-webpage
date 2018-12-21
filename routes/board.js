@@ -3,32 +3,36 @@ const router = express.Router();
 const BoardContents = require('../models/boardSchema');
 const multer = require('multer');
 const moment = require('moment');
-const upload = multer({ dest: './tmp/' });
-/*let _storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, './tmp/');
+const path = require('path');
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost/KAU';
+
+/* Multer storage options */
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, 'public/upload');
   },
-  filename: (req, file, callback) => {
-    callback(null, file.originalname);
+  filename: function(req, file, callback) {
+    const extension = path.extname(file.originalname);
+    const basename = path.basename(file.originalname, extension);
+    callback(null, basename + '-' + Date.now() + extension);
   },
 });
-const upload = multer({ storage: _storage });
-*/
-const fs = require('fs');
-var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost/KAU';
+
+const upload = multer({ storage: storage });
 
 /* init view */
 router.get('/', (req, res) => {
   let page = req.query.page;
+  let boardNum = req.query.boardNum;
   if (page == null) page = 1;
+  if (boardNum == null) boardNum = 0;
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
   if (req.session.user_id != null) canWrite = true;
   let skipSize = (page - 1) * 10;
   const limitSize = 10;
   let pageNum = 1;
-  const boardNum = req.query.boardNum;
   let important;
 
   /* 공지사항 */
@@ -105,11 +109,13 @@ router.get('/edit', (req, res) => {
 });
 
 /* submit */
-router.post('/submit', upload.array('UploadFile'), (req, res) => {
+router.post('/submit', upload.single('UploadFile'), (req, res) => {
   /* 글 add */
   if (req.session.user_id == null) res.redirect('/');
   else {
+    /* 게시글 추가 모드 */
     if (req.body.mode === 'add') {
+<<<<<<< HEAD
       let newBoardContents = new BoardContents();
       let upFile = req.files;
       if (isSaved(upFile)) {
@@ -156,6 +162,20 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
         console.log('파일이 저장되지 않았습니다!');
       }
       /* 게시물 edit */
+=======
+      const newBoardContents = new BoardContents();
+      newBoardContents.title = req.body.title;
+      newBoardContents.writer = req.body.writer;
+      newBoardContents.contents = req.body.contents;
+      newBoardContents.important = req.body.important;
+      newBoardContents.subject = req.body.subject;
+      newBoardContents.date = moment().format('YYYY MMM Do');
+      /* File upload */
+      newBoardContents.fileUp = req.file;
+      console.log(req.file);
+      newBoardContents.save();
+      res.redirect('/board');
+>>>>>>> 143db641ced052a18dadaee61c5afcec284a3de4
     } else if (req.body.mode === 'edit') {
       BoardContents.update(
         { _id: req.body.id },
@@ -176,6 +196,7 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
   }
 });
 
+/* 게시물 삭제*/
 router.get('/delete', (req, res) => {
   if (req.session.user_id == null) res.redirect('/');
   else {
@@ -188,7 +209,6 @@ router.get('/delete', (req, res) => {
         var myquery = { _id: contentId };
         dbo.collection('boards').deleteOne(myquery, (err, obj) => {
           if (err) throw err;
-          console.log('1 document deleted');
           db.close();
           res.redirect('/board');
         });
@@ -197,13 +217,14 @@ router.get('/delete', (req, res) => {
   }
 });
 
+/* 검색 */
 router.get('/search', (req, res) => {
   const search_word = req.query.searchWord;
   let boardNum = req.query.boardNum;
   if (boardNum == null) boardNum = 0;
   let searchCondition;
   if (req.query.searchWord != null) searchCondition = { $regex: search_word };
-  /* 글쓰기 가능 여부를 위한 세션 확인 */
+
   let canWrite = false;
   if (req.session.user_id != null) canWrite = true;
   BoardContents.find({
@@ -223,94 +244,10 @@ router.get('/search', (req, res) => {
     });
 });
 
-router.get('/download/:path', (req, res) => {
-  const path = req.params.path;
-  res.download('./upload/' + path, path);
-  console.log(path);
+router.get('/download', (req, res) => {
+  const filePath = req.query.path;
+  console.log(filePath);
+  res.download(filePath);
 });
-
-function isSaved(upFile) {
-  let savedFile = upFile;
-  let count = 0;
-  if (savedFile != null) {
-    // 파일 존재시 -> tmp폴더에 파일 저장여부 확인 -> 있으면 저장, 없으면 에러메시지
-    for (let i = 0; i < savedFile.length; i++) {
-      if (fs.statSync(getDirname(1) + savedFile[i].path).isFile()) {
-        //fs 모듈을 사용해서 파일의 존재 여부를 확인한다.
-        count++; // true인 결과 갯수 세서
-      }
-    }
-    if (count == savedFile.length) {
-      //올린 파일 갯수랑 같으면 패스
-      return true;
-    } else {
-      // 파일이 다를 경우 false를 리턴함.
-      return false;
-    }
-  } else {
-    // 파일이 처음부터 없는 경우
-    return true;
-  }
-}
-
-function getDirname(num) {
-  //원하는 상위폴더까지 리턴해줌. 0은 현재 위치까지, 1은 그 상위.. 이런 식으로
-  //리네임과, 파일의 경로를 따오기 위해 필요함.
-  const order = num;
-  const dirname = __dirname.split('/');
-  let result = '';
-
-  for (let i = 0; i < dirname.length - order; i++) {
-    result += dirname[i] + '/';
-  }
-  return result;
-}
-
-function renameUploadFile(itemId, upFile) {
-  // 업로드 할때 리네이밍 하는 곳!
-  let renameForUpload = {};
-  const newFile = upFile; // 새로 들어 온 파일
-  let tmpPath = [];
-  let tmpType = [];
-  let index = [];
-  let rename = [];
-  let fileName = [];
-  let fullName = []; // 다운로드 시 보여줄 이름 필요하니까 원래 이름까지 같이 저장하자!
-  let fsName = [];
-
-  for (let i = 0; i < newFile.length; i++) {
-    tmpPath[i] = newFile[i].path;
-    tmpType[i] = newFile[i].mimetype.split('/')[1]; // 확장자 저장해주려고!
-    index[i] = tmpPath[i].split('/').length;
-    rename[i] = tmpPath[i].split('/')[index[i] - 1];
-    fileName[i] =
-      itemId +
-      '_' +
-      getFileDate(new Date()) +
-      '_' +
-      rename[i] +
-      '.' +
-      tmpType[i]; // 파일 확장자 명까지 같이 가는 이름 "글아이디_날짜_파일명.확장자"
-    fullName[i] = fileName[i] + ':' + newFile[i].originalname.split('.')[0]; // 원래 이름까지 같이 가는 이름 "글아이디_날짜_파일명.확장자:보여줄 이름"
-    fsName[i] = getDirname(1) + 'upload/' + fileName[i]; // fs.rename 용 이름 "./upload/글아이디_날짜_파일명.확장자"
-  }
-  renameForUpload.tmpname = tmpPath;
-  renameForUpload.filename = fileName;
-  renameForUpload.fullname = fullName;
-  renameForUpload.fsname = fsName;
-  return renameForUpload;
-}
-
-function getFileDate(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  const sec = date.getSeconds();
-  const fullDate =
-    year + '' + month + '' + day + '' + hour + '' + min + '' + sec;
-  return fullDate;
-}
 
 module.exports = router;
