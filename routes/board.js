@@ -111,7 +111,6 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
   else {
     if (req.body.mode === 'add') {
       let newBoardContents = new BoardContents();
-<<<<<<< HEAD
       let upFile = req.files;
       if (isSaved(upFile)) {
         newBoardContents.title = req.body.title;
@@ -156,17 +155,6 @@ router.post('/submit', upload.array('UploadFile'), (req, res) => {
       } else {
         console.log('파일이 저장되지 않았습니다!');
       }
-=======
-      newBoardContents.title = req.body.title;
-      newBoardContents.writer = req.body.writer;
-      newBoardContents.contents = req.body.contents;
-      newBoardContents.important = req.body.important;
-      if (req.body.subject == null) newBoardContents.subject = 0;
-      newBoardContents.subject = req.body.subject;
-      newBoardContents.date = moment().format('YYYY MMM Do');
-      newBoardContents.save(); // mongoDB 저장
-      res.redirect('/board');
->>>>>>> 6ca38fb619912184085292abad600cceecd066da
       /* 게시물 edit */
     } else if (req.body.mode === 'edit') {
       BoardContents.update(
