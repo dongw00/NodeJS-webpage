@@ -20,7 +20,7 @@
   -->
   <section id="content">
     <div class="content-wrap">
-      <form id="posting" method="POST" action="/board/submit" enctype="multipart/form-data">
+      <form id="posting" method="POST" action="/board/submitP">
         <div id="importContainer">
           <span id="notice">공지</span>
           <!-- Checkbox Unchecked: 0, Checked: 1 -->
@@ -53,7 +53,7 @@
         <input id="important" type="hidden" name="important" value="0" />
         <textarea name="contents" style="display: none;"></textarea>
         <div id="summernote"></div>
-        <input type="file" class="form-control-file" id="UploadFile" name="UploadFile" multiple>
+        <input type="file" class="form-control-file" id="UploadFile" name="UploadFile" >
       </form> 
       <button id="edit" class="btn btn-primary save" type="button" style="display: none;">
         Save
@@ -139,10 +139,20 @@
   }
   function clickEvent(tag) {
     $(`#${tag}`).click(function() {
-      console.log('click');
       if ($('#subject').val() >= 0 && $('#subject').val() != null) {
         $("textarea[name='contents']").val($('#summernote').summernote('code'));
         checkbox();
+        if (
+          tag == 'add' &&
+          document.getElementById('UploadFile').files.length > 0
+        ) {
+          $('form').attr('enctype', 'multipart/form-data');
+          $('form').attr('action', '/board/submitF');
+        } else if (
+          tag == 'add' &&
+          document.getElementById('UploadFile').files.length == 0
+        )
+          $('#UploadFile').remove();
         $('#posting').submit();
       } else {
         alert('카테고리를 선택해주세요');

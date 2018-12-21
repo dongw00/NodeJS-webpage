@@ -55,11 +55,11 @@
 <div class="align-middle board-nav">
   <ul class="pagination">
     <li id="page1" class="page-item active">
-      <a class="page-link" href="/board?page=1">1</a>
+      <a class="page-link" href="/board?page=1&boardNum=0"">1</a>
     </li>
     <% for (let i = 1; i < pagination; i++) { %>
     <li id="page<%= i + 1 %>" class="page-item">
-      <a class="page-link" href="/board?page=<%= i+1 %>"> <%= i + 1 %></a>
+      <a class="page-link" href="/board?page=<%= i+1 %>&boardNum=<%= boardNum %>"> <%= i + 1 %></a>
     </li>
     <% } %>
   </ul>

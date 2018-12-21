@@ -7,26 +7,12 @@ const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost/KAU';
 
-/* Multer storage options */
-const storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-    callback(null, 'public/upload');
-  },
-  filename: function(req, file, callback) {
-    const extension = path.extname(file.originalname);
-    const basename = path.basename(file.originalname, extension);
-    callback(null, basename + '-' + Date.now() + extension);
-  },
-});
-
-const upload = multer({ storage: storage });
-
 /* init view */
 router.get('/', (req, res) => {
   let page = req.query.page;
   let boardNum = req.query.boardNum;
   if (page == null) page = 1;
-  if (boardNum == null) boardNum = 0;
+  if (boardNum == null || boardNum == undefined) boardNum = 0;
   /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
   if (req.session.user_id != null) canWrite = true;
@@ -44,24 +30,27 @@ router.get('/', (req, res) => {
     });
 
   /* rendering */
-  BoardContents.count((err, totalCount) => {
-    if (err) throw err;
-    pageNum = Math.ceil(totalCount / limitSize);
-    BoardContents.find({ subject: boardNum, important: 0 })
-      .sort({ date: -1 })
-      .skip(skipSize)
-      .limit(limitSize)
-      .exec((err, pageContents) => {
-        if (err) throw err;
-        res.render('board/index', {
-          user_id: req.session.user_id,
-          contents: pageContents,
-          impContents: important,
-          pagination: pageNum,
-          can_write: canWrite,
+  BoardContents.find({ subject: boardNum, important: 0 }).count(
+    (err, totalCount) => {
+      if (err) throw err;
+      pageNum = Math.ceil(totalCount / limitSize);
+      BoardContents.find({ subject: boardNum, important: 0 })
+        .sort({ date: -1 })
+        .skip(skipSize)
+        .limit(limitSize)
+        .exec((err, pageContents) => {
+          if (err) throw err;
+          res.render('board/index', {
+            user_id: req.session.user_id,
+            contents: pageContents,
+            impContents: important,
+            boardNum: boardNum,
+            pagination: pageNum,
+            can_write: canWrite,
+          });
         });
-      });
-  });
+    }
+  );
 });
 
 /* 게시글 Detail view */
@@ -108,8 +97,60 @@ router.get('/edit', (req, res) => {
   }
 });
 
-/* submit */
-router.post('/submit', upload.single('UploadFile'), (req, res) => {
+/* Multer storage options */
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, 'public/upload');
+  },
+  filename: function(req, file, callback) {
+    const extension = path.extname(file.originalname);
+    const basename = path.basename(file.originalname, extension);
+    callback(null, basename + '-' + Date.now() + extension);
+  },
+});
+const upload = multer({ storage: storage });
+
+/* submit without file */
+router.post('/submitP', (req, res) => {
+  /* 글 add */
+  if (req.session.user_id == null) res.redirect('/');
+  else {
+    /* 게시글 추가 모드 */
+    if (req.body.mode == 'add') {
+      const newBoardContents = new BoardContents();
+      newBoardContents.title = req.body.title;
+      newBoardContents.writer = req.body.writer;
+      newBoardContents.contents = req.body.contents;
+      newBoardContents.important = req.body.important;
+      newBoardContents.subject = req.body.subject;
+      newBoardContents.date = moment().format('YYYY MMM Do');
+      newBoardContents.save();
+      res.redirect('/board');
+    } else if (req.body.mode == 'edit') {
+      BoardContents.update(
+        { _id: req.body.id },
+        {
+          $set: {
+            title: req.body.title,
+            contents: req.body.contents,
+            subject: req.body.subject,
+            important: req.body.important,
+          },
+        },
+        err => {
+          if (err) throw err;
+        }
+      );
+      res.redirect('/board');
+    } else {
+      console.log(req.body.mode);
+      console.log('error');
+    }
+  }
+});
+
+/* submit with File*/
+router.post('/submitF', upload.single('UploadFile'), (req, res) => {
   /* 글 add */
   if (req.session.user_id == null) res.redirect('/');
   else {
@@ -123,8 +164,8 @@ router.post('/submit', upload.single('UploadFile'), (req, res) => {
       newBoardContents.subject = req.body.subject;
       newBoardContents.date = moment().format('YYYY MMM Do');
       /* File upload */
-      newBoardContents.fileUp = req.file;
       console.log(req.file);
+      newBoardContents.fileUp = req.file;
       newBoardContents.save();
       res.redirect('/board');
     } else if (req.body.mode === 'edit') {
