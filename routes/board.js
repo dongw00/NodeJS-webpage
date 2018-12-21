@@ -115,67 +115,17 @@ router.post('/submit', upload.single('UploadFile'), (req, res) => {
   else {
     /* 게시글 추가 모드 */
     if (req.body.mode === 'add') {
-<<<<<<< HEAD
-      let newBoardContents = new BoardContents();
-      let upFile = req.files;
-      if (isSaved(upFile)) {
-        newBoardContents.title = req.body.title;
-        newBoardContents.writer = req.body.writer;
-        newBoardContents.contents = req.body.contents;
-        newBoardContents.important = req.body.important;
-        newBoardContents.subject = req.body.subject;
-        newBoardContents.date = moment().format('YYYY MMM Do');
-        newBoardContents.save(err => {
-          if (err) throw err;
-          BoardContents.findOne(
-            { _id: newBoardContents._id },
-            { _id: 1 },
-            (err, newBoardId) => {
-              if (err) throw err;
-              if (upFile != null) {
-                let renaming = renameUploadFile(newBoardId.id, upFile);
-
-                for (var i = 0; i < upFile.length; i++) {
-                  fs.rename(renaming.tmpname[i], renaming.fsname[i], err => {
-                    if (err) {
-                      console.log(err);
-                      return;
-                    }
-                  });
-                }
-
-                for (var i = 0; i < upFile.length; i++) {
-                  BoardContents.update(
-                    { _id: newBoardId.id },
-                    { $push: { fileUp: renaming.fullname[i] } },
-                    err => {
-                      if (err) throw err;
-                    }
-                  );
-                }
-              }
-            }
-          );
-        }); // mongoDB 저장
-        res.redirect('/board');
-      } else {
-        console.log('파일이 저장되지 않았습니다!');
-      }
-      /* 게시물 edit */
-=======
       const newBoardContents = new BoardContents();
       newBoardContents.title = req.body.title;
       newBoardContents.writer = req.body.writer;
       newBoardContents.contents = req.body.contents;
       newBoardContents.important = req.body.important;
       newBoardContents.subject = req.body.subject;
-      newBoardContents.date = moment().format('YYYY MMM Do');
       /* File upload */
       newBoardContents.fileUp = req.file;
       console.log(req.file);
       newBoardContents.save();
       res.redirect('/board');
->>>>>>> 143db641ced052a18dadaee61c5afcec284a3de4
     } else if (req.body.mode === 'edit') {
       BoardContents.update(
         { _id: req.body.id },

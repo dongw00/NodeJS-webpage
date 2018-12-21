@@ -42,7 +42,7 @@
         <%= contents[i].writer %>
       </td>
       <td>
-        <%= contents[i].date %>
+        <%= dateFormatChange(contents[i].date) %>
       </td>
       <td>
         <%= contents[i].count %>
@@ -55,7 +55,7 @@
 <div class="align-middle board-nav">
   <ul class="pagination">
     <li id="page1" class="page-item active">
-      <a class="page-link" href="/board?page=1">1</a>
+      <a class="page-link" href="/board?boardNum=2&&page=1">1</a>
     </li>
     <% for (let i = 1; i < pagination; i++) { %>
     <li id="page<%= i + 1 %>" class="page-item">
@@ -106,3 +106,6 @@
     else return decodeURI(results[1]) || 0;
   };
 </script>
+<% function dateFormatChange(date) { var options = { weekday: "short", year:
+"numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+return date.toLocaleTimeString("ko-KR", options); } %>
