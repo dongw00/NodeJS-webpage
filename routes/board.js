@@ -58,6 +58,7 @@ router.get('/', (req, res) => {
           contents: pageContents,
           impContents: important,
           pagination: pageNum,
+          boardNum: boardNum,
           can_write: canWrite,
         });
       });

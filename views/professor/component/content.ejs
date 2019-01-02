@@ -6,23 +6,9 @@
           <h2>BIOGRAPHY</h2>
           <hr style="margin-top:-15px" />
           <div class="row">
-            <div class="col-md-3 col-xs-12"><b>1999.08 – 현재</b><br /></div>
-            <div class="col-md-9 col-xs-12">소프트온넷(주) 대표이사<br /></div>
-          </div>
-          <div class="row">
             <div class="col-md-3 col-xs-12"><b>1995.08 – 현재</b><br /></div>
             <div class="col-md-9 col-xs-12">
               한국항공대학교 소프트웨어학과 정교수<br />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3 col-xs-12"><b>1988.05 – 1999.07</b><br /></div>
-            <div class="col-md-9 col-xs-12">하늘소프트 기술이사<br /></div>
-          </div>
-          <div class="row">
-            <div class="col-md-3 col-xs-12"><b>1986.02 – 1995.02</b><br /></div>
-            <div class="col-md-9 col-xs-12">
-              한국전자통신연구원(ETRI) 실장<br />
             </div>
           </div>
           <div class="row">
@@ -194,15 +180,6 @@
         </div>
       </div>
 
-      <div class="row clearfix">
-        <div class="col-md-12">
-          <h3>Research Summary & Plan</h3>
-          <hr style="margin-top:-20px" />
-          <p>내용을 입력해주세요.</p>
-        </div>
-      </div>
-    </div>
-
     <div class="section dark" style="padding: 90px 0;">
       <div class="container clearfix">
         <div class="col_one_third bottommargin-sm center col_first">
@@ -230,43 +207,5 @@
         </div>
       </div>
     </div>
-    <div id="map"></div>
   </div>
 </section>
-<!-- Google Maps -->
-<script>
-  /* mobile일 경우 */
-  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
-    navigator.userAgent
-  )
-    ? true
-    : false;
-
-  $(document).ready(function() {
-    var bool = false;
-    if (isMobile) {
-      $('.col_one_third h5').hide();
-      $('.col_one_third').removeClass('col_one_third');
-      bool = true;
-    } else {
-      if (bool) {
-        $('.container.clearfix .bottommargin-sm').addClass('col_one_third');
-        $('.col_one_third h5').show();
-      }
-    }
-  });
-
-  function initMap() {
-    var location = { lat: 37.600517, lng: 126.864964 };
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: location,
-      zoom: 16.5,
-    });
-    var marker = new google.maps.Marker({ position: location, map: map });
-  }
-</script>
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4xlzyBAz2BoYBY9Wb8mwVTJz3lFzlQsM&callback=initMap"
-  async
-  defer
-></script>
