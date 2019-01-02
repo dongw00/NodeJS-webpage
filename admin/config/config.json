@@ -1,8 +1,0 @@
-{
-  "connections": {
-    "kau": {
-      "connection_string": "mongodb://127.0.0.1/KAU",
-      "connection_options": {}
-    }
-  }
-}
