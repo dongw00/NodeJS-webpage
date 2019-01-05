@@ -1,19 +1,15 @@
-<div id="wrapper" class="clearfix">
-  <% include ../common/nav.ejs %>
-  <section id="page-title" class="page-title"">
-    <div class="container clearfix">
-      <h1>Board</h1>
-      <span>공지사항 및 게시판</span>
-    </div>
-  </section>
+<% include ../common/nav.ejs %>
+<div class="container">
+  <div id="page-title" class="page-title"">
+    <h1>Board</h1>
+    <span>공지사항 및 게시판</span>
+  </div>
   <!-- Content -->
-  <section id="content">
-    <div class="content-wrap">
+  <section>
       <!-- Switching board area -->
       <% include ./components/switchMenu.ejs %>
       <!-- 바뀐 메뉴별로 보여주는 리스트가 변경되야 함 -->
       <% include ./components/board.ejs %>
-    </div>
   </section>
-  <%include ../common/footer.ejs %>
 </div>
+<%include ../common/footer.ejs %>

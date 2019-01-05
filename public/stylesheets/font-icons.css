@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'font-icons';
-  src: url('../fonts/font-icons.woff') format('woff');
+  src: url('fonts/font-icons.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'lined-icons';
-  src: url('../fonts/lined-icons.woff') format('woff');
+  src: url('fonts/lined-icons.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

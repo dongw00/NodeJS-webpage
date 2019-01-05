@@ -2,18 +2,18 @@
 <table class="table table-bordered table-hover table-responsive">
   <thead>
     <tr>
-      <th class="col-xs-1">No.</th>
-      <th class="col-xs-6">제목</th>
-      <th class="col-xs-2">작성자</th>
-      <th class="col-xs-2">작성일</th>
-      <th class="col-xs-1">조회수</th>
+      <th class="w-8">No.</th>
+      <th class="w-44">제목</th>
+      <th class="w-20">작성자</th>
+      <th class="w-20">작성일</th>
+      <th class="w-8">조회수</th>
     </tr>
   </thead>
   <tbody>
     <% impContents.forEach(el => {
       if(el.important == 1) {  %>
         <tr class="info">
-          <td>공지</td>
+          <td scope="row">공지</td>
           <td>
             <a href="/board/Detail_view?id=<%= el._id %>">
               <%= el.title %></a>
@@ -22,7 +22,7 @@
             <%= el.writer %>
           </td>
           <td>
-            <%= el.date %>
+            <%= moment(el.date).format('YYYY년 MM월 DD일 hh:mm'); %>
           </td>
           <td>
             <%= el.count %>
@@ -31,9 +31,7 @@
     <% }}); %>
     <% for (let i = 0; i < contents.length; i++) { %>
     <tr>
-      <td>
-        <%= i + 1%>
-      </td>
+      <td scope="row"><%= i + 1%></td>
       <td>
         <a href="/board/Detail_view?id=<%= contents[i]._id %>">
           <%= contents[i].title %></a>
@@ -42,7 +40,7 @@
         <%= contents[i].writer %>
       </td>
       <td>
-        <%= contents[i].date %>
+        <%= moment(contents[i].date).format('YYYY년 MM월 DD일 hh:mm'); %>
       </td>
       <td>
         <%= contents[i].count %>
@@ -52,38 +50,42 @@
   </tbody>
 </table>
 <br />
-<div class="align-middle board-nav">
-  <ul class="pagination">
-    <li id="page1" class="page-item active">
-      <a class="page-link" href="/board?page=1&boardNum=0">1</a>
-    </li>
-    <% for (let i = 1; i < pagination; i++) { %>
-    <li id="page<%= i + 1 %>" class="page-item">
-      <a
-        class="page-link"
-        href="/board?page=<%= i+1 %>&boardNum=<%= boardNum %>"
-      >
-        <%= i + 1 %></a
-      >
-    </li>
-    <% } %>
-  </ul>
-  <form action="/board/search" id="searchAction" name="searchAction">
-    <a onclick="searchContent();"></a>
-    <input
-      type="text"
-      class="form-control"
-      id="searchWord"
-      name="searchWord"
-      placeholder="검색"
-    />
-    <input id="boardNum" type="hidden" name="boardNum" />
-  </form>
-
+<div class="align-middle board-nav flex space-between">
+  <span class="flex">
+    <ul class="pagination">
+      <li id="page1" class="page-item active">
+        <a class="page-link" href="/board?page=1&boardNum=0">1</a>
+      </li>
+      <% for (let i = 1; i < pagination; i++) { %>
+      <li id="page<%= i + 1 %>" class="page-item">
+        <a
+          class="page-link"
+          href="/board?page=<%= i+1 %>&boardNum=<%= boardNum %>"
+        >
+          <%= i + 1 %></a
+        >
+      </li>
+      <% } %>
+    </ul>
+    <form action="/board/search" name="searchAction">
+      <a onclick="searchContent();"></a>
+      <input
+        type="text"
+        class="form-control searchBar"
+        name="searchWord"
+        placeholder="검색"
+      />
+      <input id="boardNum" type="hidden" name="boardNum" />
+    </form>
+  </span>
   <% if (can_write) { %>
-  <a class="btn btn-default pull-right" href="/board/posting">Write</a> <% } %>
+  <a
+    class="button button-border button-rounded button-small"
+    href="/board/posting"
+    >Write</a
+  >
+  <% } %>
 </div>
-
 <script>
   $(document).ready(function() {
     var page = $.urlParam('page');

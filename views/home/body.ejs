@@ -1,19 +1,18 @@
 <body>
-  <!-- Document Wrapper -->
-  <div class="clearfix">
-    <!-- nav Tab -->
-    <% include ../common/nav.ejs %>
-
+  <!-- nav Tab -->
+  <% include ../common/nav.ejs %>
+  <div id="content" style="top: -100px;">
     <% include components/cover.ejs %>
-
-    <section id="content">
-      <div class="content-wrap">
-        <!-- 연구실 Intro -->
-        <% include components/lab_intro.ejs %>
-        <% include components/lab_intro2.ejs %>
-
-        <!-- Member -->
-        <% include components/member.ejs %>
-    </section>
-    <% include ../common/footer.ejs %>
+    <!-- 연구실 Intro -->
+    <% include components/lab_intro.ejs %> <% include components/lab_intro2.ejs
+    %>
+    <!-- Member -->
+    <% include components/member.ejs %>
   </div>
+  <% include ../common/footer.ejs %>
+</body>
+<style>
+  footer#footer {
+    bottom: 0;
+  }
+</style>

@@ -22,7 +22,6 @@ const boardSchema = new mongoose.Schema({
   count: { type: Number, default: 0 },
   subject: { type: Number, default: 0 },
   important: { type: Number },
-
   /* 게시글 내용*/
   contents: String,
   /* 게시글 파일 */

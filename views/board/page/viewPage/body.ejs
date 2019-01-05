@@ -3,27 +3,37 @@
 <% const subjectId = content.subject; let subjectName; if (subjectId == 0)
 subjectName = "일반"; else if (subjectId == 1) subjectName = "운영체제"; else if
 (subjectId == 2) subjectName = "웹 프로그래밍"; else if (subjectId == 3)
-subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
-
-<div id="wrapper" class="clearfix">
-  <% include ../../../common/nav.ejs %>
-  <!-- title -->
-  <section id="page-title" class="page-title" style="padding: 150px 0;">
-    <div class="container clearfix detail_view">
-      <h1><%= subjectName %>게시판</h1>
-    </div>
-  </section>
-  <div>
-    <h2 id="content_header">
-      <% if (content.important == 1) {%> [공지] <% } %> <%= content.title %>
-    </h2>
+subjectName = "Advanced OS"; else subjectName = "종합설계"; %> <% include
+../../../common/nav.ejs %>
+<!-- title -->
+<div class="container">
+  <div id="page-title" class="page-title">
+    <h1><% if (content.important == 1) { [공지] } %> <%= content.title %></h1>
+    <h4><%= subjectName %>게시판</h4>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
+
+  <div class="card">
+    <div class="card-header">
       <span>작성자 : <%= content.writer %></span>
-      <span>작성일 : <%= content.date %></span>
+      <span
+        >작성일 : <%= moment(content.date).format('YYYY년 MM월 DD일 hh:mm');
+        %></span
+      >
     </div>
-    <div class="panel-body"><%- content.contents %></div>
+    <div class="card-body">
+      <p class="card-text"><%- content.contents %></p>
+    </div>
+  </div>
+  <div class="card-element flex space-between">
+    <span class="user_btn"><a href="/board">목록</a></span>
+    <span class="admin_btn">
+      <!-- User check if (ok) then show fix, delete button -->
+      <% if (user_id != null) { %>
+      <a href="/board/edit?id=<%= content._id %>"
+        ><button class="btn">수정</button></a
+      >
+      <button class="btn" onclick="delete_event();">삭제</button> <% } %>
+    </span>
   </div>
   <div id="left_form">
     <% if (content.fileUp != null) { %>
@@ -33,18 +43,10 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
       %>KB
     </a>
     <% } %>
-    <span id="view_list" class="content-Btn"><a href="/board">목록</a></span>
   </div>
-  <!-- User check if (ok) then show fix, delete button -->
-  <% if (user_id != null) { %>
-  <div id="authFunction">
-    <a href="/board/edit?id=<%= content._id %>"><button>수정</button></a>
-    <button onclick="delete_event();">삭제</button>
-  </div>
-  <% } %>
-  <!-- Footer -->
-  <%include ../../../common/footer.ejs %>
 </div>
+<!-- Footer -->
+<%include ../../../common/footer.ejs %>
 <style>
   #left_form {
     margin-left: 10px;
@@ -59,11 +61,3 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %>
     margin-top: 10% !important;
   }
 </style>
-<script>
-  $(function() {
-    /* Youtube */
-    $('body').responsive({
-      key: 'AIzaSyB4xlzyBAz2BoYBY9Wb8mwVTJz3lFzlQsM',
-    });
-  });
-</script>

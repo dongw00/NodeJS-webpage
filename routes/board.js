@@ -60,6 +60,7 @@ router.get('/', (req, res) => {
           pagination: pageNum,
           boardNum: boardNum,
           can_write: canWrite,
+          moment: moment,
         });
       });
   });
@@ -75,6 +76,7 @@ router.get('/Detail_view', (req, res) => {
       res.render('board/page/viewPage/index', {
         user_id: req.session.user_id,
         content: rawContent,
+        moment: moment,
       });
     });
   });
@@ -124,7 +126,6 @@ router.post('/submit', upload.single('UploadFile'), (req, res) => {
       newBoardContents.subject = req.body.subject;
       /* File upload */
       newBoardContents.fileUp = req.file;
-      console.log(req.file);
       newBoardContents.save();
       res.redirect('/board');
     } else if (req.body.mode === 'edit') {

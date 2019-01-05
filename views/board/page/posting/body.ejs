@@ -1,12 +1,7 @@
 <!-- prettier-ignore -->
-<div class="wrapper">
-  <% include ../../../common/nav.ejs %>
-  <!-- mode 변수 할당 -->
-  <section id="page-title" class="page-title" style="padding: 150px 0;">
-    <div class="container clearfix">
-      <h1>글쓰기</h1>
-    </div>
-  </section>
+<% include ../../../common/nav.ejs %>
+<div class="cotainer">
+  <div id="page-title" class="page-title"><h1>글쓰기</h1></div>
   <!-- Content -->
   <!--
     넘겨주는 값 (/submit)
@@ -38,24 +33,38 @@
             </select>
           </div>
           <div class="col-sm-9">
-            <input type="text" id="title" class="form-control" name="title" placeholder="제목을 입력해주세요" />
+            <input
+              type="text"
+              id="title"
+              class="form-control"
+              name="title"
+              placeholder="제목을 입력해주세요"
+            />
           </div>
         </div>
         <input type="hidden" id="writer" name="writer" value="admin" />
         <!-- Mode 값 할당 -->
         <% if (mode == 'add') { %>
-          <input type="hidden" name="mode" value="add" />
-        <% } else if (mode == 'edit') { %>
-          <input id="id" type="hidden" name="id" />
-          <input type="hidden" name="mode" value="edit" />
-        <% } %>
+        <input type="hidden" name="mode" value="add" /> <% } else if (mode ==
+        'edit') { %> <input id="id" type="hidden" name="id" />
+        <input type="hidden" name="mode" value="edit" /> <% } %>
         <!-- important 값 -->
         <input id="important" type="hidden" name="important" value="0" />
         <textarea name="contents" style="display: none;"></textarea>
         <div id="summernote"></div>
-        <input type="file" class="form-control-file" id="UploadFile" name="UploadFile" >
-      </form> 
-      <button id="edit" class="btn btn-primary save" type="button" style="display: none;">
+        <input
+          type="file"
+          class="form-control-file"
+          id="UploadFile"
+          name="UploadFile"
+        />
+      </form>
+      <button
+        id="edit"
+        class="btn btn-primary save"
+        type="button"
+        style="display: none;"
+      >
         Save
       </button>
       <button id="add" class="btn btn-primary save" type="button">Save</button>
@@ -100,7 +109,7 @@
 <!-- init -->
 <script>
   $(document).ready(function() {
-    var page = $.urlParam('id');
+    const page = $.urlParam('id');
     /* text editor init */
     $('#summernote').summernote({
       lang: 'ko-KR',
