@@ -3,7 +3,6 @@ const router = express.Router();
 const BoardContents = require('../models/boardSchema');
 const multer = require('multer');
 const moment = require('moment');
-const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost/KAU';
 
@@ -13,6 +12,7 @@ const storage = multer.diskStorage({
     callback(null, 'public/upload');
   },
   filename: function(req, file, callback) {
+    const path = require('path');
     const extension = path.extname(file.originalname);
     const basename = path.basename(file.originalname, extension);
     callback(null, basename + '-' + Date.now() + extension);
