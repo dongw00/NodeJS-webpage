@@ -43,8 +43,8 @@ Category.prototype = {
     json.forEach(el => {
       const trInfo = document.createElement('tr');
       const trEl = document.createElement('tr');
-      trInfo.className = 'info d-flex';
-      trEl.className = 'd-flex';
+      trInfo.className = 'info';
+      trEl.className = '';
       if (el.important == 1) {
         trInfo.innerHTML = this.templer(el);
         tbody.prepend(trInfo);
@@ -57,18 +57,18 @@ Category.prototype = {
   templer: function(el) {
     const date = moment(el.date).format('YYYY년 MM월 DD일 HH:mm');
     const data = `
-      <td class="col-1">${el.important == 0 ? el._id : '공지'}</td>
-      <td class="col-5">
+      <td>${el.important == 0 ? el._id : '공지'}</td>
+      <td>
         <a href="/board/Detail_view?id=${el._id}">
           ${el.title}</a>
       </td>
-      <td class="col-2">
+      <td>
         ${el.writer}
       </td>
-      <td class="col-3">
+      <td>
         ${date}
       </td>
-      <td class="col-1">
+      <td>
         ${el.count}
       </td>
     `;

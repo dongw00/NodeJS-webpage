@@ -4,9 +4,11 @@
     <% include ../common/head.ejs %>
     <!-- Date foramt js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+    <script src=https://cdn.jsdelivr.net/npm/promise-polyfill@8.1/dist/polyfill.min.js></script>
+    <script src=https://cdn.jsdelivr.net/npm/whatwg-fetch@3.0/dist/fetch.umd.min.js></script>
   </head>
   <body>
     <% include ./body.ejs %>
-    <script src="/javascripts/page/boardJS.js"></script>
+    <script src="/javascripts/dist/boardJS.js"></script>
   </body>
 </html>

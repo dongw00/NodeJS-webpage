@@ -8,9 +8,9 @@
 
 ## 😎 Stack
 
-- Node.js (express)
+- Node.js v10.15.0 (express)
 - Bootstrap v4.1.3
-- jQuery v3.3.1
+- ~~jQuery v1.12.4~~ -> Vanilla JS ES6+ (Translating)
 - mongoDB
   <br>
 
