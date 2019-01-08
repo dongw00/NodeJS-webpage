@@ -1,6 +1,6 @@
 <ul id="category_row">
   <li class="category" data-category="0">
-    <a class="anchor"><span>일반게시판</span></a>
+    <a class="anchor active"><span>일반게시판</span></a>
   </li>
   <li class="category" data-category="1">
     <a class="anchor"><span>일반게시판</span></a>
@@ -12,69 +12,3 @@
     <a class="anchor"><span>일반게시판</span></a>
   </li>
 </ul>
-<style>
-  #category_row {
-    margin-bottom: 5% !important;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-
-  .category {
-    padding: 12px 12px;
-    margin-right: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: inline-block;
-    background-color: #fff;
-    color: #333333;
-    font-size: 1.1em;
-    text-align: center;
-    border: 1px solid #333333;
-  }
-
-  /* 해당 category 일때 */
-  .category.selected {
-    background-color: #6a639f !important;
-    color: white !important;
-  }
-</style>
-<script>
-  $(document).ready(function() {
-    var catg = document.querySelectorAll('.category');
-    $('.category.selected').removeClass('selected');
-    var boardNum = $.urlParam('boardNum');
-    if (boardNum == null) boardNum = 0;
-    switch (parseInt(boardNum)) {
-      case 0:
-        catg[0].classList.add('selected');
-        console.log('공지사항');
-        break;
-      case 1:
-        catg[1].classList.add('selected');
-        console.log('웹 프로그래밍');
-        break;
-      case 2:
-        catg[4].classList.add('selected');
-        console.log('Advanced OS');
-        break;
-      case 3:
-        catg[2].classList.add('selected');
-        console.log('종합설계');
-        break;
-      case 4:
-        catg[3].classList.add('selected');
-        console.log('OS');
-        break;
-      default:
-        console.log('error');
-    }
-  });
-  /* Get a boardNum param */
-  $.urlParam = function(name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
-      window.location.href
-    );
-    if (results == null) return null;
-    else return decodeURI(results[1]) || 0;
-  };
-</script>

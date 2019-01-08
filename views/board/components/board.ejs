@@ -1,53 +1,14 @@
 <!-- prettier-ignore -->
 <table class="table table-bordered table-hover table-responsive">
   <thead>
-    <tr>
-      <th class="w-8">No.</th>
-      <th class="w-44">제목</th>
-      <th class="w-20">작성자</th>
-      <th class="w-20">작성일</th>
-      <th class="w-8">조회수</th>
+    <tr class="d-flex">
+      <th class="col-1">No.</th>
+      <th class="col-5">제목</th>
+      <th class="col-2">작성자</th>
+      <th class="col-3">작성일</th>
+      <th class="col-1">조회수</th>
     </tr>
   </thead>
-  <tbody>
-    <% impContents.forEach(el => {
-      if(el.important == 1) {  %>
-        <tr class="info">
-          <td scope="row">공지</td>
-          <td>
-            <a href="/board/Detail_view?id=<%= el._id %>">
-              <%= el.title %></a>
-          </td>
-          <td>
-            <%= el.writer %>
-          </td>
-          <td>
-            <%= moment(el.date).format('YYYY년 MM월 DD일 hh:mm'); %>
-          </td>
-          <td>
-            <%= el.count %>
-          </td>
-        </tr>
-    <% }}); %>
-    <% for (let i = 0; i < contents.length; i++) { %>
-    <tr>
-      <td scope="row"><%= i + 1%></td>
-      <td>
-        <a href="/board/Detail_view?id=<%= contents[i]._id %>">
-          <%= contents[i].title %></a>
-      </td>
-      <td>
-        <%= contents[i].writer %>
-      </td>
-      <td>
-        <%= moment(contents[i].date).format('YYYY년 MM월 DD일 hh:mm'); %>
-      </td>
-      <td>
-        <%= contents[i].count %>
-      </td>
-    </tr>
-    <% } %>
-  </tbody>
 </table>
 <br />
 <div class="align-middle board-nav flex space-between">
@@ -68,7 +29,7 @@
       <% } %>
     </ul>
     <form action="/board/search" name="searchAction">
-      <a onclick="searchContent();"></a>
+      <a onclick=""></a>
       <input
         type="text"
         class="form-control searchBar"
@@ -86,30 +47,3 @@
   >
   <% } %>
 </div>
-<script>
-  $(document).ready(function() {
-    var page = $.urlParam('page');
-    if (page === null) page = 1;
-    $('.active').removeClass('active');
-    $('#page' + parseInt(page)).addClass('active');
-
-    /* boardNum */
-    if ($.urlParam('boardNum') == null) $('#boardNum').val(0);
-    else $('#boardNum').val($.urlParam('boardNum'));
-  });
-
-  /* Search */
-  function searchContent() {
-    if ($('#searchWord').val == '') alert('검색어를 입력해주세요');
-    else $('#searchAction').submit();
-  }
-
-  /* Get a boardNum param */
-  $.urlParam = function(name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(
-      window.location.href
-    );
-    if (results == null) return null;
-    else return decodeURI(results[1]) || 0;
-  };
-</script>

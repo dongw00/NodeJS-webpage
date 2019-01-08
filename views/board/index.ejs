@@ -2,24 +2,11 @@
 <html lang="ko">
   <head>
     <% include ../common/head.ejs %>
-    <style>
-      @media (max-width: 768px) {
-        #primary-menu > ul > li > a > div {
-          color: white;
-        }
-        #primary-menu > ul > li > a > div:hover {
-          color: #001e6a;
-        }
-        #category_row{
-          text-align: center;
-        }
-        .category{
-          margin-top: 10px;
-        }
-      }
-    </style>
+    <!-- Date foramt js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
   </head>
   <body>
-    <% include ./body.ejs %> <% include ../common/library.ejs %>
+    <% include ./body.ejs %>
+    <script src="/javascripts/page/boardJS.js"></script>
   </body>
 </html>

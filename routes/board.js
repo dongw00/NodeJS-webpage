@@ -21,8 +21,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-/* init view */
 router.get('/', (req, res) => {
+  /* 글쓰기 가능 여부를 위한 세션 확인 */
+  let canWrite = false;
+  let pageNum = 1;
+  res.render('board/index', {
+    user_id: req.session.user_id,
+    can_write: canWrite,
+    pagination: pageNum,
+  });
+});
+
+/* init view */
+router.get('/category', (req, res) => {
   let page = req.query.page;
   let boardNum = req.query.boardNum;
   if (page == null) page = 1;
@@ -33,35 +44,18 @@ router.get('/', (req, res) => {
   let skipSize = (page - 1) * 10;
   const limitSize = 10;
   let pageNum = 1;
-  let important;
-
-  /* 공지사항 */
-  BoardContents.find({ subject: boardNum, important: 1 })
-    .sort({ date: -1 })
-    .exec((err, impContents) => {
-      if (err) throw err;
-      important = impContents;
-    });
 
   /* rendering */
   BoardContents.count((err, totalCount) => {
     if (err) throw err;
     pageNum = Math.ceil(totalCount / limitSize);
-    BoardContents.find({ subject: boardNum, important: 0 })
+    BoardContents.find({ subject: boardNum })
       .sort({ date: -1 })
       .skip(skipSize)
       .limit(limitSize)
       .exec((err, pageContents) => {
         if (err) throw err;
-        res.render('board/index', {
-          user_id: req.session.user_id,
-          contents: pageContents,
-          impContents: important,
-          pagination: pageNum,
-          boardNum: boardNum,
-          can_write: canWrite,
-          moment: moment,
-        });
+        res.send(pageContents);
       });
   });
 });
