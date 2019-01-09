@@ -45,11 +45,8 @@ app.listen(port, () => console.log('Express server has started on port 8080'));
 app.use(
   session({
     secret: 'anarlyajum',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60,
-    },
+    resave: true,
+    saveUninitialized: false,
   })
 );
 

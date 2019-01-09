@@ -3,16 +3,11 @@ const router = express.Router();
 
 /* Logout */
 router.get('/', (req, res) => {
-  if (req.session.user_id) {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.redirect('/');
-      }
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) return next(err);
+      else return res.redirect('/');
     });
-  } else {
-    res.redirect('/');
   }
 });
 

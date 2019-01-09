@@ -22,12 +22,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get('/', (req, res) => {
-  /* 글쓰기 가능 여부를 위한 세션 확인 */
   let canWrite = false;
+  if (req.session.user_id == 'admin') canWrite = true;
   let pageNum = 1;
   res.render('board/index', {
     user_id: req.session.user_id,
-    can_write: canWrite,
+    canWrite: canWrite,
     pagination: pageNum,
   });
 });

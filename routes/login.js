@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const User = require('../models/user');
@@ -16,24 +17,20 @@ router.get('/', (req, res) => {
   });
 });
 router.post('/check', (req, res) => {
-  User.findOne(
-    { id: req.body.your_name, pwd: req.body.your_pass },
-    (err, user) => {
-      if (err) return res.status(500).json({ error: err });
-      if (!user) {
-        return res.redirect('/login?checked=fail');
-      }
-      // user exist
-      // save session
-      if (req.body.remember_me == 'remember') {
-        req.session.user_id = req.body.your_name;
-        req.session.cookie.maxAge = 365 * 24 * 60 * 60 * 1000;
-      } else {
-        req.session.user_id = req.body.your_name;
-      }
-      res.redirect('/');
-    }
-  );
+  User.findOne({ id: req.body.your_name }, (err, user) => {
+    if (err) return res.status(500).json({ error: err });
+    else if (!user) return res.redirect('/login?checked=fail');
+
+    bcrypt.compare(req.body.your_pass, user.pwd, (err, result) => {
+      if (result) {
+        if (req.body.remember_me === 'remember') {
+          req.session.user_id = req.body.your_name;
+          req.session.cookie.maxAge = 365 * 24 * 60 * 60 * 1000;
+        } else req.session.user_id = req.body.your_name;
+      } else return res.redirect('/login?checked=fail');
+      return res.redirect('/');
+    });
+  });
 });
 
 /* Create Admin account */
