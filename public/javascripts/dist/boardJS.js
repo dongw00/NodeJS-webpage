@@ -1,6 +1,7 @@
 "use strict";
 
 var boardNum = 0;
+var bool = true;
 /* Category Ajax prototype */
 
 function Category(element) {
@@ -14,30 +15,30 @@ Category.prototype = {
     var _this = this;
 
     this.element.addEventListener('click', function (evt) {
-      if (evt.target.tagName === 'A' || evt.target.tagName === 'SPAN') {
-        _this.categoryAnchor(evt.target);
+      if (evt.target.tagName === 'A') {
+        boardNum = evt.target.parentNode.dataset.category;
+
+        _this.fetchData();
+      } else if (evt.target.tagName === 'SPAN') {
+        boardNum = evt.target.parentNode.parentNode.dataset.category;
+
+        _this.fetchData();
       }
     });
-  },
-  categoryAnchor: function categoryAnchor(target) {
-    document.querySelector('.anchor.active').classList.remove('active');
-
-    if (target.tagName === 'A') {
-      boardNum = target.parentElement.dataset.category;
-      target.classList.add('active');
-    } else {
-      boardNum = target.parentElement.parentElement.dataset.category;
-      target.parentElement.classList.add('active');
-    }
-
-    if (document.querySelector('tbody') != null) document.querySelector('tbody').remove();
-    this.fetchData();
   },
   fetchData: function fetchData() {
     var _this2 = this;
 
+    var parsedUrl = new URL(window.location.href);
+
+    if (parsedUrl.searchParams.get('boardNum') != null && bool) {
+      boardNum = parsedUrl.searchParams.get('boardNum');
+      bool = false;
+    }
+
     if (this.ctgUrl == null) this.ctgUrl = "/board/category?boardNum=";
     var ctgUrl = "".concat(this.ctgUrl).concat(boardNum);
+    this.categoryAnchor(boardNum);
     fetch(ctgUrl).then(function (res) {
       return res.json();
     }).then(function (data) {
@@ -45,6 +46,11 @@ Category.prototype = {
     }).catch(function (err) {
       return console.log('Fetch Error!', err);
     });
+  },
+  categoryAnchor: function categoryAnchor(num) {
+    if (document.querySelector('.anchor.active') != null) document.querySelector('.anchor.active').classList.remove('active');
+    document.querySelector("li[data-category='".concat(num, "'")).firstElementChild.classList.add('active');
+    if (document.querySelector('tbody') != null) document.querySelector('tbody').remove();
   },
   addData: function addData(json) {
     var _this3 = this;
@@ -74,7 +80,6 @@ Category.prototype = {
 };
 document.addEventListener('DOMContentLoaded', function () {
   /* Switching category */
-  console.log('DOMContentLoaded');
   var ctg = document.getElementById('category_row');
   new Category(ctg);
   Category.prototype.fetchData();

@@ -25,7 +25,9 @@ subjectName = "Advanced OS"; else subjectName = "종합설계"; %> <% include
     </div>
   </div>
   <div class="card-element flex space-between">
-    <span class="user_btn"><a href="/board">목록</a></span>
+    <span class="user_btn"
+      ><a href="/board?boardNum=<%= subjectId %>">목록</a></span
+    >
     <span class="admin_btn">
       <!-- User check if (ok) then show fix, delete button -->
       <% if (user_id != null) { %>
