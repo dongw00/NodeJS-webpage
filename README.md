@@ -1,4 +1,4 @@
-# Korea Aerospace Univ. Aribone Software Lab. homepage
+# Korea Aerospace Univ. Airbone Software Lab. homepage
 
 ## :mega: Intro
 
