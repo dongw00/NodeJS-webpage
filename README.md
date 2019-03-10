@@ -1,5 +1,7 @@
 # Korea Aerospace Univ. Airbone Software Lab. homepage
 
+http://ec2-13-125-152-252.ap-northeast-2.compute.amazonaws.com:9000/
+
 ## :mega: Intro
 
 이 페이지는 **송동호 교수님 웹SW 프로젝트 과목 프로젝트로 만들어진 홈페이지**입니다. <br />
