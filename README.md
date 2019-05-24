@@ -1,6 +1,6 @@
 # Korea Aerospace Univ. Airbone Software Lab. homepage
 
-http://ec2-13-125-152-252.ap-northeast-2.compute.amazonaws.com:9000/
+http://ec2-13-209-40-215.ap-northeast-2.compute.amazonaws.com:8080/
 
 ## :mega: Intro
 
