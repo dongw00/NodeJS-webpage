@@ -7,7 +7,7 @@
     "build": "babel ./public/javascripts/page -d ./public/javascripts/dist -w"
   },
   "dependencies": {
-    "bcrypt": "^3.0.3",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "connect-mongo": "^2.0.3",
